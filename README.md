@@ -4,6 +4,7 @@
 ## Applications
 
 Directory | Application
+----------|-----------------------------
 app_v1    | The simplest Docker application
 app_v2    | Simpel application with some tuning (better build, `.dockerignore`)
 
