@@ -1,5 +1,5 @@
 FROM python:3
-label maintainer you
+LABEL maintainer you
 
 WORKDIR /code
 
