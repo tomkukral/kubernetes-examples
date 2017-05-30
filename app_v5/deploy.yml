@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: flask
+spec:
+  selector:
+    app: flask
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      nodePort:
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: redis
+spec:
+  selector:
+    app: redis
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 6379
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flask
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: nginx
+        image: tomkukral/flask-app-demo
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        env:
+          - name: REDIS_MASTER_SERVICE_HOST
+            value: redis
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+          - mountPath: "/data"
+            name: redis-storage-volume
+      volumes:
+        - name: redis-storage-volume
+          persistentVolumeClaim:
+            claimName: redis-disk

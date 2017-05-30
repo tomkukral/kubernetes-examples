@@ -1,0 +1,11 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: redis-disk
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 64Mi
