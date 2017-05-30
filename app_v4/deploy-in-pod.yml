@@ -6,24 +6,12 @@ metadata:
 spec:
   selector:
     app: flask
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5000
       nodePort:
----
-apiVersion: v1
-kind: Service
-metadata:
- name: flask
-spec:
-  selector:
-    app: flask
-  type: ClusterIP
-  ports:
-    - protocol: TCP
-      port: 6379
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
