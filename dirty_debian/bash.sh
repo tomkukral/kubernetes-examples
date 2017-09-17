@@ -1,5 +1,7 @@
 #!/usr/bin/bash_safe
 
+env
+
 echo " ___________________________"
 echo "< Thanks for your passwords >"
 echo "< Enjoy this training!      >"
