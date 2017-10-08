@@ -1,0 +1,40 @@
+<html>
+<meta charset="utf-8">
+
+<head>
+<title>Flash app demo</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename='bootstrap.min.css') }}">
+<style>
+div {
+  border: 1px solid black;
+  margin: 5px;
+  padding: 10px;
+}
+
+div.question {
+
+}
+</style>
+</head>
+
+<body>
+
+{%- if question %}
+<div class="alert alert-success">{{ question }}</div>
+{%- endif %}
+
+<div class="alert alert-info">Flask app with Redis running in Kubernetes cluster.</div>
+<div class="alert alert-info">Hello World! I have been seen <strong>{{ hits }}</strong> times.</div>
+<div class="alert alert-info">Redis host is <code>{{ redis_host }}</code></div>
+
+<div>
+Env variables:
+<ul>
+{% for env_name, env in envs.items() %}
+  <li><code>{{ env_name }}: {{ env }}</code></li>
+{% endfor %}
+</ul>
+</div>
+
+</body>
+</html>
