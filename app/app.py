@@ -16,6 +16,7 @@ def index():
     redis.incr('hits')
     hits = redis.get('hits').decode('utf8')
     envs = os.environ
+    question = None
 
     if os.path.isfile(question_file):
         question = random.choice(open(question_file, 'r').read().split('\n')[:-1])
