@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: nginx
+ namespace: default
+ annotations:
+   kubernetes.io/ingress.class: traefik
+   traefik.frontend.rule.type: PathPrefixStrip
+spec:
+ rules:
+ - http:
+     paths:
+     - path: /nginx/
+       backend:
+         serviceName: nginx
+         servicePort: 80
+     - path: /flask/
+       backend:
+         serviceName: flask
+         servicePort: 80
