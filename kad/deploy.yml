@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kad
+  template:
+    metadata:
+      labels:
+        app: kad
+    spec:
+      containers:
+      - name: kad
+        image: tomkukral/kad
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000

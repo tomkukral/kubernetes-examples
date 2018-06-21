@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kad
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/probe: 'true'
+spec:
+  type: LoadBalancer
+  selector:
+    app: kad
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
