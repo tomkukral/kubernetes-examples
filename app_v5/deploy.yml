@@ -43,7 +43,7 @@ spec:
         - containerPort: 5000
         env:
           - name: REDIS_SERVER
-            value: redis
+            value: redis:6379
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
