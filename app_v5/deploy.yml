@@ -2,16 +2,15 @@
 apiVersion: v1
 kind: Service
 metadata:
- name: flask
+ name: kad
 spec:
   selector:
-    app: flask
+    app: kad
   type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5000
-      nodePort:
 ---
 apiVersion: v1
 kind: Service
@@ -28,22 +27,22 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: flask
+  name: kad
 spec:
   replicas: 3
   template:
     metadata:
       labels:
-        app: flask
+        app: kad
     spec:
       containers:
       - name: nginx
-        image: tomkukral/flask-app-demo
+        image: tomkukral/kad
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
-          - name: REDIS_MASTER_SERVICE_HOST
+          - name: REDIS_SERVER
             value: redis
 ---
 apiVersion: extensions/v1beta1
