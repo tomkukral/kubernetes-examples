@@ -63,6 +63,32 @@ data:
         replacement: '${1}'
         target_label: name
 
+    - job_name: 'kubernetes-node-cadvisor'
+      scheme: http
+      kubernetes_sd_configs:
+      - role: node
+
+      relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - source_labels: [__meta_kubernetes_role]
+        action: replace
+        target_label: kubernetes_role
+      - source_labels: [__address__]
+        regex: '(.*):10250'
+        replacement: '${1}:4194'
+        target_label: __address__
+      - source_labels: [__meta_kubernetes_node_label_kubernetes_io_hostname]
+        regex: '(.*)'
+        replacement: '${1}:4194'
+        target_label: instance
+
+      # set "name" value to "job"
+      - source_labels: [job]
+        regex: 'kubernetes-(.*)'
+        replacement: '${1}'
+        target_label: name
+
     - job_name: 'kubernetes-services'
       kubernetes_sd_configs:
       - role: endpoints
