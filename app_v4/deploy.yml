@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
- name: kad
+  name: kad
+  namespace: kadsingle
 spec:
   selector:
     app: kad
-  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
@@ -16,6 +16,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: kad
+  namespace: kadsingle
 spec:
   replicas: 1
   template:
@@ -30,15 +31,9 @@ spec:
         ports:
         - containerPort: 5000
         env:
-          - name: REDIS_SERVER
-            value: localhost
+        - name: REDIS_SERVER
+          value: localhost:6379
       - name: redis
         image: redis
         ports:
         - containerPort: 6379
-#        volumeMounts:
-#          - mountPath: "/data"
-#            name: redis-storage-volume
-#      volumes:
-#        - name: redis-storage-volume
-#          emptyDir: {}

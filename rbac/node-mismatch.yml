@@ -1,12 +1,12 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: cluster-node-name-mismatch
+  name: cluster-node-name-mismatch-try2
 subjects:
-- kind: User
-  name: system:serviceaccount:kube-system:default
+- kind: Group
+  name: system:nodes
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
-  name: cluster-admin
+  name: system:node
   apiGroup: rbac.authorization.k8s.io
