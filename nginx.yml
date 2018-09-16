@@ -2,15 +2,14 @@
 apiVersion: v1
 kind: Service
 metadata:
- name: abc123
+  name: nginx
 spec:
   selector:
     app: nginx
-  type: LoadBalancer
+  type: NodePort
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -25,6 +24,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx
+        image: nginx:1.13.2
         ports:
         - containerPort: 80

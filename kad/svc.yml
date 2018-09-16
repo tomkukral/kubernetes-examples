@@ -6,7 +6,6 @@ metadata:
     prometheus.io/scrape: 'true'
     prometheus.io/probe: 'true'
 spec:
-  type: LoadBalancer
   selector:
     app: kad
   ports:
