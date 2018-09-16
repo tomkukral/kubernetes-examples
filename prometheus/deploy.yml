@@ -30,17 +30,22 @@ spec:
       - name: prometheus
         image: prom/prometheus
         args:
-          - "--config.file=/etc/prometheus/prometheus.yml"
-          - "--storage.tsdb.path=/prometheus"
-          - "--web.console.libraries=/usr/share/prometheus/console_libraries"
-          - "--web.console.templates=/usr/share/prometheus/consoles"
+          - --config.file=/etc/prometheus/config/prometheus.yml
+          - --storage.tsdb.path=/prometheus
+          - --web.console.libraries=/usr/share/prometheus/console_libraries
+          - --web.console.templates=/usr/share/prometheus/consoles
         ports:
         - name: web
           containerPort: 9090
         volumeMounts:
-        - name: config-volume
-          mountPath: /etc/prometheus
+        - name: config
+          mountPath: /etc/prometheus/config
+        - name: rules
+          mountPath: /etc/prometheus/rules
       volumes:
-      - name: config-volume
+      - name: config
         configMap:
           name: prometheus-configmap
+      - name: rules
+        configMap:
+          name: prometheus-rules

@@ -6,7 +6,7 @@ metadata:
 data:
   prometheus.yml: |-
     rule_files:
-      - "/etc/prometheus/*.rules"
+      - "/etc/prometheus/rules/*.yml"
     global:
       scrape_interval: 15s
     scrape_configs:
