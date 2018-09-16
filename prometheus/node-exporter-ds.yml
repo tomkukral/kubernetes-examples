@@ -15,16 +15,19 @@ spec:
       containers:
       - image: prom/node-exporter
         name: node-exporter
+        args:
+        - --no-collector.infiniband
+        - --path.procfs=/host/proc
+        - --path.sysfs=/host/sys
         ports:
         - containerPort: 9100
           hostPort: 9100
           name: scrape
         volumeMounts:
-        - name: root-disk
-          mountPath: /root-disk
+        - name: rootfs
+          mountPath: /host
           readOnly: true
       volumes:
-        - name: root-disk
+        - name: rootfs
           hostPath:
             path: /
-

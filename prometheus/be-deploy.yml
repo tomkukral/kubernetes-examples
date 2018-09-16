@@ -20,6 +20,8 @@ spec:
       name: blackbox-exporter
       labels:
         app: blackbox-exporter
+      annotations:
+        prometheus.io/scrape: "pod"
     spec:
       containers:
       - name: blackbox-exporter
