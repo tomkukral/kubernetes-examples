@@ -18,9 +18,10 @@ metadata:
   name: redis
   namespace: kad
 spec:
+  type: ClusterIP
+  clusterIP: None
   selector:
     app: redis
-  type: ClusterIP
   ports:
     - protocol: TCP
       port: 6379
@@ -31,33 +32,44 @@ metadata:
   name: kad
   namespace: kad
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
         app: kad
     spec:
       containers:
-      - name: nginx
+      - name: app
         image: tomkukral/kad
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
           - name: REDIS_SERVER
-            value: redis:6379
+            #value: redis-0.redis
+            value: redis-0.redis.kad.svc.cluster.local:6379
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
 ---
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: redis
   namespace: kad
 spec:
+  selector:
+    matchLabels:
+      app: redis
+  serviceName: redis
   replicas: 1
   template:
     metadata:
       labels:
         app: redis
+      annotations:
+        sidecar.istio.io/inject: "true"
     spec:
       containers:
       - name: redis
@@ -66,8 +78,12 @@ spec:
         - containerPort: 6379
         volumeMounts:
           - mountPath: "/data"
-            name: redis-storage-volume
-      volumes:
-        - name: redis-storage-volume
-          persistentVolumeClaim:
-            claimName: redis-disk
+            name: redis-disk
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-disk
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
