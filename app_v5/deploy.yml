@@ -46,8 +46,8 @@ spec:
         - containerPort: 5000
         env:
           - name: REDIS_SERVER
-            #value: redis-0.redis
-            value: redis-0.redis.kad.svc.cluster.local:6379
+            value: redis-0.redis:6379
+            #value: redis-0.redis.kad.svc.cluster.local:6379
           - name: NODE_NAME
             valueFrom:
               fieldRef:
