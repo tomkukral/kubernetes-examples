@@ -28,10 +28,15 @@ spec:
       containers:
       - image: traefik
         name: traefik-ingress-lb
+        ports:
+        - name: http
+          containerPort: 80
+        - name: admin
+          containerPort: 8080
         args:
         - --api
         - --kubernetes
-        - --logLevel=DEBUG
+        - --logLevel=INFO
 ---
 kind: Service
 apiVersion: v1
@@ -42,10 +47,20 @@ spec:
   selector:
     k8s-app: traefik-ingress-lb
   ports:
-    - protocol: TCP
-      port: 80
-      name: web
-    - protocol: TCP
-      port: 8080
-      name: admin
-  type: LoadBalancer
+  - protocol: TCP
+    port: 80
+    name: web
+  type: NodePort
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik-ingress-service-admin
+  namespace: kube-system
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+  - protocol: TCP
+    port: 8080
+    name: admin
