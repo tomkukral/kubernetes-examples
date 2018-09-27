@@ -1,8 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
- name: nginx
- namespace: default
+ name: kad
+ namespace: kad
  annotations:
    kubernetes.io/ingress.class: traefik
    traefik.frontend.rule.type: PathPrefixStrip
@@ -10,11 +10,7 @@ spec:
  rules:
  - http:
      paths:
-     - path: /nginx/
+     - path: /kad
        backend:
-         serviceName: nginx
-         servicePort: 80
-     - path: /flask/
-       backend:
-         serviceName: flask
+         serviceName: kad
          servicePort: 80
