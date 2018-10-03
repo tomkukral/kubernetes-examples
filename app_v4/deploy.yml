@@ -27,14 +27,30 @@ spec:
     spec:
       containers:
       - name: app
-        image: tomkukral/kad
+        image: tomkukral/nmap
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
         - name: REDIS_SERVER
           value: localhost:6379
+        - name: COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: kad
+              key: option.color
+        volumeMounts:
+        # file will be /etc/kad/config.conf
+        - name: config
+          mountPath: /etc/kad/
       - name: redis
         image: redis
         ports:
         - containerPort: 6379
+      volumes:
+      - name: config
+        configMap:
+          name: kad
+          items:
+          - key: config.yml
+            path: config.conf

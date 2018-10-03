@@ -74,6 +74,9 @@ spec:
       containers:
       - name: redis
         image: redis
+        resources:
+          limits:
+            memory: 128Mi
         ports:
         - containerPort: 6379
         volumeMounts:

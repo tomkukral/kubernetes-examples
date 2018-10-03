@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kad
+  namespace: kadsingle
+data:
+  config.yml: |
+    abc: 123
+    password: datascript
+    data: 2018-09-28
+  option.color: red
