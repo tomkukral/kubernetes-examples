@@ -1,3 +1,4 @@
+# This deployment will schedule pods only on non-master nodes
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

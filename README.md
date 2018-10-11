@@ -12,8 +12,6 @@ app_v4    | App with redis deployed in Kubernetes (in single pod, emptyDir stora
 app_v5    | App with redis deployed in Kubernetes (redis in second pod)
 app_v6    | App demonstrating configuration options
 
-## Hints
+## Kubernetes manifests
 
-Build application with command (execute in directory with `Dockerfile`):
-
-`docker build -t name_of_your_app .`
+* `affinities/non-master.yml` Run nginx deployment on non-master nodes (minions)
