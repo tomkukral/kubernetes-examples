@@ -1,6 +1,13 @@
 groups:
 - name: etcd
   rules:
+  - alert: EtcdMissingMetric
+    expr: |-
+      absent(etcd_server_has_leader)
+    for: 10m
+    annotations:
+      description: "Missing metric for etcd"
+
   - alert: EtcdInsufficientMembers
     expr: count(up{job="etcd"} == 0) > (count(up{job="etcd"}) / 2 - 1)
     for: 3m

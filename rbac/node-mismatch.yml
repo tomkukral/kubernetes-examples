@@ -1,7 +1,8 @@
+# Assing system:node role to system:nodes role (It can be set by cert group)
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: cluster-node-name-mismatch-try2
+  name: cluster-node-name-mismatch-try
 subjects:
 - kind: Group
   name: system:nodes
