@@ -1,15 +1,19 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: node-exporter
   namespace: prometheus
 spec:
+  selector:
+    matchLabels:
+      app: node-exporter
   template:
     metadata:
       labels:
         app: node-exporter
-      name: node-exporter
     spec:
+      nodeSelector:
+        beta.kubernetes.io/os: linux
       hostNetwork: true
       hostPID: true
       containers:
@@ -28,6 +32,6 @@ spec:
           mountPath: /host
           readOnly: true
       volumes:
-        - name: rootfs
-          hostPath:
-            path: /
+      - name: rootfs
+        hostPath:
+          path: /

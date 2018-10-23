@@ -1,0 +1,170 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+  namespace: prometheus
+data:
+
+  node-exporter.yml: |-
+    groups:
+    - name: node-exporter
+      rules:
+      - alert: TargetDown
+        expr: "up != 1"
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute."
+    
+      - alert: NodeMetricMissing
+        expr: |-
+          absent(node_cpu_seconds_total) or
+          absent(node_memory_SwapFree_bytes) or
+          absent(node_memory_MemFree_bytes) or
+          absent(node_filesystem_free_bytes)
+        for: 10m
+        annotations:
+          description: Metric (node_cpu_seconds_total) isn't exported
+    
+      - alert: NodeCPUUsage
+        expr: '(100 - (avg by (instance) (irate(node_cpu_seconds_total{name="node-exporter",mode="idle"}[5m])) * 100)) > 75'
+        for: 2m
+        annotations:
+          description: "{{$labels.instance}}: CPU usage is above 75% (current value is: {{ $value }})"
+    
+      - alert: NodeSwapUsage
+        expr: '(node_memory_SwapFree_bytest / node_memory_SwapTotal * 100) < 30'
+        for: 2m
+        annotations:
+          description: "{{$labels.instance}}: Swap usage is hight (remaining: {{ $value }}%)"
+    
+      - alert: NodeMemoryUsage
+        expr: '(node_memory_MemFree_bytes / node_memory_MemTotal_bytes * 100) < 25'
+        for: 2m
+        annotations:
+          description: "{{$labels.instance}}: Memory usage is high (remaining: {{ $value }}%)"
+    
+      - alert: NodeDiskFull
+        expr: predict_linear(node_filesystem_free_bytes[6h], 3600 * 24 * 3) < 0
+        for: 30m
+        annotations:
+          description: device {{$labels.device}} on node {{$labels.instance}} is running full within the next 3 days (mounted at {{$labels.mountpoint}})
+  prometheus.yml: |-
+    groups:
+    - name: prometheus
+      rules:
+      - alert: PrometheusMetricMissing
+        expr: |-
+          absent(prometheus_config_last_reload_successful) or
+          absent(prometheus_notifications_queue_length) or
+          absent(prometheus_notifications_errors_total) or
+          absent(prometheus_notifications_alertmanagers_discovered) or
+          absent(prometheus_tsdb_reloads_failures_total) or
+          absent(prometheus_tsdb_compactions_failed_total) or
+          absent(tsdb_wal_corruptions_total) or
+          absent(prometheus_tsdb_head_samples_appended_total) or
+          absent(prometheus_target_scrapes_sample_duplicate_timestamp_total)
+        for: 10m
+        annotations:
+          description: Missing prometheus metric
+    
+      - alert: PrometheusConfigReloadFailed
+        expr: prometheus_config_last_reload_successful == 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          description: Reloading Prometheus' configuration has failed for {{$labels.namespace}}/{{$labels.pod}}
+          summary: Reloading Promehteus' configuration failed
+    
+      - alert: PrometheusNotificationQueueRunningFull
+        expr: predict_linear(prometheus_notifications_queue_length[5m], 60 * 30) > prometheus_notifications_queue_capacity
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          description: Prometheus' alert notification queue is running full for {{$labels.namespace}}/{{
+            $labels.pod}}
+          summary: Prometheus' alert notification queue is running full
+    
+      - alert: PrometheusErrorSendingAlerts
+        expr: rate(prometheus_notifications_errors_total[5m]) / rate(prometheus_notifications_sent_total[5m])
+          > 0.01
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          description: Errors while sending alerts from Prometheus {{$labels.namespace}}/{{
+            $labels.pod}} to Alertmanager {{$labels.Alertmanager}}
+          summary: Errors while sending alert from Prometheus
+    
+      - alert: PrometheusErrorSendingAlerts
+        expr: rate(prometheus_notifications_errors_total[5m]) / rate(prometheus_notifications_sent_total[5m])
+          > 0.03
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          description: Errors while sending alerts from Prometheus {{$labels.namespace}}/{{
+            $labels.pod}} to Alertmanager {{$labels.Alertmanager}}
+          summary: Errors while sending alerts from Prometheus
+    
+      - alert: PrometheusNotConnectedToAlertmanagers
+        expr: prometheus_notifications_alertmanagers_discovered < 1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          description: Prometheus {{ $labels.namespace }}/{{ $labels.pod}} is not connected
+            to any Alertmanagers
+          summary: Prometheus is not connected to any Alertmanagers
+    
+      - alert: PrometheusTSDBReloadsFailing
+        expr: increase(prometheus_tsdb_reloads_failures_total[2h]) > 0
+        for: 12h
+        labels:
+          severity: warning
+        annotations:
+          description: '{{$labels.job}} at {{$labels.instance}} had {{$value | humanize}}
+            reload failures over the last four hours.'
+          summary: Prometheus has issues reloading data blocks from disk
+    
+      - alert: PrometheusTSDBCompactionsFailing
+        expr: increase(prometheus_tsdb_compactions_failed_total[2h]) > 0
+        for: 12h
+        labels:
+          severity: warning
+        annotations:
+          description: '{{$labels.job}} at {{$labels.instance}} had {{$value | humanize}}
+            compaction failures over the last four hours.'
+          summary: Prometheus has issues compacting sample blocks
+    
+      - alert: PrometheusTSDBWALCorruptions
+        expr: tsdb_wal_corruptions_total > 0
+        for: 4h
+        labels:
+          severity: warning
+        annotations:
+          description: '{{$labels.job}} at {{$labels.instance}} has a corrupted write-ahead
+            log (WAL).'
+          summary: Prometheus write-ahead log is corrupted
+    
+      - alert: PrometheusNotIngestingSamples
+        expr: rate(prometheus_tsdb_head_samples_appended_total[5m]) <= 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          description: "Prometheus {{ $labels.namespace }}/{{ $labels.pod}} isn't ingesting samples."
+          summary: "Prometheus isn't ingesting samples"
+    
+      - alert: PrometheusTargetScapesDuplicate
+        expr: increase(prometheus_target_scrapes_sample_duplicate_timestamp_total[5m]) > 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          description: "{{$labels.namespace}}/{{$labels.pod}} has many samples rejected due to duplicate timestamps but different values"
+          summary: Prometheus has many samples rejected
