@@ -50,7 +50,7 @@ spec:
             port: 6379
           initialDelaySeconds: 1
           periodSeconds: 5
-          successThreshold: 2
+          successThreshold: 1
           failureThreshold: 3
         volumeMounts:
         - mountPath: "/data"
