@@ -56,11 +56,25 @@ spec:
         # static configuration from yaml
         - name: REDIS_SERVER
           value: redis-0.redis:6379
-        # configuraiton from downward API
+        # configuration from downward API
         - name: NODE_NAME
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: RECORD
+          value: "$(POD_NAME) IN A $(POD_IP)"
         # variable form configmap
         - name: COLOR
           valueFrom:
