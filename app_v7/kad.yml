@@ -45,6 +45,10 @@ spec:
       labels:
         app: kad
     spec:
+      initContainers:
+      - name: connectivity-check
+        image: tomkukral/kad
+        command: ["bash", "-c", "ping -c1 google.com"]
       containers:
       - name: app
         image: tomkukral/kad
@@ -110,6 +114,14 @@ spec:
           periodSeconds: 5
           successThreshold: 1
           failureThreshold: 3
+        lifecycle:
+          postStart:
+            exec:
+              command: ["sh", "-c", "date > /tmp/started"]
+          preStop:
+            httpGet:
+              path: "/action/terminate"
+              port: 5001
         volumeMounts:
         - name: config
           mountPath: /etc/kad/
