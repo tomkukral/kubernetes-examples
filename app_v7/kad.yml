@@ -39,7 +39,6 @@ metadata:
   name: kad
   namespace: kad
 spec:
-  replicas: 2
   template:
     metadata:
       labels:
