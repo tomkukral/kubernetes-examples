@@ -139,7 +139,8 @@ spec:
           mountPath: /tmp
       volumes:
       - name: tmp
-        emptyDir: {}
+        emptyDir:
+          medium: Memory
       - name: config
         configMap:
           name: kad
