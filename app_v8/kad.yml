@@ -43,6 +43,9 @@ spec:
     metadata:
       labels:
         app: kad
+      annotations:
+        prometheus.io/scrape: "pod"
+        prometheus.io/port: "5000"
     spec:
       securityContext:
         runAsNonRoot: true

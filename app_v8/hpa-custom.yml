@@ -1,0 +1,28 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kad
+  namespace: kad
+  resourceVersion: "148898"
+spec:
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: http_requests_per_second
+      target:
+        type: AverageValue
+        averageValue: 1k
+  - type: Pods
+    pods:
+      metric:
+        name: http_requests_average
+      target:
+        type: AverageValue
+        averageValue: 100m
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: kad
