@@ -14,14 +14,14 @@ spec:
         name: http_requests_per_second
       target:
         type: AverageValue
-        averageValue: 1k
-  - type: Pods
-    pods:
-      metric:
-        name: http_requests_average
-      target:
-        type: AverageValue
-        averageValue: 100m
+        averageValue: 100
+#  - type: Pods
+#    pods:
+#      metric:
+#        name: http_requests_average
+#      target:
+#        type: AverageValue
+#        averageValue: 100m
   scaleTargetRef:
     apiVersion: extensions/v1beta1
     kind: Deployment
