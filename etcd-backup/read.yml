@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: etcdread
+  namespace: kube-system                                                                                        │
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etcdread
+  template:
+    metadata:
+      labels:
+        app: etcdread
+    spec:
+      containers:
+      - name: kad
+        image: tomkukral/nmap
+        command: ["sleep", "infinity"]
+        volumeMounts:
+        - name: backup
+          mountPath: /root/backup
+      volumes:
+      - name: backup
+        persistentVolumeClaim:
+          claimName: etcd-backup
