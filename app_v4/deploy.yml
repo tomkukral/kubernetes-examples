@@ -13,13 +13,16 @@ spec:
     port: 80
     targetPort: 5000
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kad
   namespace: kadsingle
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kad
   template:
     metadata:
       labels:

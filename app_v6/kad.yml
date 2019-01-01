@@ -33,13 +33,16 @@ data:
   username: YWRtaW4=
   password: d29ya3Nob3BTRA==
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kad
   namespace: kad
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: kad
   template:
     metadata:
       labels:

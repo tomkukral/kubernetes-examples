@@ -23,6 +23,6 @@ spec:
 #        type: AverageValue
 #        averageValue: 100m
   scaleTargetRef:
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     name: kad

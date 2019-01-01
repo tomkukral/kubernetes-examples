@@ -1,12 +1,15 @@
 # This deployment will schedule pods only on non-master nodes
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
   namespace: test
 spec:
   replicas: 30
+  selector:
+    matchLabels:
+      app: nginx
   template:
     metadata:
       labels:
