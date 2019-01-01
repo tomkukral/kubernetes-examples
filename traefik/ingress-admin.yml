@@ -1,0 +1,28 @@
+---
+# htaccess file with demo credentials
+apiVersion: v1
+kind: Secret
+metadata:
+  name: htaccess
+  namespace: kube-system
+data:
+  ht: ZGF0YXNjcmlwdDokYXByMSRxdndVQ3VVbCRPdmVKbFkzZnptMTkxY25zRTl1WDIxCg==
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: treafik-admin
+  namespace: kube-system
+  annotations:
+    traefik.frontend.rule.type: PathPrefixStrip
+    ingress.kubernetes.io/auth-type: "basic"
+    ingress.kubernetes.io/auth-secret: "htaccess"
+    ingress.kubernetes.io/auth-remove-header: "true"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /traefik
+        backend:
+          serviceName: traefik-ingress-service-admin
+          servicePort: admin
