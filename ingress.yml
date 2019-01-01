@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kad
+  namespace: kad
+  annotations:
+    traefik.frontend.rule.type: PathPrefixStrip
+    traefik.ingress.kubernetes.io/preserve-host: "true"
+    traefik.ingress.kubernetes.io/rate-limit: |
+      extractorfunc: client.ip
+      rateset:
+        rateset1:
+          period: 10s
+          average: 2
+          burst: 4
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /kad
+        backend:
+          serviceName: kad
+          servicePort: 80

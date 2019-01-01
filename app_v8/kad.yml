@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: kad
   namespace: kad
+  annotations:
+    traefik.ingress.kubernetes.io/load-balancer-method: drr
 spec:
   selector:
     app: kad

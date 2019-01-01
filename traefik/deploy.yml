@@ -3,13 +3,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: traefik-ingress-controller
-  namespace: kad
+  namespace: kube-system
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: traefik-ingress-controller
-  namespace: kad
+  namespace: kube-system
   labels:
     k8s-app: traefik-ingress-lb
 spec:
@@ -43,21 +43,25 @@ kind: Service
 apiVersion: v1
 metadata:
   name: traefik-ingress-service
-  namespace: kad
+  namespace: kube-system
 spec:
   selector:
     k8s-app: traefik-ingress-lb
   ports:
   - protocol: TCP
     port: 80
-    name: web
-  type: NodePort
+    name: http
+  - protocol: TCP
+    port: 443
+    name: https
+  type: ClusterIP
+  clusterIP: 10.96.0.11
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: traefik-ingress-service-admin
-  namespace: kad
+  namespace: kube-system
 spec:
   selector:
     k8s-app: traefik-ingress-lb
