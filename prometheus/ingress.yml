@@ -1,0 +1,27 @@
+---
+# htaccess file with demo credentials
+apiVersion: v1
+kind: Secret
+metadata:
+  name: htaccess
+  namespace: prometheus
+data:
+  ht: ZGF0YXNjcmlwdDokYXByMSRxdndVQ3VVbCRPdmVKbFkzZnptMTkxY25zRTl1WDIxCg==
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: prometheus
+  annotations:
+    traefik.frontend.rule.type: PathPrefixStrip
+    ingress.kubernetes.io/auth-type: "basic"
+    ingress.kubernetes.io/auth-secret: "htaccess"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /prometheus
+        backend:
+          serviceName: prometheus
+          servicePort: 9090
