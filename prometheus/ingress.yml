@@ -14,7 +14,6 @@ metadata:
   name: prometheus
   namespace: prometheus
   annotations:
-    traefik.frontend.rule.type: PathPrefixStrip
     ingress.kubernetes.io/auth-type: "basic"
     ingress.kubernetes.io/auth-secret: "htaccess"
 spec:
