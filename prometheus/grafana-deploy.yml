@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,3 +21,18 @@ spec:
         image: grafana/grafana
         ports:
         - containerPort: 3000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana
+  namespace: prometheus
+  annotations:
+    prometheus.io/scrape: "true"
+spec:
+  selector:
+    app: grafana
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
