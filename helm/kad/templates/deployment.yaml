@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kad.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "kad.name" . }}
+    helm.sh/chart: {{ include "kad.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "kad.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "kad.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/kad", "--color", "$(COLOR)", "--user", "$(USERNAME)"]
+          env:
+            # static configuration from yaml
+            - name: REDIS_SERVER
+              value: redis-0.redis:6379
+            # configuraiton from downward API
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            # variable form configmap
+            - name: COLOR
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "kad.fullname" . }}-config
+                  key: option.color
+            # variables from secret
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kad.fullname" . }}-credentials
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "kad.fullname" . }}-credentials
+                  key: password
+          volumeMounts:
+            - name: config
+              mountPath: /etc/kad/
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "kad.fullname" . }}-config
+            items:
+              - key: config.yml
+                path: config.yml
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
