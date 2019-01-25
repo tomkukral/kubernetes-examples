@@ -8,8 +8,7 @@ spec:
   selector:
     app: kad
   ports:
-  - name: web
-    protocol: TCP
+  - protocol: TCP
     port: 80
     targetPort: 5000
 ---
