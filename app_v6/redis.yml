@@ -14,7 +14,7 @@ spec:
       port: 6379
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: redis
   namespace: kad
@@ -22,7 +22,6 @@ spec:
   selector:
     matchLabels:
       app: redis
-  serviceName: redis
   replicas: 1
   template:
     metadata:
@@ -39,14 +38,3 @@ spec:
             memory: 128Mi
         ports:
         - containerPort: 6379
-        volumeMounts:
-          - mountPath: "/data"
-            name: redis-disk
-  volumeClaimTemplates:
-  - metadata:
-      name: redis-disk
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 1Gi
