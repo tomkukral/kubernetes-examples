@@ -24,6 +24,8 @@ spec:
             cpu: 500m
             memory: 512Mi
         env:
+        - name: CLUSTER
+          value: c1
         - name: POD_NAME
           valueFrom:
             fieldRef:
@@ -31,7 +33,7 @@ spec:
         - name: ETCDCTL_API
           value: "3"
         - name: ETCDCTL_ENDPOINTS
-          value: https://master-0.c0.k8s.6shore.net:2379,https://master-1.c0.k8s.6shore.net:2379,https://master-2.c0.k8s.6shore.net:2379
+          value: https://master-0.$(CLUSTER).k8s.6shore.net:2379,https://master-1.$(CLUSTER).k8s.6shore.net:2379,https://master-2.$(CLUSTER).k8s.6shore.net:2379
         - name: ETCDCTL_CACERT
           value: /etc/kubernetes/pki/etcd/ca.crt
         - name: ETCDCTL_KEY
