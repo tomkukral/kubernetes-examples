@@ -39,7 +39,7 @@ metadata:
   name: kad
   namespace: kad
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: kad

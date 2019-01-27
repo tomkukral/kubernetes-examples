@@ -25,7 +25,7 @@ spec:
             memory: 512Mi
         env:
         - name: CLUSTER
-          value: c1
+          value: c0
         - name: POD_NAME
           valueFrom:
             fieldRef:
