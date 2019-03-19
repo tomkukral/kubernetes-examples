@@ -11,8 +11,8 @@ metadata:
       rateset:
         rateset1:
           period: 10s
-          average: 2
-          burst: 4
+          average: 100
+          burst: 200 
 spec:
   rules:
   - http:

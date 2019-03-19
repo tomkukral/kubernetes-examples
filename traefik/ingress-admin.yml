@@ -6,7 +6,7 @@ metadata:
   name: htaccess
   namespace: kube-system
 data:
-  ht: ZGF0YXNjcmlwdDokYXByMSRxdndVQ3VVbCRPdmVKbFkzZnptMTkxY25zRTl1WDIxCg==
+  ht: ZGF0YXNjcmlwdDokYXByMSRxdndVQ3VVbCRPdmVKbFkzZnptMTkxY25zRTl1WDIxCm9wOiRhcHIxJHJka2VJN0dYJFkyRUowNnNQZi40dHZLbkM0TXlSVzEKCg==
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress

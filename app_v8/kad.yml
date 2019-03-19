@@ -56,10 +56,10 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
-      initContainers:
-      - name: connectivity-check
-        image: tomkukral/kad
-        command: ["bash", "-c", "ping -c1 google.com"]
+#      initContainers:
+#      - name: connectivity-check
+#        image: tomkukral/kad
+#        command: ["bash", "-c", "ping -c1 google.com"]
       containers:
       - name: app
         image: tomkukral/kad
@@ -138,7 +138,6 @@ spec:
           capabilities:
             drop:
             - all
-          procMount: Default
           readOnlyRootFilesystem: true
         volumeMounts:
         - name: config
