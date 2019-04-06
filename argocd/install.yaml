@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-application-controller
-  namespace: argo
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -53,7 +53,7 @@ metadata:
     app.kubernetes.io/name: argocd-dex-server
     app.kubernetes.io/part-of: argocd
   name: argocd-dex-server
-  namespace: argo
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -63,7 +63,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   name: argocd-server
-  namespace: argo
+  namespace: argocd
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -73,7 +73,7 @@ metadata:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-application-controller
-  namespace: argo
+  namespace: argocd
 rules:
 - apiGroups:
   - ""
@@ -113,7 +113,7 @@ metadata:
     app.kubernetes.io/name: argocd-dex-server
     app.kubernetes.io/part-of: argocd
   name: argocd-dex-server
-  namespace: argo
+  namespace: argocd
 rules:
 - apiGroups:
   - ""
@@ -133,7 +133,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   name: argocd-server
-  namespace: argo
+  namespace: argocd
 rules:
 - apiGroups:
   - ""
@@ -177,7 +177,7 @@ metadata:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-application-controller
-  namespace: argo
+  namespace: argocd
 rules:
 - apiGroups:
   - '*'
@@ -229,7 +229,7 @@ metadata:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-application-controller
-  namespace: argo
+  namespace: argocd
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -246,7 +246,7 @@ metadata:
     app.kubernetes.io/name: argocd-dex-server
     app.kubernetes.io/part-of: argocd
   name: argocd-dex-server
-  namespace: argo
+  namespace: argocd
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -263,7 +263,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   name: argocd-server
-  namespace: argo
+  namespace: argocd
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -287,7 +287,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argocd-application-controller
-  namespace: argocd
+  namespace: argocdcd
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -304,7 +304,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argocd-server
-  namespace: argocd
+  namespace: argocdcd
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -313,7 +313,7 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
   name: argocd-cm
-  namespace: argo
+  namespace: argocd
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -322,7 +322,7 @@ metadata:
     app.kubernetes.io/name: argocd-rbac-cm
     app.kubernetes.io/part-of: argocd
   name: argocd-rbac-cm
-  namespace: argo
+  namespace: argocd
 ---
 apiVersion: v1
 kind: Secret
@@ -331,7 +331,7 @@ metadata:
     app.kubernetes.io/name: argocd-secret
     app.kubernetes.io/part-of: argocd
   name: argocd-secret
-  namespace: argo
+  namespace: argocd
 type: Opaque
 ---
 apiVersion: v1
@@ -342,7 +342,7 @@ metadata:
     app.kubernetes.io/name: argocd-dex-server
     app.kubernetes.io/part-of: argocd
   name: argocd-dex-server
-  namespace: argo
+  namespace: argocd
 spec:
   ports:
   - name: http
@@ -364,7 +364,7 @@ metadata:
     app.kubernetes.io/name: argocd-metrics
     app.kubernetes.io/part-of: argocd
   name: argocd-metrics
-  namespace: argo
+  namespace: argocd
 spec:
   ports:
   - name: metrics
@@ -382,7 +382,7 @@ metadata:
     app.kubernetes.io/name: argocd-redis
     app.kubernetes.io/part-of: argocd
   name: argocd-redis
-  namespace: argo
+  namespace: argocd
 spec:
   ports:
   - name: tcp-redis
@@ -399,7 +399,7 @@ metadata:
     app.kubernetes.io/name: argocd-repo-server
     app.kubernetes.io/part-of: argocd
   name: argocd-repo-server
-  namespace: argo
+  namespace: argocd
 spec:
   ports:
   - name: server
@@ -421,7 +421,7 @@ metadata:
     app.kubernetes.io/name: argocd-server-metrics
     app.kubernetes.io/part-of: argocd
   name: argocd-server-metrics
-  namespace: argo
+  namespace: argocd
 spec:
   ports:
   - name: metrics
@@ -439,7 +439,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   name: argocd-server
-  namespace: argo
+  namespace: argocd
 spec:
   ports:
   - name: http
@@ -461,7 +461,7 @@ metadata:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
   name: argocd-application-controller
-  namespace: argo
+  namespace: argocd
 spec:
   selector:
     matchLabels:
@@ -500,7 +500,7 @@ metadata:
     app.kubernetes.io/name: argocd-dex-server
     app.kubernetes.io/part-of: argocd
   name: argocd-dex-server
-  namespace: argo
+  namespace: argocd
 spec:
   selector:
     matchLabels:
@@ -547,7 +547,7 @@ metadata:
     app.kubernetes.io/name: argocd-redis
     app.kubernetes.io/part-of: argocd
   name: argocd-redis
-  namespace: argo
+  namespace: argocd
 spec:
   selector:
     matchLabels:
@@ -577,7 +577,7 @@ metadata:
     app.kubernetes.io/name: argocd-repo-server
     app.kubernetes.io/part-of: argocd
   name: argocd-repo-server
-  namespace: argo
+  namespace: argocd
 spec:
   selector:
     matchLabels:
@@ -613,7 +613,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   name: argocd-server
-  namespace: argo
+  namespace: argocd
 spec:
   selector:
     matchLabels:
