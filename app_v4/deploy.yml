@@ -31,6 +31,7 @@ spec:
       - name: app
         image: tomkukral/kad
         imagePullPolicy: Always
+        command: ["/bin/kad", "--color", "$(COLOR)", "--SERVER", "$(REDIS_SERVER)"]
         ports:
         - containerPort: 5000
         env:
@@ -55,4 +56,8 @@ spec:
           name: kad
           items:
           - key: config.yml
-            path: config.conf
+            path: config.yml
+
+
+
+

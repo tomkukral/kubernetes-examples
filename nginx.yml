@@ -6,12 +6,10 @@ metadata:
 spec:
   selector:
     app: nginx
-  #type: NodePort
-  #type: LoadBalancer
-  #type: ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 80
+      port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
