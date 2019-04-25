@@ -22,16 +22,22 @@ spec:
         app: prometheus
     spec:
       serviceAccountName: prometheus
+      securityContext:
+        runAsUser: 65534
+        fsGroup: 65534
       initContainers:
       - name: chown
         image: busybox
-        command: ["ls", "/"]
+        command: ["ls", "-lah", "/data"]
+        volumeMounts:
+        - name: data
+          mountPath: /data
       containers:
       - name: prometheus
         image: prom/prometheus
         args:
         - --config.file=/etc/prometheus/config/prometheus.yml
-        - --storage.tsdb.path=/prometheus
+        - --storage.tsdb.path=/data
         - --web.console.libraries=/usr/share/prometheus/console_libraries
         - --web.console.templates=/usr/share/prometheus/consoles
         - --web.external-url=/prometheus/
@@ -39,6 +45,8 @@ spec:
         - name: web
           containerPort: 9090
         volumeMounts:
+        - name: data
+          mountPath: /data
         - name: config
           mountPath: /etc/prometheus/config
         - name: rules
@@ -50,3 +58,6 @@ spec:
       - name: rules
         configMap:
           name: prometheus-rules
+      - name: data
+        persistentVolumeClaim:
+          claimName: prometheus-data
