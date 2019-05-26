@@ -21,3 +21,10 @@ spec:
         backend:
           serviceName: kad
           servicePort: 80
+#  - host: kad.c0.k8s.6shore.net
+#    http:
+#      paths:
+#      - path: /
+#        backend:
+#          serviceName: kad
+#          servicePort: 80
