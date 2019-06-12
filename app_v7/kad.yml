@@ -21,7 +21,7 @@ data:
   config.yml: |
     abc: 123
     password: datascript
-  option.color: red
+  option.color: white
 ---
 apiVersion: v1
 kind: Secret
@@ -47,6 +47,16 @@ spec:
       labels:
         app: kad
     spec:
+      #affinity:
+      #  podAntiAffinity:
+      #    requiredDuringSchedulingIgnoredDuringExecution:
+      #    - labelSelector:
+      #        matchExpressions:
+      #        - key: app
+      #          operator: In
+      #          values:
+      #          - kad
+      #      topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: connectivity-check
         image: tomkukral/kad
