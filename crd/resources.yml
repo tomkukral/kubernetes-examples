@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kad
+  namespace: kad
+  ownerReferences:
+  - apiVersion: alpha.6shore.net/v1
+    controller: true
+    blockOwnerDeletion: true
+    kind: Lab
+    name: kad
+    uid: ${OWNER_UID}
+spec:
+  selector:
+    app: kad
+  ports:
+  - protocol: TCP
+    targetPort: 5000
+    port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kad
+  namespace: kad
+  ownerReferences:
+  - apiVersion: alpha.6shore.net/v1
+    controller: true
+    blockOwnerDeletion: true
+    kind: Lab
+    name: kad
+    uid: ${OWNER_UID}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kad
+  template:
+    metadata:
+      labels:
+        app: kad
+    spec:
+      containers:
+      - name: app
+        image: tomkukral/kad
+        ports:
+        - containerPort: 5000

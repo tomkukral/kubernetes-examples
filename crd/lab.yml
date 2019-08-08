@@ -1,0 +1,7 @@
+apiVersion: "alpha.6shore.net/v1"
+kind: Lab
+metadata:
+  name: kad
+  namespace: kad
+spec:
+  id: 5
