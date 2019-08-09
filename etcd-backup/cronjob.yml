@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   concurrencyPolicy: Forbid
-  schedule: "*/2 * * * *"
+  schedule: "6 * * * *"
   jobTemplate:
     spec:
       activeDeadlineSeconds: 300
