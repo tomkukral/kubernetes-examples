@@ -19,6 +19,8 @@ metadata:
   name: redis
   namespace: kad
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: redis
