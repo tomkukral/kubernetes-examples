@@ -18,7 +18,7 @@ metadata:
   name: kad
   namespace: kadsingle
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: kad
@@ -31,7 +31,7 @@ spec:
       - name: app
         image: tomkukral/kad
         imagePullPolicy: Always
-        command: ["/bin/kad", "--color", "$(COLOR)", "--SERVER", "$(REDIS_SERVER)"]
+        command: ["/bin/kad", "--color", "$(COLOR)"]
         ports:
         - containerPort: 5000
         env:
