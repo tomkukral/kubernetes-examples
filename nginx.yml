@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: website-frontend
+  name: nginx
 spec:
   selector:
-    app: website
+    app: nginx
   ports:
     - protocol: TCP
       port: 80
@@ -13,17 +13,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: website-frontend
+  name: nginx
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: website
+      app: nginx
   template:
     metadata:
       labels:
-        app: website
-        env: training
+        app: nginx
     spec:
       containers:
         - name: nginx
