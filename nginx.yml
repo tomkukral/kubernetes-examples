@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: website-frontend
 spec:
   selector:
     app: website
@@ -18,7 +18,7 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: website
   template:
     metadata:
       labels:
