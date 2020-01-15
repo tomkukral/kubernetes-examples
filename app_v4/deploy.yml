@@ -5,6 +5,7 @@ metadata:
   name: kad
   namespace: kadsingle
 spec:
+  type: NodePort
   selector:
     app: kad
   ports:
@@ -43,21 +44,13 @@ spec:
               name: kad
               key: option.color
         volumeMounts:
-        # file will be /etc/kad/config.conf
+        # file will be /etc/kad/config.yml
         - name: config
           mountPath: /etc/kad/
-      - name: redis
-        image: redis
-        ports:
-        - containerPort: 6379
       volumes:
       - name: config
         configMap:
           name: kad
           items:
-          - key: config.yml
+          - key: filecontent
             path: config.yml
-
-
-
-

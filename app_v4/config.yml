@@ -4,7 +4,7 @@ metadata:
   name: kad
   namespace: kadsingle
 data:
-  config.yml: |
+  filecontent: |
     abc: 123
     password: datascript
     data: 2018-09-28
