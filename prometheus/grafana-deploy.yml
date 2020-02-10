@@ -14,13 +14,21 @@ spec:
       name: grafana
       labels:
         app: grafana
+
     spec:
       initContainers:
+      volumes:
+      - name: config
+        configMap:
+          name: grafana-config
       containers:
       - name: grafana
         image: grafana/grafana
         ports:
         - containerPort: 3000
+        volumeMounts:
+        - name: config
+          mountPath: /etc/grafana
 ---
 kind: Service
 apiVersion: v1

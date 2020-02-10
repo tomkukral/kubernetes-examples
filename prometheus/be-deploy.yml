@@ -4,7 +4,7 @@ metadata:
   name: blackbox-exporter
   namespace: prometheus
   annotations:
-    verion: 0.2
+    version: "0.2"
 spec:
   replicas: 1
   strategy:

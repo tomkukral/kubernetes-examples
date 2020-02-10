@@ -4,7 +4,7 @@ metadata:
   name: prometheus
   namespace: prometheus
   annotations:
-    verion: 0.2
+    version: "0.2"
 spec:
   replicas: 1
   strategy:
@@ -54,7 +54,7 @@ spec:
       volumes:
       - name: config
         configMap:
-          name: prometheus-configmap
+          name: prometheus-config
       - name: rules
         configMap:
           name: prometheus-rules
