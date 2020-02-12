@@ -1,11 +1,28 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: kad
   namespace: kad
-  annotations:
-    traefik.frontend.rule.type: PathPrefixStrip
-    traefik.ingress.kubernetes.io/preserve-host: "true"
+spec:
+  entryPoints:
+    - http
+    - https
+  routes:
+  - match: HostRegexp(`kad.{domain:.+}`)
+    kind: Rule
+    services:
+    - name: kad
+      port: 80
+---
+# Old definition used in traefik 1.7
+#apiVersion: extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: kad
+#  namespace: kad
+#  annotations:
+#    traefik.frontend.rule.type: PathPrefixStrip
+#    traefik.ingress.kubernetes.io/preserve-host: "true"
 #    traefik.ingress.kubernetes.io/rate-limit: |
 #      extractorfunc: client.ip
 #      rateset:
@@ -14,18 +31,11 @@ metadata:
 #          average: 2
 #          burst: 4
 #
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /kad
-        backend:
-          serviceName: kad
-          servicePort: 80
-#  - host: kad.c0.k8s.6shore.net
-#    http:
+#spec:
+#  rules:
+#  - http:
 #      paths:
-#      - path: /
+#      - path: /kad
 #        backend:
 #          serviceName: kad
 #          servicePort: 80
