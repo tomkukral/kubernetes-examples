@@ -8,46 +8,30 @@ metadata:
 data:
   ht: ZGF0YXNjcmlwdDokYXByMSRxdndVQ3VVbCRPdmVKbFkzZnptMTkxY25zRTl1WDIxCg==
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauth
+  namespace: prometheus
+spec:
+  basicAuth:
+    secret: htaccess
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: prometheus
   namespace: prometheus
-  annotations:
-    ingress.kubernetes.io/auth-type: "basic"
-    ingress.kubernetes.io/auth-secret: "htaccess"
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /prometheus
-        backend:
-          serviceName: prometheus
-          servicePort: 9090
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: grafana
+  entryPoints:
+    - http
+    - https
+  routes:
+  - match: HostRegexp(`prometheus.{domain:.+}`)
+    kind: Rule
+    middlewares:
+    - name: basicauth
+    services:
+    - name: prometheus
+      port: 9090
   namespace: prometheus
-  annotations:
-    ingress.kubernetes.io/auth-type: "basic"
-    ingress.kubernetes.io/auth-secret: "htaccess"
-    ingress.kubernetes.io/auth-remove-header: "true"
-    ingress.kubernetes.io/custom-request-headers: "X-WEBAUTH-USER:admin"
-    traefik.frontend.rule.type: PathPrefixStrip
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /grafana
-        backend:
-          serviceName: grafana
-          servicePort: 80
-  - host: grafana.c0.k8s.6shore.net
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: grafana
-          servicePort: 80
