@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: prometheus
   namespace: prometheus
-  annotations:
-    version: "0.2"
 spec:
   replicas: 1
   strategy:
