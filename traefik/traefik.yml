@@ -145,6 +145,9 @@ kind: Service
 metadata:
   name: traefik
   namespace: traefik
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9000"
   labels:
     app: traefik
 spec:
@@ -221,18 +224,19 @@ spec:
           containerPort: 443
           protocol: TCP
         args:
-          - "--global.checknewversion=false"
-          - "--global.sendanonymoususage=false"
-          - "--entryPoints.traefik.address=:9000"
-          - "--entryPoints.http.address=:80"
-          - "--entryPoints.https.address=:443"
+          - "--accesslog=true"
           - "--api.dashboard=true"
           - "--api.insecure=true"
+          - "--entryPoints.http.address=:80"
+          - "--entryPoints.https.address=:443"
+          - "--entryPoints.traefik.address=:9000"
+          - "--global.checknewversion=false"
+          - "--global.sendanonymoususage=false"
+          - "--log.level=DEBUG"
+          - "--metrics.prometheus=true"
           - "--ping=true"
           - "--providers.kubernetescrd"
           - "--providers.kubernetesingress=true"
-          - "--log.level=DEBUG"
-          - "--accesslog=true"
           - "--serversTransport.insecureSkipVerify=true"
 ---
 apiVersion: v1
