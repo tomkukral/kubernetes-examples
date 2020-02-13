@@ -1,3 +1,14 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: ratelimit
+  namespace: kad
+spec:
+  rateLimit:
+      average: 100
+      burst: 50
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -10,6 +21,8 @@ spec:
   routes:
   - match: HostRegexp(`kad.{domain:.+}`)
     kind: Rule
+    middlewares:
+    - name: ratelimit
     services:
     - name: kad
       port: 80
