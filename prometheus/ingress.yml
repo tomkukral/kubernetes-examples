@@ -34,4 +34,21 @@ spec:
     services:
     - name: prometheus
       port: 9090
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
   namespace: prometheus
+spec:
+  entryPoints:
+    - http
+    - https
+  routes:
+  - match: HostRegexp(`grafana.{domain:.+}`)
+    kind: Rule
+    middlewares:
+    - name: basicauth
+    services:
+    - name: grafana
+      port: 80
