@@ -18,6 +18,16 @@ spec:
     secret: htaccess
 ---
 apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauthremove
+  namespace: prometheus
+spec:
+  basicAuth:
+    removeHeader: true
+    secret: htaccess
+---
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: prometheus
@@ -36,6 +46,17 @@ spec:
       port: 9090
 ---
 apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: adminheader
+  namespace: prometheus
+spec:
+  headers:
+    accessControlAllowCredentials: false
+    customRequestHeaders:
+      X-WEBAUTH-USER: "admin"
+---
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: grafana
@@ -48,7 +69,8 @@ spec:
   - match: HostRegexp(`grafana.{domain:.+}`)
     kind: Rule
     middlewares:
-    - name: basicauth
+    - name: basicauthremove
+    - name: adminheader
     services:
     - name: grafana
       port: 80

@@ -6,7 +6,7 @@ metadata:
 data:
   grafana.ini: |-
     [server]
-    root_url = %(protocol)s://%(domain)s:%(http_port)s/grafana
+    ;root_url = %(protocol)s://%(domain)s:%(http_port)s/grafana
 
     [log.console]
     level =debug
