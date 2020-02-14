@@ -37,7 +37,7 @@ spec:
   entryPoints:
     - http
     - https
-  tls: {}
+  #tls: {}
   routes:
   - match: HostRegexp(`kad.{domain:.+}`)
     kind: Rule

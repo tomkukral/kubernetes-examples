@@ -277,7 +277,7 @@ spec:
   entryPoints:
     - http
     - https
-  tls: {}
+  #tls: {}
   routes:
   - match: HostRegexp(`traefik.{domain:.+}`)
     kind: Rule
