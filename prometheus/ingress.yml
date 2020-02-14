@@ -65,6 +65,7 @@ spec:
   entryPoints:
     - http
     - https
+  tls: {}
   routes:
   - match: HostRegexp(`grafana.{domain:.+}`)
     kind: Rule

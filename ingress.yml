@@ -19,6 +19,16 @@ spec:
     attempts: 3
 ---
 apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: kad
+spec:
+  stripPrefix:
+    prefixes:
+    - /kad
+---
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: kad
@@ -27,12 +37,14 @@ spec:
   entryPoints:
     - http
     - https
+  tls: {}
   routes:
   - match: HostRegexp(`kad.{domain:.+}`)
     kind: Rule
     middlewares:
     - name: ratelimit
     - name: retry
+    - name: stripprefix
     services:
     - name: kad
       port: 80

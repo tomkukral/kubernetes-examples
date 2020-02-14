@@ -4,14 +4,12 @@ metadata:
   name: traefik
   namespace: traefik
 ---
-# Source: traefik/templates/rbac/serviceaccount.yaml
 kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: traefik
   namespace: traefik
 ---
-# Source: traefik/templates/crd/ingressroute.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -25,7 +23,6 @@ spec:
     singular: ingressroute
   scope: Namespaced
 ---
-# Source: traefik/templates/crd/ingressroutetcp.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -39,7 +36,6 @@ spec:
     singular: ingressroutetcp
   scope: Namespaced
 ---
-# Source: traefik/templates/crd/middlewares.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -53,7 +49,6 @@ spec:
     singular: middleware
   scope: Namespaced
 ---
-# Source: traefik/templates/crd/tlsoptions.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -67,7 +62,6 @@ spec:
     singular: tlsoption
   scope: Namespaced
 ---
-# Source: traefik/templates/crd/traefikservices.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -81,7 +75,6 @@ spec:
     singular: traefikservice
   scope: Namespaced
 ---
-# Source: traefik/templates/rbac/clusterrole.yaml
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -125,7 +118,6 @@ rules:
       - list
       - watch
 ---
-# Source: traefik/templates/rbac/clusterrolebinding.yaml
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -139,7 +131,6 @@ subjects:
   name: traefik
   namespace: traefik
 ---
-# Source: traefik/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -166,7 +157,18 @@ spec:
     name: traefik
     targetPort: "traefik"
 ---
-# Source: traefik/templates/deployment.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: traefik-data
+  namespace: traefik
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -191,10 +193,35 @@ spec:
     spec:
       serviceAccountName: traefik
       terminationGracePeriodSeconds: 60
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: traefik-data
       containers:
       - image: traefik:2.1.4
         name: traefik
-        resources:
+        args:
+          - "--accesslog=true"
+          - "--api.dashboard=true"
+          - "--api.insecure=true"
+          - "--entryPoints.http.address=:80"
+          - "--entryPoints.https.address=:443"
+          - "--entryPoints.traefik.address=:9000"
+          - "--global.checknewversion=false"
+          - "--global.sendanonymoususage=false"
+          - "--log.level=DEBUG"
+          - "--metrics.prometheus=true"
+          - "--ping=true"
+          - "--providers.kubernetescrd"
+          - "--providers.kubernetesingress=true"
+          - "--serversTransport.insecureSkipVerify=true"
+          #- "--certificatesResolvers.sample.acme.email=spam@6shore.net"
+          #- "--certificatesResolvers.sample.acme.storage=/data/acme.json"
+          #- "--certificatesResolvers.sample.acme.httpChallenge.entryPoint=web"
+          #- "--certificatesResolvers.sample.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+        volumeMounts:
+        - name: data
+          mountPath: /data/
         readinessProbe:
           httpGet:
             path: /ping
@@ -223,21 +250,6 @@ spec:
         - name: "websecure"
           containerPort: 443
           protocol: TCP
-        args:
-          - "--accesslog=true"
-          - "--api.dashboard=true"
-          - "--api.insecure=true"
-          - "--entryPoints.http.address=:80"
-          - "--entryPoints.https.address=:443"
-          - "--entryPoints.traefik.address=:9000"
-          - "--global.checknewversion=false"
-          - "--global.sendanonymoususage=false"
-          - "--log.level=DEBUG"
-          - "--metrics.prometheus=true"
-          - "--ping=true"
-          - "--providers.kubernetescrd"
-          - "--providers.kubernetesingress=true"
-          - "--serversTransport.insecureSkipVerify=true"
 ---
 apiVersion: v1
 kind: Secret
@@ -265,6 +277,7 @@ spec:
   entryPoints:
     - http
     - https
+  tls: {}
   routes:
   - match: HostRegexp(`traefik.{domain:.+}`)
     kind: Rule
