@@ -23,7 +23,7 @@ data:
   config.yml: |
     abc: 123
     password: datascript
-  option.color: white
+  color: white
 ---
 apiVersion: v1
 kind: Secret
@@ -95,7 +95,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: kad
-              key: option.color
+              key: color
         # variables from secret
         - name: USERNAME
           valueFrom:

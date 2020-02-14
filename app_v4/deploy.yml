@@ -42,7 +42,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: kad
-              key: option.color
+              key: color
         volumeMounts:
         # file will be /etc/kad/config.yml
         - name: config

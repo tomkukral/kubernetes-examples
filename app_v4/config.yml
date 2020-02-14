@@ -8,4 +8,4 @@ data:
     abc: 123
     password: datascript
     data: 2018-09-28
-  option.color: white
+  color: white

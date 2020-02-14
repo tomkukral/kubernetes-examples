@@ -12,7 +12,7 @@ data:
   config.yml: |
     abc: 123
     password: datascript
-  option.color: white
+  color: white
 ---
 apiVersion: v1
 kind: Secret

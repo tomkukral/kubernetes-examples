@@ -39,7 +39,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "kad.fullname" . }}-config
-                  key: option.color
+                  key: color
             # variables from secret
             - name: USERNAME
               valueFrom:
