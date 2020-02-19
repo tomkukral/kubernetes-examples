@@ -3,6 +3,8 @@ kind: Namespace
 metadata:
   name: traefik
   namespace: traefik
+  labels:
+    app: traefik
 ---
 kind: ServiceAccount
 apiVersion: v1

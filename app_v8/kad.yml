@@ -59,18 +59,18 @@ spec:
       initContainers:
       - name: connectivity-check
         image: tomkukral/kad
-        command: ["bash", "-c", "ping -c1 google.com"]
+        command: ["bash", "-c", "curl --fail https://1.1.1.1"]
       containers:
       - name: app
         image: tomkukral/kad
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
-        command: ["/bin/kad", "--color", "$(COLOR)", "--user", "$(USERNAME)"]
+        command: ["/bin/kad", "--color", "$(COLOR)"]
         env:
         # static configuration from yaml
         - name: REDIS_SERVER
-          value: redis-0.redis:6379
+          value: redis:6379
         # configuration from downward API
         - name: NODE_NAME
           valueFrom:
@@ -135,9 +135,9 @@ spec:
               port: 5001
         securityContext:
           allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - all
+          #capabilities:
+          #  drop:
+          #  - all
           procMount: Default
           readOnlyRootFilesystem: true
         volumeMounts:
@@ -155,3 +155,51 @@ spec:
           items:
           - key: config.yml
             path: config.yml
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: kad
+  namespace: kad
+spec:
+  podSelector:
+    matchLabels:
+      app: kad
+  policyTypes:
+  - Ingress
+  #- Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          app: traefik
+      podSelector:
+        matchLabels:
+          app: traefik
+    ports:
+    - protocol: TCP
+      port: 5000
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis
+    ports:
+    - protocol: TCP
+      port: 6379
+  # required by init container
+  - to:
+    - ipBlock:
+        cidr: 1.1.1.1/32
+    ports:
+    - protocol: TCP
+      port: 443
+  # required by init container
+  - to:
+    - ipBlock:
+        cidr: 10.96.0.10/32
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
