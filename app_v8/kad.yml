@@ -194,7 +194,7 @@ spec:
     ports:
     - protocol: TCP
       port: 443
-  # required by init container
+  # required for DNS server
   - to:
     - ipBlock:
         cidr: 10.96.0.10/32
