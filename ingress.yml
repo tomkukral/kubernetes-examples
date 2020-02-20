@@ -48,6 +48,11 @@ spec:
     services:
     - name: kad
       port: 80
+      # healthCheck isn't working in current traefik verion
+      healthCheck:
+        path: /check/ready
+        interval: "10s"
+        timeout: "1s"
 ---
 # Old definition used in traefik 1.7
 #apiVersion: extensions/v1beta1

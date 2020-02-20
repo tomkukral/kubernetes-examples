@@ -12,7 +12,7 @@ app_v4    | App with redis deployed in Kubernetes (in single pod, emptyDir stora
 app_v5    | App with redis deployed in Kubernetes (redis in second pod)
 app_v6    | App demonstrating configuration options
 app_v7    | App probes, resource limits, horizontal pod autoscaler
-app_v8    | Security contexts
+app_v8    | Security contexts, network policies
 
 
 ## Kubernetes manifests
