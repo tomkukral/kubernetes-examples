@@ -135,9 +135,9 @@ spec:
               port: 5001
         securityContext:
           allowPrivilegeEscalation: false
-          #capabilities:
-          #  drop:
-          #  - all
+          capabilities:
+            drop:
+            - all
           procMount: Default
           readOnlyRootFilesystem: true
         volumeMounts:
