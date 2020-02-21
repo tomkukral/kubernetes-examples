@@ -176,6 +176,9 @@ spec:
       podSelector:
         matchLabels:
           app: traefik
+    - namespaceSelector:
+        matchLabels:
+          app: prometheus
     ports:
     - protocol: TCP
       port: 5000
