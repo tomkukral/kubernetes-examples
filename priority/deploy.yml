@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: priority
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: priority
+  template:
+    metadata:
+      labels:
+        app: priority
+    spec:
+      containers:
+      - name: puase
+        image: k8s.gcr.io/pause:3.1
+        resources:
+          requests:
+            cpu: 600m
+          limits:
+            memory: 800Mi
