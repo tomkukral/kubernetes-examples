@@ -6,8 +6,8 @@ metadata:
   namespace: kad
 spec:
   rateLimit:
-      average: 100
-      burst: 50
+    average: 3
+    burst: 3
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
@@ -29,6 +29,18 @@ spec:
     - /kad
 ---
 apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: ipwhitelist
+spec:
+  ipWhiteList:
+    sourceRange:
+    - 193.71.191.150/32
+    ipStrategy:
+      excludedIPs:
+        - 192.168.0.0/16
+---
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: kad
@@ -39,20 +51,15 @@ spec:
     - https
   #tls: {}
   routes:
-  - match: HostRegexp(`kad.{domain:.+}`)
+  - match: HostRegexp(`kad.{domain:.+}`) || HostRegexp(`kad-testing.{domain:.+}`) 
     kind: Rule
     middlewares:
-    - name: ratelimit
-    - name: retry
-    - name: stripprefix
+    #- name: ratelimit
+    #- name: retry
+    #- name: ipwhitelist
     services:
     - name: kad
       port: 80
-      # healthCheck isn't working in current traefik verion
-      healthCheck:
-        path: /check/ready
-        interval: "10s"
-        timeout: "1s"
 ---
 # Old definition used in traefik 1.7
 #apiVersion: extensions/v1beta1
