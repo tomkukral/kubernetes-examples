@@ -35,7 +35,8 @@ metadata:
 spec:
   ipWhiteList:
     sourceRange:
-    - 193.71.191.150/32
+    #- 193.71.191.150/32
+    - ::1/128
     ipStrategy:
       excludedIPs:
         - 192.168.0.0/16
@@ -51,7 +52,7 @@ spec:
     - https
   #tls: {}
   routes:
-  - match: HostRegexp(`kad.{domain:.+}`) || HostRegexp(`kad-testing.{domain:.+}`) 
+  - match: HostRegexp(`kad.{domain:.+}`)
     kind: Rule
     middlewares:
     #- name: ratelimit
