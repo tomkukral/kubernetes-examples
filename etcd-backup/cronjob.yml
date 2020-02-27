@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   concurrencyPolicy: Forbid
-  schedule: "6 * * * *"
+  schedule: "*/10 * * * *"
   jobTemplate:
     spec:
       activeDeadlineSeconds: 300
@@ -14,7 +14,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: etcdctl
-            image: k8s.gcr.io/etcd:3.2.24
+            image: k8s.gcr.io/etcd:3.4.3
             command:
             - etcdctl
             - snapshot
@@ -32,7 +32,7 @@ spec:
             - name: ETCDCTL_API
               value: "3"
             - name: ETCDCTL_ENDPOINTS
-              value: https://ip-10-0-0-10.eu-central-1.compute.internal:2379,https://ip-10-0-0-11.eu-central-1.compute.internal:2379,https://ip-10-0-0-12.eu-central-1.compute.internal:2379
+              value: https://ip-10-0-0-10.eu-central-1.compute.internal:2379
             - name: ETCDCTL_CACERT
               value: /etc/kubernetes/pki/etcd/ca.crt
             - name: ETCDCTL_KEY
