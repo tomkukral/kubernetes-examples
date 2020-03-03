@@ -165,7 +165,7 @@ spec:
       app: kad
   policyTypes:
   - Ingress
-  - Egress
+  #- Egress
   ingress:
   - from:
     - namespaceSelector:
@@ -180,7 +180,7 @@ spec:
     ports:
     - protocol: TCP
       port: 5000
-  egress:
+  egress: 
   #- to:
   #  - podSelector:
   #      matchLabels:
@@ -189,18 +189,18 @@ spec:
   #  - protocol: TCP
   #    port: 6379
   ## required by init container
-  #- to:
-  #  - ipBlock:
-  #      cidr: 1.1.1.1/32
-  #  ports:
-  #  - protocol: TCP
-  #    port: 443
   - to:
     - ipBlock:
-        cidr: 0.0.0.0/0
+        cidr: 1.1.1.1/32
     ports:
     - protocol: TCP
-      port: 6379
+      port: 443
+  #- to:
+  #  - ipBlock:
+  #      cidr: 0.0.0.0/0
+  #  ports:
+  #  - protocol: TCP
+  #    port: 6379
   # required for DNS server
   #- to:
   #  - ipBlock:
