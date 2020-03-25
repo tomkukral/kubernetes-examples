@@ -32,14 +32,25 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: ipwhitelist
+  namespace: kad
 spec:
   ipWhiteList:
     sourceRange:
-    #- 193.71.191.150/32
+   # - 193.71.191.150/32
+    - 46.19.17.126/32
     - ::1/128
     ipStrategy:
       excludedIPs:
-        - 192.168.0.0/16
+      - 192.168.0.0/16
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: ba
+  namespace: kad
+spec:
+  basicAuth:
+    secret: htaccess
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -55,8 +66,9 @@ spec:
   - match: HostRegexp(`kad.{domain:.+}`)
     kind: Rule
     middlewares:
+    #- name: ba
     #- name: ratelimit
-    #- name: retry
+    - name: retry
     #- name: ipwhitelist
     services:
     - name: kad
