@@ -2,7 +2,6 @@ namespace: argocd
 resources:
 - deploy.yml
 - ingress.yml
-- applications.yml
 configMapGenerator:
 - name: argocd-cm
   behavior: merge

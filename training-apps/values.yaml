@@ -1,0 +1,3 @@
+server: https://api.c0.k8s.6shore.net:6443
+repoURL: https://github.com/tomkukral/kubernetes-examples
+project: default
