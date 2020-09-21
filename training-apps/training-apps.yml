@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: training-apps
+  name: training-apps-c0
   namespace: argocd
 spec:
   project: default
@@ -9,6 +9,16 @@ spec:
     repoURL: https://github.com/tomkukral/kubernetes-examples
     targetRevision: HEAD
     path: training-apps
+    helm:
+     values: |
+       server: https://api.c0.k8s.6shore.net:6443
   destination:
     server: https://api.c0.k8s.6shore.net:6443
     namespace: argocd
+  syncPolicy:
+   automated:
+     prune: true
+     selfHeal: true
+   syncOptions:
+   - Validate=false
+   - CreateNamespace=true
