@@ -1,0 +1,14 @@
+namespace: argocd
+resources:
+- deploy.yml
+- ingress.yml
+- applications.yml
+configMapGenerator:
+- name: argocd-cm
+  behavior: merge
+  literals:
+  # workshopSD
+  - admin.password=$2y$10$Ocea.3PFuCURQM8N4rFL/uqNYaavUAyW5YYqt2R1brkQFo.v0.vjW
+  files:
+  - repositories
+
