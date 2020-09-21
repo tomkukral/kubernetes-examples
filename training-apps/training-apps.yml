@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: training-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/tomkukral/kubernetes-examples
+    targetRevision: HEAD
+    path: training-apps
+  destination:
+    server: https://api.c0.k8s.6shore.net:6443
+    namespace: argocd

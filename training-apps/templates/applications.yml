@@ -4,7 +4,7 @@ metadata:
   name: argocd
   namespace: argocd
 spec:
-  project: {{ .Values.project }} default
+  project: {{ .Values.project }}
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
@@ -19,7 +19,7 @@ metadata:
   name: traefik
   namespace: argocd
 spec:
-  project: {{ .Values.project }} default
+  project: {{ .Values.project }}
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
@@ -34,14 +34,14 @@ metadata:
   name: nginx
   namespace: argocd
 spec:
-  project: {{ .Values.project }} default
+  project: {{ .Values.project }}
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
     path: nginx
   destination:
     server: {{ .Values.server }}
-    namespace: default
+    namespace:
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -49,14 +49,14 @@ metadata:
   name: metrics-server
   namespace: argocd
 spec:
-  project: {{ .Values.project }} default
+  project: {{ .Values.project }}
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
     path: nginx
   destination:
     server: {{ .Values.server }}
-    namespace: default
+    namespace:
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -64,7 +64,7 @@ metadata:
   name: etcd-backup
   namespace: argocd
 spec:
-  project: {{ .Values.project }} default
+  project: {{ .Values.project }}
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
@@ -79,7 +79,7 @@ metadata:
   name: prometheus
   namespace: argocd
 spec:
-  project: {{ .Values.project }} default
+  project: {{ .Values.project }}
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
