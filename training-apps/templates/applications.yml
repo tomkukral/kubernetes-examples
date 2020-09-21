@@ -17,6 +17,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: traefik
+  namespace: traefik
 spec:
   project: {{ .Values.project }} default
   source:
@@ -31,6 +32,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: nginx
+  namespace: default
 spec:
   project: {{ .Values.project }} default
   source:
@@ -45,6 +47,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: metrics-server
+  namespace: kube-system
 spec:
   project: {{ .Values.project }} default
   source:
@@ -59,6 +62,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: etcd-backup
+  namespace: kube-system
 spec:
   project: {{ .Values.project }} default
   source:
@@ -67,12 +71,13 @@ spec:
     path: etcd-backup
   destination:
     server: {{ .Values.server }}
-    namespace: default
+    namespace: kube-system
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: prometheus
+  namespace: prometheus
 spec:
   project: {{ .Values.project }} default
   source:
@@ -81,5 +86,5 @@ spec:
     path: prometheus
   destination:
     server: {{ .Values.server }}
-    namespace: default
+    namespace: prometheus
 ---
