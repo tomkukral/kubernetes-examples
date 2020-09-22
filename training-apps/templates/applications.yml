@@ -53,7 +53,7 @@ spec:
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
-    path: nginx
+    path: metrics-server
   destination:
     server: {{ .Values.server }}
     namespace: kube-system
