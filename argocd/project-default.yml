@@ -5,4 +5,4 @@ metadata:
   namespace: argocd
 spec:
   signatureKeys:
-  - 953AD75A472DA78A
+  - keyID: 953AD75A472DA78A
