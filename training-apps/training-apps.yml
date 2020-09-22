@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: training-apps-c0
+  name: training-apps
   namespace: argocd
 spec:
   project: default
@@ -11,14 +11,14 @@ spec:
     path: training-apps
     helm:
      values: |
-       server: https://api.c0.k8s.6shore.net:6443
+       server: https://kubernetes.default.svc
   destination:
-    server: https://api.c0.k8s.6shore.net:6443
+    server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
    automated:
      prune: true
      selfHeal: true
    syncOptions:
-   - Validate=false
+   - Validate=true
    - CreateNamespace=true

@@ -5,16 +5,21 @@ resources:
 - ingress.yml
 patchesStrategicMerge:
 - patch_server.yml
+- patch_approject_default.yml
 configMapGenerator:
+- name: argocd-gpg-keys-cm
+  behavior: merge
+  files:
+  - 953AD75A472DA78A
 - name: argocd-cm
+  behavior: merge
+  files:
+  - repositories
+secretGenerator:
+- name: argocd-secret
   behavior: merge
   literals:
   # workshopSD
   - admin.password=$2y$10$UwZ84ZgbjPxY3z6C4G8rt.MGZAwKCeugQf0ofkxDVeBlTVqn0lxzO
   files:
   - repositories
-- name: argocd-gpg-keys-cm
-  behavior: merge
-  files:
-  - 953AD75A472DA78A
-
