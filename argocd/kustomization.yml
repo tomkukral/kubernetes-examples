@@ -10,7 +10,7 @@ configMapGenerator:
 - name: argocd-gpg-keys-cm
   behavior: merge
   files:
-  - 953AD75A472DA78A
+  - 27AEE1EDDF7F3E5D
 - name: argocd-cm
   behavior: merge
   files:
