@@ -10,8 +10,10 @@ spec:
     targetRevision: HEAD
     path: training-apps
     helm:
-     values: |
-       server: https://kubernetes.default.svc
+      values: |
+        clusters: 
+        - c0
+        - c1
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
