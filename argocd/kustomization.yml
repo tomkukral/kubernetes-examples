@@ -3,9 +3,9 @@ resources:
 - namespace.yml
 - deploy.yml
 - ingress.yml
+- project-default.yml
 patchesStrategicMerge:
 - patch_server.yml
-- patch_approject_default.yml
 configMapGenerator:
 - name: argocd-gpg-keys-cm
   behavior: merge
