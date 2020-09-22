@@ -1,3 +1,4 @@
-server: https://api.c0.k8s.6shore.net:6443
+masterServer: https://kubernetes.default.svc
 repoURL: https://github.com/tomkukral/kubernetes-examples
 project: default
+clusters: []

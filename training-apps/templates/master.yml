@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  labels:
+    initial: "yes"
+spec:
+  project: {{ .Values.project }}
+  source:
+    repoURL: {{ .Values.repoURL }}
+    targetRevision: HEAD
+    path: argocd
+  destination:
+    server: {{ .Values.masterServer }}
+    namespace: argocd

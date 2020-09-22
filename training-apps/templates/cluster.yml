@@ -1,0 +1,56 @@
+{{- range .Values.clusters }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik-{{ . }}
+  namespace: argocd
+  labels:
+    initial: "yes"
+    cluster: "{{ . }}"
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: traefik
+  destination:
+    server: https://api.c{{ . }}.k8s.6shore.net:6443
+    namespace: traefik
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-{{ . }}
+  namespace: argocd
+  labels:
+    initial: "yes"
+    cluster: "{{ . }}"
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: nginx
+  destination:
+    server: https://api.c{{ . }}.k8s.6shore.net:6443
+    namespace: default
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metrics-server-{{ . }}
+  namespace: argocd
+  labels:
+    initial: "yes"
+    cluster: "{{ . }}"
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: metrics-server
+  destination:
+    server: https://api.c{{ . }}.k8s.6shore.net:6443
+    namespace: kube-system
+{{- end }}
