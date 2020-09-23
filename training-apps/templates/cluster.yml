@@ -53,4 +53,21 @@ spec:
   destination:
     server: https://api.{{ . }}.k8s.6shore.net:6443
     namespace: kube-system
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kad-v4-{{ . }}
+  namespace: argocd
+  labels:
+    cluster: "{{ . }}"
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: app_v4
+  destination:
+    server: https://api.{{ . }}.k8s.6shore.net:6443
+    namespace: kube-system
 {{- end }}
