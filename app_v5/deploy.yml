@@ -1,3 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kad
+  labels:
+    app: kad
 ---
 apiVersion: v1
 kind: Service
