@@ -1,4 +1,6 @@
 namespace: argocd
+commonLabels:
+  app.kubernetes.io/instance: argocd
 resources:
 - namespace.yml
 - deploy.yml
