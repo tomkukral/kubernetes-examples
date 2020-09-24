@@ -53,7 +53,6 @@ spec:
   destination:
     name: {{ . }}
     namespace: kube-system
-
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -68,6 +67,23 @@ spec:
     repoURL: {{ $.Values.repoURL }}
     targetRevision: HEAD
     path: app_v5
+  destination:
+    name: {{ . }}
+    namespace: kad
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kad-ingress-{{ . }}
+  namespace: argocd
+  labels:
+    cluster: "{{ . }}"
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: ingress
   destination:
     name: {{ . }}
     namespace: kad
