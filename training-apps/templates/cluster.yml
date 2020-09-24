@@ -8,6 +8,7 @@ metadata:
   labels:
     initial: "yes"
     cluster: "{{ . }}"
+    app: traefik
 spec:
   project: {{ $.Values.project }}
   source:
@@ -26,6 +27,7 @@ metadata:
   labels:
     initial: "yes"
     cluster: "{{ . }}"
+    app: nginx
 spec:
   project: {{ $.Values.project }}
   source:
@@ -44,6 +46,7 @@ metadata:
   labels:
     initial: "yes"
     cluster: "{{ . }}"
+    app: metrics-server
 spec:
   project: {{ $.Values.project }}
   source:
@@ -61,6 +64,7 @@ metadata:
   namespace: argocd
   labels:
     cluster: "{{ . }}"
+    app: kad
 spec:
   project: {{ $.Values.project }}
   source:
@@ -78,6 +82,7 @@ metadata:
   namespace: argocd
   labels:
     cluster: "{{ . }}"
+    app: kad-ingress
 spec:
   project: {{ $.Values.project }}
   source:
@@ -87,4 +92,22 @@ spec:
   destination:
     name: {{ . }}
     namespace: kad
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-{{ . }}
+  namespace: argocd
+  labels:
+    cluster: "{{ . }}"
+    app: prometheus
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: prometheus
+  destination:
+    name: {{ . }}
+    namespace: prometheus
 {{- end }}
