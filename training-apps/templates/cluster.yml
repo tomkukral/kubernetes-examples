@@ -57,10 +57,12 @@ spec:
     name: {{ . }}
     namespace: kube-system
 ---
+
+{{ range $i, $e := until 8 }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kad-v5-{{ . }}
+  name: kad-v{{ $i }}-{{ . }}
   namespace: argocd
   labels:
     cluster: "{{ . }}"
@@ -70,11 +72,12 @@ spec:
   source:
     repoURL: {{ $.Values.repoURL }}
     targetRevision: HEAD
-    path: app_v5
+    path: app_v{{ $i }}
   destination:
     name: {{ . }}
     namespace: kad
 ---
+{{ end }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
