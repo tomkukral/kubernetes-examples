@@ -8,7 +8,7 @@ metadata:
   name: traefik-{{ $cluster }}
   namespace: argocd
   labels:
-    initial: yes
+    initial: "yes"
     cluster: {{ $cluster }}
     app: traefik
 spec:
@@ -27,7 +27,7 @@ metadata:
   name: nginx-{{ $cluster }}
   namespace: argocd
   labels:
-    initial: yes
+    initial: "yes"
     cluster: {{ $cluster }}
     app: nginx
 spec:
@@ -46,7 +46,7 @@ metadata:
   name: metrics-server-{{ . }}
   namespace: argocd
   labels:
-    initial: yes
+    initial: "yes"
     cluster: {{ $cluster }}
     app: metrics-server
 spec:
