@@ -65,11 +65,12 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kad-v{{ $i }}-{{ . }}
+  name: kad-v{{ $i }}-{{ $cluster }}
   namespace: argocd
   labels:
     cluster: {{ $cluster }}
     app: kad
+    kad/version: "{{ $i }}"
 spec:
   project: {{ $.Values.project }}
   source:
