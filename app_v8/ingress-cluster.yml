@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kad-cluster
+  namespace: kad
+spec:
+  entryPoints:
+    - http
+    - https
+  routes:
+  - match: HostRegexp(`kad-cluster.{domain:.+}`)
+    kind: Rule
+    services:                                                                                                                
+    - name: kad
+      port: 80
