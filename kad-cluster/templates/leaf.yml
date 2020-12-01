@@ -19,4 +19,11 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kad
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true  
 {{- end }}
