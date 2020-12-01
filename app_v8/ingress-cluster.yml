@@ -13,3 +13,8 @@ spec:
     services:                                                                                                                
     - name: kad
       port: 80
+  - match: Host(`kad.6shore.net`)
+    kind: Rule
+    services:                                                                                                                
+    - name: kad
+      port: 80
