@@ -135,5 +135,22 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kad
-
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: policy-{{ $cluster }}
+  namespace: argocd
+  labels:
+    cluster: {{ $cluster }}
+    app: policy
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: policy
+  destination:
+    name: {{ $cluster }}
+    namespace: kad
 {{- end }}
