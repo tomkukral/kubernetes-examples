@@ -1,3 +1,4 @@
 clusters: []
 replicas: 4
 project: default
+repoURL: https://github.com/tomkukral/kubernetes-examples
