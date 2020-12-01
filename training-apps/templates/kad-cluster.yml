@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kad-cluster
+  namespace: argocd
+spec:
+  project: {{ .Values.project }}
+  source:
+    repoURL: {{ .Values.repoURL }}
+    targetRevision: HEAD
+    path: kad-cluster
+    helm:
+      values: |
+        clusters: {{ .Values.clusters }}
+        replicas: 3
+  destination:
+    server: {{ .Values.masterServer }}
+    namespace: argocd
