@@ -16,7 +16,7 @@ spec:
         clusters:
         {{- range $h, $cluster := .Values.clusters }}
         - {{ $cluster }}
-        {{- end }}} 
+        {{- end }} 
         replicas: 3
   destination:
     server: {{ .Values.masterServer }}
