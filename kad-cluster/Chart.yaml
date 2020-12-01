@@ -1,0 +1,7 @@
+apiVersion: v2
+name: kad-cluster
+description: 
+
+type: application
+version: 0.1.0
+appVersion: 1.16.0

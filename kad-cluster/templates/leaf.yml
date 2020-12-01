@@ -1,0 +1,22 @@
+{{- range $h, $cluster := .Values.clusters }}
+#
+# Cluster {{ $cluster }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kad-cluster-leaf-{{ $cluster }}
+  namespace: argocd
+  labels:
+    cluster: {{ $cluster }}
+    app: kad-cluster
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: app_v8
+  destination:
+    name: {{ $cluster }}
+    namespace: kad
+{{- end }}
