@@ -261,7 +261,7 @@ metadata:
   name: htaccess
   namespace: traefik
 data:
-  ht: ZGF0YXNjcmlwdDokYXByMSRxdndVQ3VVbCRPdmVKbFkzZnptMTkxY25zRTl1WDIxCg==
+  ht: Z2xhc3M6JGFwcjEkanZMTUhtREQkSmJUMzU0NEdpWHVXU2UwSVRCbXRBMQoK
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware

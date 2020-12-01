@@ -21,7 +21,7 @@ secretGenerator:
 - name: argocd-secret
   behavior: merge
   literals:
-  # workshopSD
-  - admin.password=$2y$10$UwZ84ZgbjPxY3z6C4G8rt.MGZAwKCeugQf0ofkxDVeBlTVqn0lxzO
+  # paper
+  - admin.password=$2y$05$alyL/ycP6XCft/nZaUUvA.knbSFWhx2PL1ZqZk3Ax0xvUSPMKZdCa
   files:
   - repositories
