@@ -117,4 +117,23 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: prometheus
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: limits-{{ $cluster }}
+  namespace: argocd
+  labels:
+    cluster: {{ $cluster }}
+    app: limits
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: limits
+  destination:
+    name: {{ $cluster }}
+    namespace: kad
+
 {{- end }}
