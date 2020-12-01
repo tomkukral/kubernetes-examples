@@ -13,7 +13,10 @@ spec:
     path: kad-cluster
     helm:
       values: |
-        clusters: {{ .Values.clusters }}
+        clusters:
+        {{- range $h, $cluster := .Values.clusters }}
+        - {{ $cluster }}
+        {{- end }}} 
         replicas: 3
   destination:
     server: {{ .Values.masterServer }}
