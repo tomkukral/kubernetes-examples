@@ -1,3 +1,13 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: retry
+  namespace: kad
+spec:
+  retry:
+    attempts: 3
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -10,11 +20,15 @@ spec:
   routes:
   - match: HostRegexp(`kad-cluster.{domain:.+}`)
     kind: Rule
+    middleware:
+    - name: retry
     services:                                                                                                                
     - name: kad
       port: 80
   - match: Host(`kad.6shore.net`)
     kind: Rule
+    middleware:
+    - name: retry
     services:                                                                                                                
     - name: kad
       port: 80
