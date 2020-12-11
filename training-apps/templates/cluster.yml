@@ -68,6 +68,27 @@ spec:
   - Validate=true
   - CreateNamespace=true
 ---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dashboard-{{ . }}
+  namespace: argocd
+  labels:
+    cluster: {{ $cluster }}
+    app: dashboard
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: dashboard
+  destination:
+    name: {{ $cluster }}
+    namespace: kubernetes-dashboard
+  syncOptions:
+  - Validate=true
+  - CreateNamespace=true
+---
 {{ range $n, $i := $.Values.kadApps }}
 # kad {{ $cluster }}-{{ $i }}
 apiVersion: argoproj.io/v1alpha1

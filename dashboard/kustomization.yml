@@ -1,0 +1,5 @@
+resources:
+- recommended.yaml
+#patchesStrategicMerge:
+#- patch_hostnetwork.yml
+#- patch_args.yml
