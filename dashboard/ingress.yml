@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauth
+spec:
+  basicAuth:
+    secret: htaccess
+    removeHeader: true
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+spec:
+  entryPoints:
+    - http
+    - https
+  #tls: {}
+  routes:
+  - match: HostRegexp(`dashboard.{domain:.+}`)
+    kind: Rule
+    middlewares:
+    - name: basicauth
+    services:
+    - name: kubernetes-dashboard
+      port: 443
+      scheme: https
