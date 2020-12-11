@@ -1,4 +1,4 @@
-namespace: kubernetes-dashboard
+#namespace: kubernetes-dashboard
 resources:
 #- networkpolicy.yml
 - secret-htaccess.yml
