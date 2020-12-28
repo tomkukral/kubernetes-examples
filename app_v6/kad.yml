@@ -54,7 +54,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
-        command: ["/bin/kad", "--color", "$(COLOR)", "--user", "$(USERNAME)"]
+        #command: ["/bin/kad", "--color", "$(COLOR)"]
         env:
         # static configuration from yaml
         - name: REDIS_SERVER

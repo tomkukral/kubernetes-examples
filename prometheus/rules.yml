@@ -9,6 +9,14 @@ data:
     groups:
     - name: node-exporter
       rules:
+      - alert: ApiserverMissing
+        expr: count(up{job="kubernetes-apiservers"}) != 3
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Apiserver is missing"
+
       - alert: TargetDown
         expr: "up != 1"
         for: 1m
