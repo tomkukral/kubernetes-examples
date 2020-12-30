@@ -159,17 +159,17 @@ spec:
     name: traefik
     targetPort: "traefik"
 ---
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: traefik-data
-  namespace: traefik
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+#kind: PersistentVolumeClaim
+#apiVersion: v1
+#metadata:
+#  name: traefik-data
+#  namespace: traefik
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -196,9 +196,9 @@ spec:
       serviceAccountName: traefik
       terminationGracePeriodSeconds: 60
       volumes:
-      - name: data
-        persistentVolumeClaim:
-          claimName: traefik-data
+      #- name: data
+      #  persistentVolumeClaim:
+      #    claimName: traefik-data
       containers:
       - image: traefik:2.1.4
         name: traefik
@@ -223,9 +223,9 @@ spec:
           #- "--certificatesResolvers.sample.acme.storage=/data/acme.json"
           #- "--certificatesResolvers.sample.acme.httpChallenge.entryPoint=web"
           #- "--certificatesResolvers.sample.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
-        volumeMounts:
-        - name: data
-          mountPath: /data/
+      #  volumeMounts:
+      #  - name: data
+      #    mountPath: /data/
         readinessProbe:
           httpGet:
             path: /ping
