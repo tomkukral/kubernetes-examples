@@ -1,0 +1,28 @@
+namespace: argo
+commonLabels:
+  app.kubernetes.io/instance: argo
+bases:
+- ../base
+resources:                                                                                                                     
+- deploy.yml
+- ingress.yml
+#- project-default.yml
+#patchesStrategicMerge:
+#- patch_server.yml
+#configMapGenerator:
+#- name: argocd-gpg-keys-cm
+#  behavior: merge
+#  files:
+#  - 953AD75A472DA78A
+#- name: argocd-cm
+#  behavior: merge
+#  files:
+#  - repositories
+#secretGenerator:
+#- name: argocd-secret
+#  behavior: merge
+#  literals:
+#  # paper
+#  - admin.password=$2y$05$alyL/ycP6XCft/nZaUUvA.knbSFWhx2PL1ZqZk3Ax0xvUSPMKZdCa
+#  files:
+#  - repositories

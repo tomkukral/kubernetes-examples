@@ -1,8 +1,9 @@
-namespace: argocd
+namespace: argo
 commonLabels:
   app.kubernetes.io/instance: argocd
+bases:
+- ../base
 resources:
-- namespace.yml
 - deploy.yml
 - ingress.yml
 - project-default.yml

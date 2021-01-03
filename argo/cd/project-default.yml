@@ -2,13 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: default
-  namespace: argocd
 spec:
   sourceRepos: ['*']
   destinations:
   - namespace: '*'
     server: '*'
-  signatureKeys:
-  - keyID: 953AD75A472DA78A
-  - keyID: 27AEE1EDDF7F3E5D
-
+  signatureKeys: []
+  #- keyID: 953AD75A472DA78A
+  #- keyID: 27AEE1EDDF7F3E5D

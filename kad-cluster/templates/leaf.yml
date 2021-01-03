@@ -6,7 +6,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kad-cluster-leaf-{{ $cluster }}
-  namespace: argocd
+  namespace: argo
   labels:
     cluster: {{ $cluster }}
     app: kad-cluster

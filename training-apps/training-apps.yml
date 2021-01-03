@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: training-apps
-  namespace: argocd
+  namespace: argo
 spec:
   project: default
   source:
@@ -16,7 +16,7 @@ spec:
         kadApps: [4, 5, 6, 7, 8]
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: argo
   syncPolicy:
    automated:
      prune: true

@@ -1,0 +1,38 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauth
+spec:
+  basicAuth:
+    secret: htaccess
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argo-server
+spec:
+  entrypoints:
+  - http
+  - https
+  routes:
+  # TODO: add basic auth
+  - kind: Rule
+    middlewares:
+    - name: basicauth
+    match: HostRegexp(`argo.{domain:.+}`)
+    priority: 10
+    services:
+    - name: argo-server
+      port: 2746
+  #- kind: Rule
+  #  #middlewares:
+  #  #- name: basicauth
+  #  match: HostRegexp(`argo.{domain:.+}`) && Headers(`Content-Type`, `application/grpc`)
+  #  priority: 11
+  #  services:
+  #  - name: argo-server
+  #    port: 2746
+  #    scheme: h2c
+  tls:
+    certResolver: default
+    options: {}

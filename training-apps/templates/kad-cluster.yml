@@ -2,7 +2,7 @@
 #kind: Application
 #metadata:
 #  name: kad-cluster
-#  namespace: argocd
+#  namespace: argo
 #  labels:
 #    app: kad-cluster
 #spec:
@@ -20,4 +20,4 @@
 #        replicas: 3
 #  destination:
 #    server: {{ .Values.masterServer }}
-#    namespace: argocd
+#    namespace: argo

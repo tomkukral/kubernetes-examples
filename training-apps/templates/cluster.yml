@@ -6,7 +6,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: traefik-{{ $cluster }}
-  namespace: argocd
+  namespace: argo
   labels:
     initial: "yes"
     cluster: {{ $cluster }}
@@ -28,7 +28,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: nginx-{{ $cluster }}
-  namespace: argocd
+  namespace: argo
   labels:
     initial: "yes"
     cluster: {{ $cluster }}
@@ -50,7 +50,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: metrics-server-{{ . }}
-  namespace: argocd
+  namespace: argo
   labels:
     initial: "yes"
     cluster: {{ $cluster }}
@@ -72,7 +72,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: dashboard-{{ . }}
-  namespace: argocd
+  namespace: argo
   labels:
     cluster: {{ $cluster }}
     app: dashboard
@@ -95,7 +95,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kad-v{{ $i }}-{{ $cluster }}
-  namespace: argocd
+  namespace: argo
   labels:
     cluster: {{ $cluster }}
     app: kad
@@ -118,7 +118,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kad-ingress-{{ . }}
-  namespace: argocd
+  namespace: argo
   labels:
     cluster: {{ $cluster }}
     app: kad-ingress
@@ -139,7 +139,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: prometheus-{{ $cluster }}
-  namespace: argocd
+  namespace: argo
   labels:
     cluster: {{ $cluster }}
     app: prometheus
@@ -157,7 +157,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: limits-{{ $cluster }}
-  namespace: argocd
+  namespace: argo
   labels:
     cluster: {{ $cluster }}
     app: limits
@@ -178,7 +178,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: policy-{{ $cluster }}
-  namespace: argocd
+  namespace: argo
   labels:
     cluster: {{ $cluster }}
     app: policy
