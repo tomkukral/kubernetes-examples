@@ -4,8 +4,9 @@ commonLabels:
 bases:
 - ../base
 resources:                                                                                                                     
-- deploy.yml
 - ingress.yml
+- quick-start-postgres.yaml
+#- deploy.yml
 #- project-default.yml
 #patchesStrategicMerge:
 #- patch_server.yml
