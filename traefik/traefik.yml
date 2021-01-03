@@ -41,6 +41,20 @@ spec:
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
+  name: ingressrouteudps.traefik.containo.us
+
+spec:
+  group: traefik.containo.us
+  version: v1alpha1
+  names:
+    kind: IngressRouteUDP
+    plural: ingressrouteudps
+    singular: ingressrouteudp
+  scope: Namespaced
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
   name: middlewares.traefik.containo.us
 spec:
   group: traefik.containo.us
@@ -75,6 +89,20 @@ spec:
     kind: TraefikService
     plural: traefikservices
     singular: traefikservice
+  scope: Namespaced
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: tlsstores.traefik.containo.us
+
+spec:
+  group: traefik.containo.us
+  version: v1alpha1
+  names:
+    kind: TLSStore
+    plural: tlsstores
+    singular: tlsstore
   scope: Namespaced
 ---
 kind: ClusterRole
@@ -112,8 +140,10 @@ rules:
     resources:
       - ingressroutes
       - ingressroutetcps
+      - ingressrouteudps
       - middlewares
       - tlsoptions
+      - tlsstores
       - traefikservices
     verbs:
       - get
@@ -200,7 +230,7 @@ spec:
       #  persistentVolumeClaim:
       #    claimName: traefik-data
       containers:
-      - image: traefik:2.1.4
+      - image: traefik:2.3
         name: traefik
         args:
           - "--accesslog=true"
@@ -213,11 +243,12 @@ spec:
           - "--entryPoints.traefik.address=:9000"
           - "--global.checknewversion=false"
           - "--global.sendanonymoususage=false"
+          - "--log=true"
           - "--log.level=DEBUG"
           - "--metrics.prometheus=true"
           - "--ping=true"
-          - "--providers.kubernetescrd"
-          - "--providers.kubernetesingress=true"
+          - "--providers.kubernetescrd=true"
+          - "--providers.kubernetesingress=false"
           - "--serversTransport.insecureSkipVerify=true"
           #- "--certificatesResolvers.sample.acme.email=spam@6shore.net"
           #- "--certificatesResolvers.sample.acme.storage=/data/acme.json"
@@ -283,10 +314,10 @@ spec:
     - https
   #tls: {}
   routes:
-  - match: HostRegexp(`traefik.{domain:.+}`)
+  - match: HostRegexp(`traefik.{domain:.+}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
     kind: Rule
     middlewares:
     - name: basicauth
     services:
-    - name: traefik
-      port: 9000
+    - name: api@internal
+      kind: TraefikService
