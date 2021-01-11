@@ -5,6 +5,7 @@ metadata:
 spec:
   basicAuth:
     secret: htaccess
+    removeHeader: true
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -12,7 +13,6 @@ metadata:
   name: argo-server
 spec:
   entrypoints:
-  - http
   - https
   routes:
   # TODO: add basic auth
@@ -33,6 +33,10 @@ spec:
   #  - name: argo-server
   #    port: 2746
   #    scheme: h2c
-  tls:
-    certResolver: default
-    options: {}
+  #tls:
+  #  certResolver: default
+  #  options: {}
+  #  domains:
+  #  - main: argo
+  #    sans:
+  #    - "argo.c0.k8s.6shore.net"

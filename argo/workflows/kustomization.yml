@@ -5,7 +5,7 @@ bases:
 - ../base
 resources:                                                                                                                     
 - ingress.yml
-- quick-start-postgres.yaml
+- deploy.yml
 #- deploy.yml
 #- project-default.yml
 #patchesStrategicMerge:
