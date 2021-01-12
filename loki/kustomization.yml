@@ -1,0 +1,14 @@
+namespace: loki
+resources:
+- namespace.yml
+- deploy.yml
+
+configMapGenerator:
+- name: loki
+  files:
+  - config.yml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    app: loki
+    generator: kustomize
