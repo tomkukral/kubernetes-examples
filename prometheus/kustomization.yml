@@ -1,0 +1,35 @@
+namespace: prometheus
+resources:
+- namespace.yml
+- rbac.yml
+- svc.yml
+- pvc.yml
+- be-deploy.yml
+- be-svc.yml
+- prometheus.yml
+- grafana.yml
+- ingress.yml
+- node-exporter-ds.yml
+
+configMapGenerator:
+- name: prometheus-config
+  files:
+  - prometheus.yml=prometheus-config.yml
+- name: prometheus-rules
+  files:
+  #- rules/etcd.yml
+  #- rules/kube-state-metrics.yml
+  - rules/node-exporter.yml
+  - rules/prometheus.yml
+- name: grafana-config
+  files:
+  - grafana.ini=grafana-config.ini
+  - datasources.yml=grafana-datasources.yml
+  - dashboards.yml=grafana-dashboards.yml
+- name: grafana-dashboards
+  files:
+  - 1860.json=grafana-dashboard-1860-min.json
+generatorOptions:
+  disableNameSuffixHash: false
+  labels:
+    generator: kustomize

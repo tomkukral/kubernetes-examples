@@ -1,0 +1,15 @@
+apiVersion: 1
+
+#deleteDatasources:
+#  - name: Graphite
+#    orgId: 1
+
+datasources:
+- name: Prometheus
+  type: prometheus
+  access: proxy
+  uid: d5a072db-807c-45dc-a7b0-099c1edc94aa
+  url: http://prometheus:9090
+  isDefault: true
+  version: 1
+  editable: true

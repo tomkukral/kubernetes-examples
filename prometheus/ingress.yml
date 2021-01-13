@@ -4,7 +4,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: htaccess
-  namespace: prometheus
 data:
   ht: Z2xhc3M6JGFwcjEkanZMTUhtREQkSmJUMzU0NEdpWHVXU2UwSVRCbXRBMQoK
 ---
@@ -12,7 +11,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: basicauth
-  namespace: prometheus
 spec:
   basicAuth:
     secret: htaccess
@@ -21,7 +19,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: basicauthremove
-  namespace: prometheus
 spec:
   basicAuth:
     removeHeader: true
@@ -31,7 +28,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: prometheus
-  namespace: prometheus
 spec:
   entryPoints:
     - http
@@ -49,7 +45,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: adminheader
-  namespace: prometheus
 spec:
   headers:
     accessControlAllowCredentials: false
@@ -60,7 +55,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: grafana
-  namespace: prometheus
 spec:
   entryPoints:
     - http

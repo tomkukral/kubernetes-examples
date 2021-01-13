@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
-  namespace: prometheus
 spec:
   replicas: 1
   selector:
@@ -21,6 +20,16 @@ spec:
       - name: config
         configMap:
           name: grafana-config
+          items:
+          - key: grafana.ini
+            path: grafana.ini
+          - key: datasources.yml
+            path: provisioning/datasources/prometheus.yml
+          - key: dashboards.yml
+            path: provisioning/dashboards/datascript.yml
+      - name: dashboards
+        configMap:
+          name: grafana-dashboard
       containers:
       - name: grafana
         image: grafana/grafana
@@ -29,12 +38,13 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /etc/grafana
+        - name: config
+          mountPath: /mnt/dashboards
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: grafana
-  namespace: prometheus
   annotations:
     prometheus.io/scrape: "true"
 spec:
