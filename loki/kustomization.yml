@@ -1,7 +1,8 @@
 namespace: loki
 resources:
 - namespace.yml
-- deploy.yml
+- loki.yml
+- promtail.yml
 
 configMapGenerator:
 - name: loki
