@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
-    path: argocd
+    path: argo/cd
   destination:
     server: {{ .Values.masterServer }}
-    namespace: argocd
+    namespace: argo
