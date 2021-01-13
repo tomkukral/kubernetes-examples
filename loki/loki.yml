@@ -92,7 +92,8 @@ metadata:
   namespace: default
   labels:
     app: loki
-  annotations: {}
+  annotations:
+    prometheus.io/scrape: "pod"
 spec:
   type: ClusterIP
   ports:
@@ -125,9 +126,6 @@ spec:
         app: loki
         name: loki
         release: loki
-      annotations:
-        prometheus.io/port: http-metrics
-        prometheus.io/scrape: "true"
     spec:
       serviceAccountName: loki
       securityContext:
