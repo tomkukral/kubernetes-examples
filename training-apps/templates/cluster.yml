@@ -156,6 +156,24 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: loki-{{ $cluster }}
+  namespace: argo
+  labels:
+    cluster: {{ $cluster }}
+    app: loki
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: loki
+  destination:
+    name: {{ $cluster }}
+    namespace: loki
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
   name: limits-{{ $cluster }}
   namespace: argo
   labels:
