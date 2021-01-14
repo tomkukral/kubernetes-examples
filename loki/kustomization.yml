@@ -7,8 +7,10 @@ resources:
 configMapGenerator:
 - name: loki
   files:
-  - config.yml
+  - config.yml=loki-config.yml
+- name: promtail
+  files:
+  - config.yml=promtail-config.yml
 generatorOptions:
   labels:
-    app: loki
     generator: kustomize
