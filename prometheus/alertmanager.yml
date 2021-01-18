@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: alertmanager-data
+      - name: config
+        configMap:
+          name: alertmanager-config
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager
+        args:
+        - --config.file=/etc/alertmanager/config.yml
+        - --storage.path=/data
+        #- --web.external-url=https://prometheus.6shore.net/alertmanager/
+        ports:
+        - containerPort: 9093
+          name: web
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: config
+          mountPath: /etc/alertmanager
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: alertmanager
+  annotations:
+    prometheus.io/scrape: "true"
+spec:
+  selector:
+    app: alertmanager
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: web

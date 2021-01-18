@@ -40,6 +40,34 @@ spec:
     services:
     - name: prometheus
       port: 9090
+
+  - match: HostRegexp(`grafana.{domain:.+}`)
+    kind: Rule
+    middlewares:
+    - name: basicauthremove
+    - name: adminheader
+    services:
+    - name: grafana
+      port: 80
+
+  - match: HostRegexp(`karma.{domain:.+}`)
+    kind: Rule
+    middlewares:
+    - name: basicauthremove
+    - name: adminheader
+    services:
+    - name: karma
+      port: 80
+
+  - match: HostRegexp(`alertmanager.{domain:.+}`)
+    kind: Rule
+    middlewares:
+    - name: basicauthremove
+    - name: adminheader
+    services:
+    - name: alertmanager
+      port: 80
+
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
@@ -50,22 +78,3 @@ spec:
     accessControlAllowCredentials: false
     customRequestHeaders:
       X-WEBAUTH-USER: "admin"
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: grafana
-spec:
-  entryPoints:
-    - http
-    - https
-  #tls: {}
-  routes:
-  - match: HostRegexp(`grafana.{domain:.+}`)
-    kind: Rule
-    middlewares:
-    - name: basicauthremove
-    - name: adminheader
-    services:
-    - name: grafana
-      port: 80

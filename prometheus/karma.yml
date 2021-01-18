@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karma
+  template:
+    metadata:
+      name: karma
+      labels:
+        app: karma
+    spec:
+      volumes:
+      - name: config
+        configMap:
+          name: karma-config
+      containers:
+      - name: karma
+        image: ghcr.io/prymitive/karma:v0.78
+        args:
+        - --config.file
+        - /etc/karma/config.yml
+        ports:
+        - containerPort: 8080
+          name: web
+        volumeMounts:
+        - name: config
+          mountPath: /etc/karma
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: karma
+  annotations:
+    prometheus.io/scrape: "true"
+spec:
+  selector:
+    app: karma
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: web

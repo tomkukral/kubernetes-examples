@@ -7,7 +7,9 @@ resources:
 - be-deploy.yml
 - be-svc.yml
 - prometheus.yml
+- alertmanager.yml
 - grafana.yml
+- karma.yml
 - ingress.yml
 - node-exporter-ds.yml
 
@@ -26,6 +28,12 @@ configMapGenerator:
   - grafana.ini=grafana-config.ini
   - datasources.yml=grafana-datasources.yml
   - dashboards.yml=grafana-dashboards.yml
+- name: karma-config
+  files:
+  - config.yml=karma-config.yml
+- name: alertmanager-config
+  files:
+  - config.yml=alertmanager-config.yml
 - name: grafana-dashboards
   files:
   - 1860.json=grafana-dashboard-1860-min.json
@@ -33,3 +41,6 @@ generatorOptions:
   disableNameSuffixHash: false
   labels:
     generator: kustomize
+#images:
+#- name: karma
+#  newTag: v0.78
