@@ -15,8 +15,9 @@ spec:
         app: grafana
 
     spec:
-      initContainers:
       volumes:
+      - name: dashboards
+        emptyDir: {}
       - name: config
         configMap:
           name: grafana-config
@@ -27,9 +28,16 @@ spec:
             path: provisioning/datasources/prometheus.yml
           - key: dashboards.yml
             path: provisioning/dashboards/datascript.yml
-      - name: dashboards
-        configMap:
-          name: grafana-dashboard
+      initContainers:
+      - name: copy-dashboards
+        image: tomkukral/kubernetes-mixin
+        command:
+        - bash 
+        - -c 
+        - "cp -v /data/grafana/* /mnt/dashboards/"
+        volumeMounts:
+        - name: dashboards
+          mountPath: /mnt/dashboards
       containers:
       - name: grafana
         image: grafana/grafana
@@ -38,7 +46,7 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /etc/grafana
-        - name: config
+        - name: dashboards
           mountPath: /mnt/dashboards
 ---
 kind: Service
