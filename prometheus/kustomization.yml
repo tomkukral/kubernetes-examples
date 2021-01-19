@@ -2,16 +2,18 @@ namespace: prometheus
 resources:
 - namespace.yml
 - rbac.yml
-- svc.yml
 - pvc.yml
+- ingress.yml
+- svc.yml
 - be-deploy.yml
 - be-svc.yml
 - prometheus.yml
 - alertmanager.yml
 - grafana.yml
 - karma.yml
-- ingress.yml
 - node-exporter-ds.yml
+- telegram-bot-sealed.yml
+- telegram-bot.yml
 
 configMapGenerator:
 - name: prometheus-config

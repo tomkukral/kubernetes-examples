@@ -60,4 +60,4 @@ receivers:
 - name: telegram
   webhook_configs:
   - send_resolved: true
-    url: 'http://telegram-bot:8009'
+    url: 'http://telegram-bot'

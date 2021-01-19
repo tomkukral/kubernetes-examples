@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegram-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telegram-bot
+  template:
+    metadata:
+      name: telegram-bot
+      labels:
+        app: telegram-bot
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: telegram-bot-data
+      #- name: config
+      #  configMap:
+      #    name: telegram-bot-config
+      containers:
+      - name: telegram-bot
+        image: metalmatze/alertmanager-bot:0.4.2
+        ports:
+        - containerPort: 8080
+          name: web
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        #- name: config
+        #  mountPath: /etc/telegram-bot
+        env:
+        - name: ALERTMANAGER_URL
+          value: http://alertmanager
+        - name: BOLT_PATH
+          value: /data/bolt.db
+        - name: STORE
+          value: bolt
+        - name: TELEGRAM_ADMIN
+          valueFrom:
+            secretKeyRef:
+              name: telegram-bot
+              key: admin
+        - name: TELEGRAM_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: telegram-bot
+              key: token
+        - name: LISTEN_ADDR
+          value: 0.0.0.0:8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: telegram-bot
+spec:
+  selector:
+    app: telegram-bot
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: web
