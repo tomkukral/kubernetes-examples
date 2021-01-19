@@ -1,0 +1,3 @@
+[submodule "prometheus/kubernetes-mixin"]
+	path = prometheus/kubernetes-mixin
+	url = https://github.com/kubernetes-monitoring/kubernetes-mixin.git
