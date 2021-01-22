@@ -22,13 +22,28 @@ spec:
       securityContext:
         runAsUser: 65534
         fsGroup: 65534
+      volumes:
+      - name: config
+        configMap:
+          name: prometheus-config
+      - name: rules-cm
+        configMap:
+          name: prometheus-rules
+      - name: rules-init
+        emptyDir: {}
+      - name: data
+        persistentVolumeClaim:
+          claimName: prometheus-data
       initContainers:
-      - name: chown
-        image: busybox
-        command: ["ls", "-lah", "/data"]
+      - name: copy-rules
+        image: tomkukral/kubernetes-mixin
+        command:
+        - bash 
+        - -c 
+        - "cp -v /data/prometheus/* /etc/prometheus/rules-init/"
         volumeMounts:
-        - name: data
-          mountPath: /data
+        - name: rules-init
+          mountPath: /etc/prometheus/rules-init/
       containers:
       - name: prometheus
         image: prom/prometheus
@@ -45,15 +60,7 @@ spec:
           mountPath: /data
         - name: config
           mountPath: /etc/prometheus/config
-        - name: rules
-          mountPath: /etc/prometheus/rules
-      volumes:
-      - name: config
-        configMap:
-          name: prometheus-config
-      - name: rules
-        configMap:
-          name: prometheus-rules
-      - name: data
-        persistentVolumeClaim:
-          claimName: prometheus-data
+        - name: rules-cm
+          mountPath: /etc/prometheus/rules-cm
+        - name: rules-init
+          mountPath: /etc/prometheus/rules-init

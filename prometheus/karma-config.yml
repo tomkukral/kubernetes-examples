@@ -29,6 +29,8 @@ ui:
   alertsPerGroup: 5
   collapseGroups: collapsedOnMobile
 alertAcknowledgement:
+  enabled: true
+  duration: 60m
 authentication:
   header:
     name: X-WEBAUTH-USER
