@@ -7,7 +7,7 @@ spec:
     - http
     - https
   routes:
-  - match: HostRegexp(`obj.{domain:.+}`)
+  - match: HostRegexp(`minio.{domain:.+}`)
     kind: Rule
     middlewares:
     #- name: basicauth

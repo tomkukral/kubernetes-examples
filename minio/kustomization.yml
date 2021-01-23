@@ -14,4 +14,4 @@ secretGenerator:
 - name: minio
   literals:
   - accesskey=glass
-  - secretkey=paperpaper
+  - secretkey=paper123

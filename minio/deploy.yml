@@ -159,8 +159,6 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: minio-update-prometheus-secret
-    # TODO: does it works with kustomize?
-    #namespace: "default"
 ---
 apiVersion: v1
 kind: Service
