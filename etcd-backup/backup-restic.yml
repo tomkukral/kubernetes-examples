@@ -1,0 +1,73 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: etcd-backup
+spec:
+  concurrencyPolicy: Forbid
+  schedule: '16 * * * *'
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 300
+      template:
+        metadata:
+          labels:
+            name: etcd-backup
+        spec:
+          restartPolicy: Never
+          volumes:
+          - name: data
+            emptyDir: {}
+          - name: certs
+            hostPath:
+              path: /etc/kubernetes/pki/
+          initContainers:
+          - name: etcd-backup
+            image: k8s.gcr.io/etcd:3.4.3
+            command:
+            - /bin/sh
+            - -ce
+            - etcdctl snapshot save /data/backup.db
+            env: &env
+            - name: HOSTNAME
+              value: "etcd-backup"
+            # etcd variables
+            - name: ETCDCTL_API
+              value: "3"
+            - name: ETCDCTL_ENDPOINTS
+              value: https://ip-10-0-0-10.eu-central-1.compute.internal:2379
+            - name: ETCDCTL_CACERT
+              value: /etc/kubernetes/pki/etcd/ca.crt
+            - name: ETCDCTL_KEY
+              value: /etc/kubernetes/pki/apiserver-etcd-client.key
+            - name: ETCDCTL_CERT
+              value: /etc/kubernetes/pki/apiserver-etcd-client.crt
+
+            # restic variables
+            # TODO: this should be moved to sealed secret
+            - name: AWS_ACCESS_KEY_ID
+              value: glass
+            - name: AWS_SECRET_ACCESS_KEY
+              value: paper123
+            - name: RESTIC_REPOSITORY
+              value: s3:http://minio.minio.svc/etcd-backup
+            - name: RESTIC_PASSWORD
+              value: zuTeizaeng4Quuaheereofoh2yae5mael1aci3ieFuZaece0ezae7eePhoo4Iepi
+            volumeMounts: &mounts
+            - name: data
+              mountPath: /data
+            - name: certs
+              mountPath: /etc/kubernetes/pki/
+          containers:
+          - name: restic-backup
+            image: restic/restic:0.11.0
+            command:
+            - /bin/sh
+            - -cxe
+            - restic cat config > /dev/null || restic init;
+              restic backup --host etcd --verbose --tag kubernetes-etcd /data;
+              restic forget --keep-last 10 --keep-hourly 1 --keep-daily 1 --keep-weekly 1 --keep-monthly 1 --keep-yearly 1;
+              restic snapshots;
+              restic prune;
+            env: *env
+            volumeMounts: *mounts
