@@ -27,6 +27,28 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: sealed-secrets-{{ $cluster }}
+  namespace: argo
+  labels:
+    initial: "yes"
+    cluster: {{ $cluster }}
+    app: sealed-secrets
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: sealed-secrets
+  destination:
+    name: {{ $cluster }}
+    namespace: kube-system
+  syncOptions:
+  - Validate=true
+  - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
   name: nginx-{{ $cluster }}
   namespace: argo
   labels:
