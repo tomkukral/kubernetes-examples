@@ -13,4 +13,4 @@ spec:
     #- name: basicauth
     services:
     - name: minio
-      port: 9000
+      port: 80
