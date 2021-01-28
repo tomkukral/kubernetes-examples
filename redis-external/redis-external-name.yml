@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: kad
+spec:                                                                                        
+  type: ExternalName
+  externalName: c0.k8s.6shore.net
