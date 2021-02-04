@@ -314,7 +314,8 @@ spec:
     - https
   #tls: {}
   routes:
-  - match: HostRegexp(`traefik.{domain:.+}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+  #- match: HostRegexp(`traefik.{domain:.+}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+  - match: HostRegexp(`traefik.{domain:.+}`) # || PathPrefix(`/api`))
     kind: Rule
     middlewares:
     - name: basicauth
