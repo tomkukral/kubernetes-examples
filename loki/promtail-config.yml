@@ -261,7 +261,7 @@ scrape_configs:
     - __meta_kubernetes_pod_container_name
     target_label: __path__
 
-- job_name: systemdd-journal
+- job_name: systemd-journal
   journal:
     max_age: 12h
     labels:

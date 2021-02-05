@@ -36,7 +36,22 @@ metadata:
   labels:
     app: promtail
   name: promtail
-  namespace: default
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: promtail
+  name: promtail-clusterrole
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources:
+  - nodes
+  - nodes/proxy
+  - services
+  - endpoints
+  - pods
+  verbs: ["get", "watch", "list"]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -45,9 +60,8 @@ metadata:
   labels:
     app: promtail
 subjects:
-  - kind: ServiceAccount
-    name: promtail
-    namespace: default
+- kind: ServiceAccount
+  name: promtail
 roleRef:
   kind: ClusterRole
   name: promtail-clusterrole
@@ -83,7 +97,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: promtail
-  namespace: default
   labels:
     app: promtail
   annotations: {}
