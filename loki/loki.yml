@@ -145,7 +145,6 @@ spec:
               mountPath: /etc/loki
             - name: storage
               mountPath: "/data"
-              subPath: 
           ports:
             - name: http-metrics
               containerPort: 3100
@@ -174,12 +173,10 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: storage
-      annotations:
-        {}
+      annotations: {}
     spec:
       accessModes:
         - ReadWriteOnce
       resources:
         requests:
           storage: "20Gi"
-      storageClassName:
