@@ -287,3 +287,28 @@ scrape_configs:
     replacement: blackbox-exporter
     action: replace
 
+
+- job_name: blackbox-icmp
+  params:
+    module:
+    - icmp
+  metrics_path: /probe
+  scrape_timeout: 5s
+  static_configs:
+  - targets:
+    - seznam.cz
+
+  relabel_configs:
+  - source_labels: [__address__]
+    target_label: __param_target
+    action: replace
+  - source_labels: [__param_target]
+    target_label: instance
+    action: replace
+  - source_labels: [__param_module]
+    target_label: module
+    action: replace
+  - target_label: __address__
+    replacement: blackbox-exporter
+    action: replace
+
