@@ -7,4 +7,5 @@ spec:
     app: blackbox-exporter
   ports:
   - protocol: TCP
-    port: 9115
+    targetPort: 9115
+    port: 80

@@ -22,8 +22,17 @@ spec:
       annotations:
         prometheus.io/scrape: "pod"
     spec:
+      volumes:
+      - name: config
+        configMap:
+          name: be-config
       containers:
       - name: blackbox-exporter
         image: prom/blackbox-exporter
+        args:
+        - --config.file=/etc/blackbox_exporter/config.yml
         ports:
         - containerPort: 9115
+        volumeMounts:
+        - name: config
+          mountPath: /etc/blackbox_exporter

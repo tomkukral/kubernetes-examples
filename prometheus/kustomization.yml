@@ -58,6 +58,9 @@ configMapGenerator:
   #- kubernetes-mixin/dashboards_out/scheduler.json
   #- kubernetes-mixin/dashboards_out/statefulset.json
   #- kubernetes-mixin/dashboards_out/workload-total.json
+- name: be-config
+  files:
+  - config.yml=be-config.yml
 generatorOptions:
   disableNameSuffixHash: false
   labels:

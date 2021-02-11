@@ -261,3 +261,29 @@ scrape_configs:
     action: replace
     target_label: kubernetes_name
 
+
+- job_name: blackbox-http
+  params:
+    module:
+    - http_2xx
+  metrics_path: /probe
+  scrape_timeout: 5s
+  static_configs:
+  - targets:
+    - https://www.datascript.cz
+    - https://www.kubernetes.io
+
+  relabel_configs:
+  - source_labels: [__address__]
+    target_label: __param_target
+    action: replace
+  - source_labels: [__param_target]
+    target_label: instance
+    action: replace
+  - source_labels: [__param_module]
+    target_label: module
+    action: replace
+  - target_label: __address__
+    replacement: blackbox-exporter
+    action: replace
+
