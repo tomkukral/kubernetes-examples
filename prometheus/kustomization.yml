@@ -40,24 +40,24 @@ configMapGenerator:
 - name: grafana-dashboards
   files:
   - 1860.json=grafana-dashboard-1860-min.json
-  #- rendered/dashboards/apiserver.json
-  #- rendered/dashboards/cluster-total.json
-  #- rendered/dashboards/controller-manager.json
-  #- rendered/dashboards/k8s-resources-cluster.json
-  #- rendered/dashboards/k8s-resources-namespace.json
-  #- rendered/dashboards/k8s-resources-node.json
-  #- rendered/dashboards/k8s-resources-pod.json
-  #- rendered/dashboards/k8s-resources-workload.json
-  #- rendered/dashboards/k8s-resources-workloads-namespace.json
-  #- rendered/dashboards/kubelet.json
-  #- rendered/dashboards/namespace-by-pod.json
-  #- rendered/dashboards/namespace-by-workload.json
-  #- rendered/dashboards/persistentvolumesusage.json
-  #- rendered/dashboards/pod-total.json
-  #- rendered/dashboards/proxy.json
-  #- rendered/dashboards/scheduler.json
-  #- rendered/dashboards/statefulset.json
-  #- rendered/dashboards/workload-total.json
+  #- kubernetes-mixin/dashboards_out/apiserver.json
+  #- kubernetes-mixin/dashboards_out/cluster-total.json
+  #- kubernetes-mixin/dashboards_out/controller-manager.json
+  #- kubernetes-mixin/dashboards_out/k8s-resources-cluster.json
+  #- kubernetes-mixin/dashboards_out/k8s-resources-namespace.json
+  #- kubernetes-mixin/dashboards_out/k8s-resources-node.json
+  #- kubernetes-mixin/dashboards_out/k8s-resources-pod.json
+  #- kubernetes-mixin/dashboards_out/k8s-resources-workload.json
+  #- kubernetes-mixin/dashboards_out/k8s-resources-workloads-namespace.json
+  #- kubernetes-mixin/dashboards_out/kubelet.json
+  #- kubernetes-mixin/dashboards_out/namespace-by-pod.json
+  #- kubernetes-mixin/dashboards_out/namespace-by-workload.json
+  #- kubernetes-mixin/dashboards_out/persistentvolumesusage.json
+  #- kubernetes-mixin/dashboards_out/pod-total.json
+  #- kubernetes-mixin/dashboards_out/proxy.json
+  #- kubernetes-mixin/dashboards_out/scheduler.json
+  #- kubernetes-mixin/dashboards_out/statefulset.json
+  #- kubernetes-mixin/dashboards_out/workload-total.json
 generatorOptions:
   disableNameSuffixHash: false
   labels:
