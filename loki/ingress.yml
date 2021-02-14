@@ -1,0 +1,42 @@
+---
+# htaccess file with demo credentials
+apiVersion: v1
+kind: Secret
+metadata:
+  name: htaccess
+data:
+  ht: Z2xhc3M6JGFwcjEkanZMTUhtREQkSmJUMzU0NEdpWHVXU2UwSVRCbXRBMQoK
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauth
+spec:
+  basicAuth:
+    secret: htaccess
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauthremove
+spec:
+  basicAuth:
+    removeHeader: true
+    secret: htaccess
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus
+spec:
+  entryPoints:
+    - http
+    - https
+  routes:
+  - match: HostRegexp(`loki.{domain:.+}`)
+    kind: Rule
+    middlewares:
+    - name: basicauth
+    services:
+    - name: loki
+      port: 3100

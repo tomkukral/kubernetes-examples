@@ -3,6 +3,7 @@ resources:
 - namespace.yml
 - loki.yml
 - promtail.yml
+- ingress.yml
 
 configMapGenerator:
 - name: loki
