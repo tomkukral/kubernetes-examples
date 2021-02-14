@@ -277,7 +277,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argoevents-{{ $cluster }}
+  name: argoworkflows-{{ $cluster }}
   namespace: argo
   labels:
     cluster: {{ $cluster }}
