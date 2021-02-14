@@ -4,24 +4,8 @@ bases:
 resources:                                                                                                                     
 - ingress.yml
 - deploy.yml
-#- deploy.yml
-#- project-default.yml
-#patchesStrategicMerge:
-#- patch_server.yml
-#configMapGenerator:
-#- name: argocd-gpg-keys-cm
-#  behavior: merge
-#  files:
-#  - 953AD75A472DA78A
-#- name: argocd-cm
-#  behavior: merge
-#  files:
-#  - repositories
-#secretGenerator:
-#- name: argocd-secret
-#  behavior: merge
-#  literals:
-#  # paper
-#  - admin.password=$2y$05$alyL/ycP6XCft/nZaUUvA.knbSFWhx2PL1ZqZk3Ax0xvUSPMKZdCa
-#  files:
-#  - repositories
+images:
+- name: argoproj/workflow-controller
+  digest: sha256:7c423df5f96569867bdb488452d283fc8f99d5454a3dfcdc5102bcb44524a785
+- name: argoproj/argocli
+  digest: sha256:eb82377da4909a4516b8254d9bdb8e9cf85c1ba6a1f1aaff945f6808f1300e7d
