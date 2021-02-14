@@ -20,9 +20,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: traefik
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -42,9 +43,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kube-system
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -64,9 +66,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: default
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -86,9 +89,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kube-system
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -107,9 +111,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kubernetes-dashboard
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 {{ range $n, $i := $.Values.kadApps }}
 # kad {{ $cluster }}-{{ $i }}
@@ -131,9 +136,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kad
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 {{ end }}
 apiVersion: argoproj.io/v1alpha1
@@ -153,9 +159,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kad
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -174,6 +181,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: prometheus
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -192,6 +203,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: minio
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -210,6 +225,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: loki
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -228,9 +247,10 @@ spec:
   destination:
     name: {{ $cluster }}
     namespace: kad
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
