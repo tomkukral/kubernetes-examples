@@ -1,6 +1,4 @@
 namespace: argo
-commonLabels:
-  app.kubernetes.io/instance: argo
 bases:
 - ../base
 resources:                                                                                                                     
