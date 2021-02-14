@@ -1,0 +1,17 @@
+modules:
+  http_2xx:
+    prober: http
+  http_post_2xx:
+    prober: http
+    http:
+      method: POST
+  http_2xx_webcam:
+    prober: http
+    http:
+      valid_status_codes: [200,301]
+      method: GET
+      basic_auth:
+        username: openwrt
+        password: cinta
+  icmp:
+    prober: icmp
