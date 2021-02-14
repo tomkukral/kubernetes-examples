@@ -230,4 +230,70 @@ spec:
     - Validate=true
     - CreateNamespace=true
 ---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-{{ $cluster }}
+  namespace: argo
+  labels:
+    cluster: {{ $cluster }}
+    app: argocd
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: argo/cd
+  destination:
+    name: {{ $cluster }}
+    namespace: argo
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argoevents-{{ $cluster }}
+  namespace: argo
+  labels:
+    cluster: {{ $cluster }}
+    app: argoevents
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: argo/events
+  destination:
+    name: {{ $cluster }}
+    namespace: argo
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argoevents-{{ $cluster }}
+  namespace: argo
+  labels:
+    cluster: {{ $cluster }}
+    app: argoworkflows
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: argo/workflows
+  destination:
+    name: {{ $cluster }}
+    namespace: argo
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+---
 {{- end }}
