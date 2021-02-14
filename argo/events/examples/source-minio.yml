@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: minio
+spec:
+  minio:
+    example:
+      bucket:
+        name: test-bucket
+      endpoint: minio.minio.svc
+      events:
+        - s3:ObjectCreated:Put
+        - s3:ObjectRemoved:Delete
+      insecure: true
+      accessKey:
+        key: accesskey
+        name: my-minio-cred
+      secretKey:
+        key: secretkey
+        name: my-minio-cred
