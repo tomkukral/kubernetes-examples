@@ -4,8 +4,3 @@ bases:
 resources:                                                                                                                     
 - ingress.yml
 - deploy.yml
-images:
-- name: argoproj/workflow-controller
-  digest: sha256:7c423df5f96569867bdb488452d283fc8f99d5454a3dfcdc5102bcb44524a785
-- name: argoproj/argocli
-  digest: sha256:eb82377da4909a4516b8254d9bdb8e9cf85c1ba6a1f1aaff945f6808f1300e7d

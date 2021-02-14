@@ -133,14 +133,6 @@ metadata:
   name: argo-role
 rules:
 - apiGroups:
-  - coordination.k8s.io
-  resources:
-  - leases
-  verbs:
-  - create
-  - get
-  - update
-- apiGroups:
   - ""
   resources:
   - pods
@@ -459,23 +451,9 @@ subjects:
 ---
 apiVersion: v1
 data:
-  default-v1: |
-    archiveLogs: true
+  minio: |
     s3:
-      bucket: my-bucket
-      endpoint: minio:9000
-      insecure: true
-      accessKeySecret:
-        name: my-minio-cred
-        key: accesskey
-      secretKeySecret:
-        name: my-minio-cred
-        key: secretkey
-  empty: ""
-  my-key: |
-    archiveLogs: true
-    s3:
-      bucket: my-bucket
+      bucket: 
       endpoint: minio:9000
       insecure: true
       accessKeySecret:
@@ -486,8 +464,6 @@ data:
         key: secretkey
 kind: ConfigMap
 metadata:
-  annotations:
-    workflows.argoproj.io/default-artifact-repository: default-v1
   name: artifact-repositories
 ---
 apiVersion: v1
@@ -495,8 +471,8 @@ data:
   artifactRepository: |
     archiveLogs: true
     s3:
-      bucket: my-bucket
-      endpoint: minio:9000
+      bucket: argo-workflow
+      endpoint: minio.minio.svc:9000
       insecure: true
       accessKeySecret:
         name: my-minio-cred
@@ -583,8 +559,8 @@ metadata:
     app: minio
   name: my-minio-cred
 stringData:
-  accesskey: admin
-  secretkey: password
+  accesskey: glass
+  secretkey: paper123
 type: Opaque
 ---
 apiVersion: v1
@@ -661,7 +637,7 @@ spec:
         - server
         - --auth-mode
         - client
-        image: argoproj/argocli:latest
+        image: argoproj/argocli:v2.12.8
         name: argo-server
         ports:
         - containerPort: 2746
@@ -673,10 +649,6 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 20
-        securityContext:
-          capabilities:
-            drop:
-            - ALL
         volumeMounts:
         - mountPath: /tmp
           name: tmp
@@ -744,22 +716,21 @@ spec:
         - --configmap
         - workflow-controller-configmap
         - --executor-image
-        - argoproj/argoexec:latest
+        - argoproj/argoexec:v2.12.8
         - --namespaced
         command:
         - workflow-controller
-        env:
-        - name: LEADER_ELECTION_IDENTITY
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.name
-        image: argoproj/workflow-controller:latest
+        image: argoproj/workflow-controller:v2.12.8
+        livenessProbe:
+          httpGet:
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 30
+          periodSeconds: 30
         name: workflow-controller
-        securityContext:
-          capabilities:
-            drop:
-            - ALL
+        ports:
+        - containerPort: 9090
+          name: metrics
       nodeSelector:
         kubernetes.io/os: linux
       securityContext:
