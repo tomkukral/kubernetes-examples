@@ -281,3 +281,4 @@ scrape_configs:
 #      labels: 
 #        job: kubernetes-audit
 #        __path__: /var/log/kubernetes-audit/audit.log
+#        __host__: ${HOSTNAME}
