@@ -274,3 +274,10 @@ scrape_configs:
   - source_labels: ['__journal__systemd_unit']
     target_label: 'unit'
 
+#- job_name: kubernetes-audit
+#  static_configs: 
+#    - targets: 
+#        - localhost 
+#      labels: 
+#        job: kubernetes-audit
+#        __path__: /var/log/kubernetes-audit/audit.log
