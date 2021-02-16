@@ -5,7 +5,7 @@ datasources:
   type: prometheus
   access: proxy
   uid: d5a072db-807c-45dc-a7b0-099c1edc94aa
-  url: http://prometheus:9090
+  url: http://prometheus.prometheus.svc:9090
   isDefault: true
   version: 1
   editable: true
