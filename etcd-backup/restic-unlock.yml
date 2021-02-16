@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: restic-unlock
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      volumes:
+      - name: data
+        emptyDir: {}
+      - name: certs
+        hostPath:
+          path: /etc/kubernetes/pki/
+      containers:
+      - name: restic-backup
+        image: restic/restic:0.11.0
+        command:
+        - /bin/sh
+        - -cxe
+        - restic cat config > /dev/null || restic init;
+          restic unlock;
+        env:
+        - name: HOSTNAME
+          value: "etcd-backup"
+        # restic variables
+        # TODO: this should be moved to sealed secret
+        - name: AWS_ACCESS_KEY_ID
+          value: glass
+        - name: AWS_SECRET_ACCESS_KEY
+          value: paper123
+        - name: RESTIC_REPOSITORY
+          value: s3:http://minio.minio.svc/etcd-backup
+        - name: RESTIC_PASSWORD
+        # TODO: this shoudl be moved to sealed secret
+          value: zuTeizaeng4Quuaheereofoh2yae5mael1aci3ieFuZaece0ezae7eePhoo4Iepi
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: certs
+          mountPath: /etc/kubernetes/pki/
+
