@@ -70,17 +70,17 @@ spec:
     - -n 
     - argo
 ---
-apiVersion: tekton.dev/v1beta1
-kind: TaskRun
-metadata:
-  name: deploy-argocd
-  namespace: argo
-spec:
-  serviceAccountName: deploy-bot
-  taskRef:
-    name: deploy-argocd
-  resources:
-    inputs:
-    - name: kubernetes-examples
-      resourceRef:
-        name: kubernetes-examples
+#apiVersion: tekton.dev/v1beta1
+#kind: TaskRun
+#metadata:
+#  name: deploy-argocd
+#  namespace: argo
+#spec:
+#  serviceAccountName: deploy-bot
+#  taskRef:
+#    name: deploy-argocd
+#  resources:
+#    inputs:
+#    - name: kubernetes-examples
+#      resourceRef:
+#        name: kubernetes-examples
