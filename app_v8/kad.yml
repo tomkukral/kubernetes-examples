@@ -165,7 +165,7 @@ spec:
       app: kad
   policyTypes:
   - Ingress
-  - Egress
+  #- Egress
   ingress:
   - from:
     - namespaceSelector:
@@ -210,3 +210,10 @@ spec:
       port: 53
     - protocol: UDP
       port: 53
+  # kubernetes api
+  - to:
+    - ipBlock:
+        cidr: 10.96.0.1/32
+    ports:
+    - protocol: TCP
+      port: 443
