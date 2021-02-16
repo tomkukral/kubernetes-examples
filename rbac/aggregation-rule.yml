@@ -5,7 +5,9 @@ metadata:
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
-      rbac.example.com/aggregation-test: "true"
+      rbac.example.com/pods: "true"
+  - matchLabels:
+      rbac.example.com/creds: "true"
 rules: []
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -13,7 +15,7 @@ kind: ClusterRole
 metadata:
   name: secret-reader
   labels:
-    rbac.example.com/aggregation-test: "true"
+    rbac.example.com/creds: "true"
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
@@ -24,7 +26,7 @@ kind: ClusterRole
 metadata:
   name: configmap-reader
   labels:
-    rbac.example.com/aggregation-test: "true"
+    rbac.example.com/creds: "true"
 rules:
 - apiGroups: [""]
   resources: ["configmaps"]
@@ -35,7 +37,7 @@ kind: ClusterRole
 metadata:
   name: pod-reader
   labels:
-    rbac.example.com/aggregation-test: "true"
+    rbac.example.com/pods: "true"
 rules:
 - apiGroups: [""]
   resources: ["pods"]
