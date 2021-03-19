@@ -104,7 +104,10 @@ spec:
   selector:
     matchLabels:
       app: promtail
-  updateStrategy: {}
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 100%
   template:
     metadata:
       labels:
