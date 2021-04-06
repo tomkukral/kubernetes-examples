@@ -12,8 +12,11 @@ spec:
     helm:
       values: |
         replicas: 2
-    path: helm
+        clusters:
+        - c0
+    path: kad-cluster
     targetRevision: HEAD
+    repoURL: https://github.com/tomkukral/kubernetes-examples
   syncPolicy:
     automated:
       prune: true

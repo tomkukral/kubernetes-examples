@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: {{ $.Values.repoURL }}
     targetRevision: HEAD
-    path: app_v8
+    path: helm
   destination:
     name: {{ $cluster }}
     namespace: kad
