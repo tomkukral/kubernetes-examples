@@ -1,4 +1,4 @@
 clusters: []
-replicas: 4
+replicas: 1
 project: default
-repoURL: https://github.com/tomkukral/kubernetes-examples
+repoURL: https://gitlab.com/6shore.net/kad.git

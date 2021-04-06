@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kad
+  namespace: argo
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  project: default
+  source:
+    helm:
+      values: |
+        replicas: 2
+    path: helm
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
