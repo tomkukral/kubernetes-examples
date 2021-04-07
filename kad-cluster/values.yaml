@@ -1,4 +1,0 @@
-clusters: []
-replicas: 1
-project: default
-repoURL: https://gitlab.com/6shore.net/kad.git
