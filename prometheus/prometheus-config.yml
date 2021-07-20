@@ -34,6 +34,9 @@ scrape_configs:
   - role: pod
   tls_config:
     ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    # certificates from components aren't valid
+    insecure_skip_verify: true
+
   bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
 
   relabel_configs:
@@ -51,6 +54,8 @@ scrape_configs:
   - role: pod
   tls_config:
     ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    # certificates from components aren't valid
+    insecure_skip_verify: true
   bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
 
   relabel_configs:
