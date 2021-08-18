@@ -1,6 +1,5 @@
 namespace: loki
 resources:
-- namespace.yml
 - loki.yml
 #- promtail.yml
 #- ingress.yml
