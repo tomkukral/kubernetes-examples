@@ -62,7 +62,7 @@ spec:
               fieldPath: spec.nodeName
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis
   namespace: kad
@@ -70,19 +70,15 @@ spec:
   selector:
     matchLabels:
       app: redis
+  serviceName: redis
   replicas: 1
   template:
     metadata:
       labels:
         app: redis
-      annotations:
-        sidecar.istio.io/inject: "true"
     spec:
       containers:
       - name: redis
         image: redis
-        resources:
-          limits:
-            memory: 128Mi
         ports:
         - containerPort: 6379
