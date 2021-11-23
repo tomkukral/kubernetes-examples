@@ -39,7 +39,9 @@ metadata:
   name: kad
   namespace: kad
 spec:
-  replicas: 2
+  replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: kad
@@ -48,6 +50,13 @@ spec:
       labels:
         app: kad
     spec:
+      initContainers:
+      - name: init-file
+        image: debian
+        command: ["bash", "-c", "date | tee /data/init-$(date --iso-8601=seconds)"]
+        volumeMounts:
+        - name: data-storage
+          mountPath: /data/
       containers:
       - name: app
         image: tomkukral/kad
@@ -59,7 +68,7 @@ spec:
         # static configuration from yaml
         - name: REDIS_SERVER
           value: redis:6379
-        # configuraiton from downward API
+        # configuration from downward API
         - name: NODE_NAME
           valueFrom:
             fieldRef:
@@ -84,7 +93,12 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /etc/kad/
+        - name: data-storage
+          mountPath: /data/
       volumes:
+      - name: data-storage
+        persistentVolumeClaim:
+          claimName: kad-data
       - name: config
         configMap:
           name: kad
