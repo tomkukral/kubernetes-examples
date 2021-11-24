@@ -390,5 +390,3 @@ metadata:
 spec:
   attachRequired: true
   podInfoOnMount: false
-kind: List
-metadata: {}
