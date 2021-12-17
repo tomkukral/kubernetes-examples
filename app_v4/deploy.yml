@@ -19,7 +19,7 @@ metadata:
   name: kad
   namespace: kadsingle
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: kad
@@ -28,10 +28,16 @@ spec:
       labels:
         app: kad
     spec:
+      volumes:
+      - name: config
+        configMap:
+          name: kad
+          items:
+          - key: filecontent
+            path: config.yml
       containers:
       - name: app
         image: tomkukral/kad
-        imagePullPolicy: Always
         command: ["/bin/kad", "--color", "$(COLOR)"]
         ports:
         - containerPort: 5000
@@ -47,10 +53,4 @@ spec:
         # file will be /etc/kad/config.yml
         - name: config
           mountPath: /etc/kad/
-      volumes:
-      - name: config
-        configMap:
-          name: kad
-          items:
-          - key: filecontent
-            path: config.yml
+

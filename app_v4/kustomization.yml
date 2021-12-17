@@ -1,5 +1,0 @@
-commonLabels:
-  version: "4"
-resources:
-- config.yml
-- deploy.yml
