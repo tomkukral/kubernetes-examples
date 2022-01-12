@@ -5,6 +5,8 @@ metadata:
   name: kad
   namespace: kad
 spec:
+  type: NodePort
+  externalTrafficPolicy: Local
   selector:
     app: kad
   ports:
