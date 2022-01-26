@@ -4,7 +4,7 @@ metadata:
   name: etcd-backup
 spec:
   concurrencyPolicy: Forbid
-  schedule: '16 * * * *'
+  schedule: '*/5 * * * *'
   jobTemplate:
     spec:
       backoffLimit: 1
