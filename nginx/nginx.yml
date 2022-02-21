@@ -5,8 +5,8 @@ metadata:
   name: nginx
 spec:
   #type: ClusterIP
-  #type: NodePort
-  type: LoadBalancer
+  type: NodePort
+  #type: LoadBalancer
   selector:
     app: nginx
   ports:
@@ -20,8 +20,8 @@ metadata:
   name: nginx-debug
 spec:
   #type: ClusterIP
-  #type: NodePort
-  type: LoadBalancer
+  type: NodePort
+  #type: LoadBalancer
   selector:
     app: nginx
     debug: "yes"

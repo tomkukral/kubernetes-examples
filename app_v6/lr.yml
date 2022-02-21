@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: resource-limits
+  namespace: kad
+spec:
+  limits:
+  - default:
+      cpu: 50m
+      memory: 16Mi
+    defaultRequest:
+      cpu: 50m
+      memory: 16Mi
+    type: Container
