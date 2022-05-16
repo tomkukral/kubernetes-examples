@@ -24,6 +24,15 @@ spec:
         - c9
         - c10
         - c11
+        - c12
+        - c13
+        - c14
+        - c15
+        - c16
+        - c17
+        - c18
+        - c19
+        - c20
         kadApps: [4]
   destination:
     server: https://kubernetes.default.svc

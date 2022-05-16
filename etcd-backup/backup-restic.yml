@@ -75,7 +75,7 @@ spec:
             - -cxe
             - restic cat config > /dev/null || restic init;
               restic backup --host etcd --verbose --tag kubernetes-etcd /data;
-              restic forget --keep-last 10 --keep-hourly 1 --keep-daily 1 --keep-weekly 1 --keep-monthly 1 --keep-yearly 1;
+              restic forget --keep-last 2 --keep-hourly 1 --keep-daily 1 --keep-weekly 1 --keep-monthly 1 --keep-yearly 1;
               restic snapshots;
               restic prune;
             env: *env
