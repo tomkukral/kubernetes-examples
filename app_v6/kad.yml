@@ -98,8 +98,9 @@ spec:
           mountPath: /data/
       volumes:
       - name: data-storage
-        persistentVolumeClaim:
-          claimName: kad-data
+        emptyDir:
+        #persistentVolumeClaim:
+        #  claimName: kad-data
       - name: config
         configMap:
           name: kad
