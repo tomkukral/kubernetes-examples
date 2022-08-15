@@ -220,6 +220,10 @@ spec:
     name: websecure
     targetPort: "websecure"
     protocol: TCP
+  - port: 9000
+    name: traefik
+    targetPort: "traefik"
+    protocol: TCP
 ---
 apiVersion: v1
 kind: Secret
