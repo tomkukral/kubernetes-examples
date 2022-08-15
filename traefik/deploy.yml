@@ -1,3 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: traefik
+  namespace: traefik
+  labels:
+    app: traefik
 ---
 # Source: traefik/templates/rbac/serviceaccount.yaml
 kind: ServiceAccount
