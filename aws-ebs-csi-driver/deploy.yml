@@ -14,8 +14,6 @@ spec:
   selector:
     matchLabels:
       app: ebs-csi-controller
-      app.kubernetes.io/name: aws-ebs-csi-driver
-      app.kubernetes.io/instance: aws-ebs-csi-driver
   maxUnavailable: 1
 ---
 # Source: aws-ebs-csi-driver/templates/serviceaccount-csi-controller.yaml
@@ -303,8 +301,6 @@ spec:
   selector:
     matchLabels:
       app: ebs-csi-node
-      app.kubernetes.io/name: aws-ebs-csi-driver
-      app.kubernetes.io/instance: aws-ebs-csi-driver
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 10%
@@ -450,8 +446,6 @@ spec:
   selector:
     matchLabels:
       app: ebs-csi-controller
-      app.kubernetes.io/name: aws-ebs-csi-driver
-      app.kubernetes.io/instance: aws-ebs-csi-driver
   template:
     metadata:
       labels:
