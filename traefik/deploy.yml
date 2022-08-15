@@ -11,6 +11,7 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: traefik
+  namespace: traefik
   labels:
     app.kubernetes.io/name: traefik
   annotations:
@@ -219,8 +220,6 @@ spec:
     name: websecure
     targetPort: "websecure"
     protocol: TCP
----
-
 ---
 apiVersion: v1
 kind: Secret
