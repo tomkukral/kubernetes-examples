@@ -59,10 +59,10 @@ spec:
       #          values:
       #          - kad
       #      topologyKey: "kubernetes.io/hostname"
-      initContainers:
-      - name: connectivity-check
-        image: tomkukral/kad
-        command: ["bash", "-c", "ping -c1 google.com"]
+      #initContainers:
+      #- name: connectivity-check
+      #  image: tomkukral/kad
+      #  command: ["bash", "-c", "ping -c1 google.com"]
       containers:
       - name: app
         image: tomkukral/kad
