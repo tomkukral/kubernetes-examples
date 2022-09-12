@@ -13,7 +13,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: etcdctl
-        image: k8s.gcr.io/etcd:3.4.3
+        image: k8s.gcr.io/etcd:3.5.0-0
         command:
         - etcdctl
         - snapshot
