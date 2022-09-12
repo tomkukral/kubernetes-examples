@@ -12,10 +12,10 @@ kind: IngressRoute
 metadata:
   name: argo-server
 spec:
-  entrypoints:
+  entryPoints:
   - https
+  - http
   routes:
-  # TODO: add basic auth
   - kind: Rule
     middlewares:
     - name: basicauth
