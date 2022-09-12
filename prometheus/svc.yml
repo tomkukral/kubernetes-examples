@@ -5,6 +5,7 @@ metadata:
   annotations:
     prometheus.io/scrape: "true"
 spec:
+  type: NodePort
   selector:
     app: prometheus
   ports:

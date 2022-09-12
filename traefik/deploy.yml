@@ -1,0 +1,263 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: traefik
+  namespace: traefik
+  labels:
+    app: traefik
+---
+# Source: traefik/templates/rbac/serviceaccount.yaml
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+  annotations:
+---
+# Source: traefik/templates/rbac/clusterrole.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses
+      - ingressclasses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses/status
+    verbs:
+      - update
+  - apiGroups:
+      - traefik.containo.us
+    resources:
+      - ingressroutes
+      - ingressroutetcps
+      - ingressrouteudps
+      - middlewares
+      - middlewaretcps
+      - tlsoptions
+      - tlsstores
+      - traefikservices
+      - serverstransports
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: traefik/templates/rbac/clusterrolebinding.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: traefik
+subjects:
+  - kind: ServiceAccount
+    name: traefik
+    namespace: traefik
+---
+# Source: traefik/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: traefik
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 0
+  template: 
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "9100"
+      labels:
+        app.kubernetes.io/name: traefik
+    spec:
+      serviceAccountName: traefik
+      terminationGracePeriodSeconds: 60
+      hostNetwork: false
+      containers:
+      - image: "traefik:2.8.0"
+        imagePullPolicy: IfNotPresent
+        name: traefik
+        resources:
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+          failureThreshold: 1
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        ports:
+        - name: "metrics"
+          containerPort: 9100
+          protocol: "TCP"
+        - name: "traefik"
+          containerPort: 9000
+          protocol: "TCP"
+        - name: "web"
+          containerPort: 8000
+          protocol: "TCP"
+        - name: "websecure"
+          containerPort: 8443
+          protocol: "TCP"
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: tmp
+            mountPath: /tmp
+        args:
+          - "--accesslog=true"
+          - "--api.dashboard=true"
+          - "--api.insecure=true"
+          - "--entryPoints.http.address=:8000"
+          - "--entryPoints.http.forwardedHeaders.insecure"
+          - "--entryPoints.https.address=:8443"
+          - "--entryPoints.https.forwardedHeaders.insecure"
+          - "--entryPoints.traefik.address=:9000"
+
+          - "--global.checknewversion=false"
+          - "--global.sendanonymoususage=false"
+
+          - "--log=true"
+          - "--log.level=DEBUG"
+          - "--metrics.prometheus=true"
+          - "--ping=true"
+          - "--providers.kubernetescrd=true"
+          - "--providers.kubernetesingress=false"
+          - "--serversTransport.insecureSkipVerify=true"
+          #- "--certificatesResolvers.sample.acme.email=spam@6shore.net"
+          #- "--certificatesResolvers.sample.acme.storage=/data/acme.json"
+          #- "--certificatesResolvers.sample.acme.httpChallenge.entryPoint=web"
+          #- "--certificatesResolvers.sample.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+      securityContext:
+        fsGroup: 65532
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9000"
+spec:
+  type: ClusterIP
+  clusterIP: 10.96.0.11
+  selector:
+    app.kubernetes.io/name: traefik
+  ports:
+  - port: 80
+    name: web
+    targetPort: "web"
+    protocol: TCP
+  - port: 443
+    name: websecure
+    targetPort: "websecure"
+    protocol: TCP
+  - port: 9000
+    name: traefik
+    targetPort: "traefik"
+    protocol: TCP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: htaccess
+  namespace: traefik
+data:
+  ht: Z2xhc3M6JGFwcjEkanZMTUhtREQkSmJUMzU0NEdpWHVXU2UwSVRCbXRBMQoK
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basicauth
+  namespace: traefik
+spec:
+  basicAuth:
+    secret: htaccess
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: traefik
+spec:
+  entryPoints:
+    - http
+    - https
+  #tls: {}
+  routes:
+  #- match: HostRegexp(`traefik.{domain:.+}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+  - match: HostRegexp(`traefik.{domain:.+}`) # || PathPrefix(`/api`))
+    kind: Rule
+    middlewares:
+    - name: basicauth
+    services:
+    - name: api@internal
+      kind: TraefikService

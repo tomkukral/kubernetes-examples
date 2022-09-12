@@ -6,7 +6,7 @@ metadata:
   namespace: kad
 spec:
   type: NodePort
-  externalTrafficPolicy: Local
+  #externalTrafficPolicy: Local
   selector:
     app: kad
   ports:
@@ -59,17 +59,17 @@ spec:
       #          values:
       #          - kad
       #      topologyKey: "kubernetes.io/hostname"
-      initContainers:
-      - name: connectivity-check
-        image: tomkukral/kad
-        command: ["bash", "-c", "ping -c1 google.com"]
+      #initContainers:
+      #- name: connectivity-check
+      #  image: tomkukral/kad
+      #  command: ["bash", "-c", "ping -c1 google.com"]
       containers:
       - name: app
         image: tomkukral/kad
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
-        command: ["/bin/kad", "--color", "$(COLOR)", "--failure-probability", "0.3"]
+        command: ["/bin/kad", "--color", "$(COLOR)"]
         env:
         # static configuration from yaml
         - name: REDIS_SERVER
