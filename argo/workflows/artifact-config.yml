@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    app: minio
+  name: my-minio-cred
+stringData:
+  accesskey: glass
+  secretkey: paper123
+type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: artifact-repositories
+  annotations:
+    workflows.argoproj.io/default-artifact-repository: minio
+data:
+  minio: |
+    s3:
+      bucket: argo-workflow
+      endpoint: minio.minio.svc
+      insecure: true
+      accessKeySecret:
+        name: my-minio-cred
+        key: accesskey
+      secretKeySecret:
+        name: my-minio-cred
+        key: secretkey
+
+
