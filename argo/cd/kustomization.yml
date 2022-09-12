@@ -16,6 +16,10 @@ configMapGenerator:
   behavior: merge
   files:
   - repositories
+- name: argocd-cmd-params-cm
+  behavior: merge
+  literals:
+  - server.insecure=true
 secretGenerator:
 - name: argocd-secret
   behavior: merge
