@@ -3,6 +3,11 @@ kind: EventSource
 metadata:
   name: webhook
 spec:
+  #template:
+  #  securityContext:
+  #    sysctls:
+  #    - name: fs.file-max
+  #      value: "your-value"
   service:
     ports:
     - port: 12000
