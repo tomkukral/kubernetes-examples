@@ -23,7 +23,7 @@ metadata:
   name: tekton-dashboard
   namespace: tekton-pipelines
 spec:
-  entrypoints:
+  entryPoints:
   - http
   - https
   routes:
