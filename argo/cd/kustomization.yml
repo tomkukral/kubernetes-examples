@@ -28,3 +28,8 @@ secretGenerator:
   - admin.password=$2y$05$alyL/ycP6XCft/nZaUUvA.knbSFWhx2PL1ZqZk3Ax0xvUSPMKZdCa
   files:
   - repositories
+
+images:
+- name: quay.io/argoproj/argocd
+  newName: quay.io/argoproj/argocd
+  newTag: v2.4.11

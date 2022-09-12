@@ -3,6 +3,9 @@ kind: AppProject
 metadata:
   name: default
 spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
   sourceRepos: ['*']
   destinations:
   - namespace: '*'
