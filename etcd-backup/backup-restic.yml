@@ -23,7 +23,7 @@ spec:
               path: /etc/kubernetes/pki/
           initContainers:
           - name: etcd-backup
-            image: k8s.gcr.io/etcd:3.4.3
+            image: k8s.gcr.io/etcd:3.5.0-0
             command:
             - /bin/sh
             - -ce
