@@ -6,6 +6,5 @@ metadata:
 data:
   filecontent: |
     abc: 123
-    password: datascript
-    data: 2018-09-28
-  color: blue
+    data: 2022-10-12
+  color: white
