@@ -130,9 +130,6 @@ spec:
               mountPath: /etc/promtail
             - name: run
               mountPath: /run/promtail
-            - mountPath: /var/lib/docker/containers
-              name: docker
-              readOnly: true
             - mountPath: /var/log/pods
               name: pods
               readOnly: true
@@ -183,9 +180,6 @@ spec:
         - name: run
           hostPath:
             path: /run/promtail
-        - hostPath:
-            path: /var/lib/docker/containers
-          name: docker
         - hostPath:
             path: /var/log/pods
           name: pods
