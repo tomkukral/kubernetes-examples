@@ -20,13 +20,13 @@ spec:
     requests:
       storage: 128Mi
 ---
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: telegram-bot-data
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 128Mi
+#kind: PersistentVolumeClaim
+#apiVersion: v1
+#metadata:
+#  name: telegram-bot-data
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 128Mi
