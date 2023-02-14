@@ -119,7 +119,7 @@ spec:
       serviceAccountName: promtail
       containers:
         - name: promtail
-          image: "grafana/promtail:2.1.0"
+          image: docker.io/grafana/promtail:2.1.0
           imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/promtail/config.yml

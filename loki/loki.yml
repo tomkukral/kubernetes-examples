@@ -135,7 +135,7 @@ spec:
       initContainers: []
       containers:
         - name: loki
-          image: "grafana/loki:2.1.0"
+          image: docker.io/grafana/loki:2.1.0
           imagePullPolicy: IfNotPresent
           args:
             - "-config.file=/etc/loki/config.yml"

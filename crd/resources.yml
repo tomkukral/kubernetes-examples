@@ -43,6 +43,6 @@ spec:
     spec:
       containers:
       - name: app
-        image: tomkukral/kad
+        image: docker.io/tomkukral/kad
         ports:
         - containerPort: 5000

@@ -37,7 +37,7 @@ spec:
             path: config.yml
       containers:
       - name: app
-        image: tomkukral/kad
+        image: docker.io/tomkukral/kad
         command: ["/bin/kad", "--color", "$(COLOR)"]
         ports:
         - containerPort: 5000

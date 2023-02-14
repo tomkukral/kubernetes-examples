@@ -14,7 +14,7 @@ spec:
           path: /etc/kubernetes/pki/
       containers:
       - name: restic-backup
-        image: restic/restic:0.11.0
+        image: docker.io/restic/restic:0.11.0
         command:
         - /bin/sh
         - -cxe

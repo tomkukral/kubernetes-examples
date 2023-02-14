@@ -57,11 +57,11 @@ spec:
         fsGroup: 1000
       initContainers:
       - name: connectivity-check
-        image: tomkukral/kad
+        image: docker.io/tomkukral/kad
         command: ["bash", "-c", "curl --fail https://1.1.1.1"]
       containers:
       - name: app
-        image: tomkukral/kad
+        image: docker.io/tomkukral/kad
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000

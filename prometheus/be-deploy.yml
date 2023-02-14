@@ -28,7 +28,7 @@ spec:
           name: be-config
       containers:
       - name: blackbox-exporter
-        image: prom/blackbox-exporter
+        image: docker.io/prom/blackbox-exporter
         args:
         - --config.file=/etc/blackbox_exporter/config.yml
         ports:

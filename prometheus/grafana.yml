@@ -30,7 +30,7 @@ spec:
             path: provisioning/dashboards/datascript.yml
       #initContainers:
       #- name: copy-dashboards
-      #  image: tomkukral/kubernetes-mixin
+      #  image: docker.io/tomkukral/kubernetes-mixin
       #  command:
       #  - bash 
       #  - -c 
@@ -40,7 +40,7 @@ spec:
       #    mountPath: /mnt/dashboards
       containers:
       - name: grafana
-        image: grafana/grafana
+        image: docker.io/grafana/grafana
         ports:
         - containerPort: 3000
         volumeMounts:

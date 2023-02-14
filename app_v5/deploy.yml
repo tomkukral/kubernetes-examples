@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: tomkukral/kad
+        image: docker.io/tomkukral/kad
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
@@ -80,6 +80,6 @@ spec:
     spec:
       containers:
       - name: redis
-        image: redis
+        image: docker.io/redis
         ports:
         - containerPort: 6379

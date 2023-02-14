@@ -23,7 +23,7 @@ spec:
           name: alertmanager-config
       containers:
       - name: alertmanager
-        image: prom/alertmanager
+        image: docker.io/prom/alertmanager
         args:
         - --config.file=/etc/alertmanager/config.yml
         - --storage.path=/data

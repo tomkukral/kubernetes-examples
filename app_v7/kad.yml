@@ -61,11 +61,11 @@ spec:
       #      topologyKey: "kubernetes.io/hostname"
       #initContainers:
       #- name: connectivity-check
-      #  image: tomkukral/kad
+      #  image: docker.io/tomkukral/kad
       #  command: ["bash", "-c", "ping -c1 google.com"]
       containers:
       - name: app
-        image: tomkukral/kad
+        image: docker.io/tomkukral/kad
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

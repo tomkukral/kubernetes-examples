@@ -36,7 +36,7 @@ spec:
           claimName: prometheus-data
       initContainers:
       - name: copy-rules
-        image: tomkukral/kubernetes-mixin
+        image: docker.io/tomkukral/kubernetes-mixin
         command:
         - bash 
         - -c 
@@ -46,7 +46,7 @@ spec:
           mountPath: /etc/prometheus/rules-init/
       containers:
       - name: prometheus
-        image: prom/prometheus
+        image: docker.io/prom/prometheus
         args:
         - --config.file=/etc/prometheus/config/prometheus.yml
         - --storage.tsdb.path=/data

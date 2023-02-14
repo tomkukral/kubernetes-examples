@@ -12,7 +12,7 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: docker.io/busybox
       command: ['wget']
       args:  ['{{ include "kad.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never

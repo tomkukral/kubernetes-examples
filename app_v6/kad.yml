@@ -53,14 +53,14 @@ spec:
     spec:
       initContainers:
       - name: init-file
-        image: debian
+        image: docker.io/debian
         command: ["bash", "-c", "date | tee /data/init-$(date --iso-8601=seconds)"]
         volumeMounts:
         - name: data-storage
           mountPath: /data/
       containers:
       - name: app
-        image: tomkukral/kad
+        image: docker.io/tomkukral/kad
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
