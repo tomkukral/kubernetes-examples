@@ -16,10 +16,9 @@ spec:
           - name: etcdctl
             image: k8s.gcr.io/etcd:3.5.0-0
             command:
-            - etcdctl
-            - snapshot
-            - save
-            - /data/$(POD_NAME).db
+            - /bin/sh
+            - -c 
+            - etcdctl snapshot save /data/$(POD_NAME).db && etcdctl snapshot status --write-out=table /data/$(POD_NAME).db
             resources:
               limits:
                 cpu: 500m

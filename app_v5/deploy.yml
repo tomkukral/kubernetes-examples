@@ -11,6 +11,7 @@ metadata:
   name: kad
   namespace: kad
 spec:
+  ipFamilyPolicy: PreferDualStack
   selector:
     app: kad
   ports:
@@ -50,7 +51,7 @@ spec:
       containers:
       - name: app
         image: tomkukral/kad
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
         env:

@@ -4,8 +4,8 @@ kind: Service
 metadata:
   name: nginx
 spec:
-  #type: ClusterIP
-  type: NodePort
+  type: ClusterIP
+  #type: NodePort
   #type: LoadBalancer
   selector:
     app: nginx
@@ -19,8 +19,8 @@ kind: Service
 metadata:
   name: nginx-debug
 spec:
-  #type: ClusterIP
-  type: NodePort
+  type: ClusterIP
+  #type: NodePort
   #type: LoadBalancer
   selector:
     app: nginx

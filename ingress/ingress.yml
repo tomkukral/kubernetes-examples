@@ -6,8 +6,8 @@ metadata:
   namespace: kad
 spec:
   rateLimit:
-    average: 3
-    burst: 3
+    average: 1
+    burst: 1
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
@@ -66,10 +66,10 @@ spec:
   - match: HostRegexp(`kad.{domain:.+}`)
     kind: Rule
     middlewares:
-    #- name: ba
-    #- name: ratelimit
-    - name: retry
     #- name: ipwhitelist
+    #- name: ratelimit
+    #- name: ba
+    #- name: retry
     services:
     - name: kad
       port: 80

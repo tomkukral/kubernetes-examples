@@ -28,12 +28,11 @@ spec:
     metadata:
       labels:
         app: redis
-      annotations:
-        sidecar.istio.io/inject: "true"
     spec:
       containers:
       - name: redis
-        image: redis
+        image: docker.io/redis:latest
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
             cpu: 100m

@@ -9952,7 +9952,7 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         image: quay.io/argoproj/argocd:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: argocd-applicationset-controller
         ports:
         - containerPort: 7000
@@ -10033,7 +10033,7 @@ spec:
               name: argocd-cmd-params-cm
               optional: true
         image: ghcr.io/dexidp/dex:v2.32.0-distroless
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: dex
         ports:
         - containerPort: 5556
@@ -10062,7 +10062,7 @@ spec:
         - /usr/local/bin/argocd
         - /shared/argocd-dex
         image: quay.io/argoproj/argocd:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: copyutil
         securityContext:
           allowPrivilegeEscalation: false
@@ -10115,7 +10115,7 @@ spec:
       - command:
         - argocd-notifications
         image: quay.io/argoproj/argocd:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           tcpSocket:
             port: 9001
@@ -10192,7 +10192,7 @@ spec:
         - --appendonly
         - "no"
         image: redis:7.0.4-alpine
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: redis
         ports:
         - containerPort: 6379
@@ -10368,7 +10368,7 @@ spec:
         - name: HELM_DATA_HOME
           value: /helm-working-dir
         image: quay.io/argoproj/argocd:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
           httpGet:
@@ -10688,7 +10688,7 @@ spec:
               name: argocd-cmd-params-cm
               optional: true
         image: quay.io/argoproj/argocd:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
             path: /healthz?full=true
@@ -10921,7 +10921,7 @@ spec:
               name: argocd-cmd-params-cm
               optional: true
         image: quay.io/argoproj/argocd:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: argocd-application-controller
         ports:
         - containerPort: 8082

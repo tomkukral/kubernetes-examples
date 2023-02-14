@@ -61,7 +61,7 @@ spec:
       containers:
       - name: app
         image: tomkukral/kad
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
         #command: ["/bin/kad", "--color", "$(COLOR)"]
