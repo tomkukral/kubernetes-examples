@@ -59,6 +59,12 @@ spec:
       - name: connectivity-check
         image: docker.io/tomkukral/kad
         command: ["bash", "-c", "curl --fail https://1.1.1.1"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [ALL]
+          seccompProfile:
+            type: RuntimeDefault
       containers:
       - name: app
         image: docker.io/tomkukral/kad
@@ -135,8 +141,9 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
-            drop:
-            - all
+            drop: [ALL]
+          seccompProfile:
+            type: RuntimeDefault
           procMount: Default
           readOnlyRootFilesystem: true
         volumeMounts:
