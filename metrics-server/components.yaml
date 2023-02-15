@@ -36,11 +36,14 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - nodes/metrics
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resources:
   - pods
   - nodes
-  - nodes/stats
-  - namespaces
-  - configmaps
   verbs:
   - get
   - list
@@ -127,44 +130,43 @@ spec:
       labels:
         k8s-app: metrics-server
     spec:
-      hostNetwork: true
       containers:
       - args:
         - --cert-dir=/tmp
         - --secure-port=4443
         - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
         - --kubelet-use-node-status-port
+        - --metric-resolution=15s
         # TODO: never use this
         - --kubelet-insecure-tls
-        - -v6
-        image: k8s.gcr.io/metrics-server/metrics-server:v0.4.1
+        image: k8s.gcr.io/metrics-server/metrics-server:v0.6.2
         imagePullPolicy: IfNotPresent
-        #livenessProbe:
-        #  failureThreshold: 3
-        #  httpGet:
-        #    path: /livez
-        #    port: https
-        #    scheme: HTTPS
-        #  periodSeconds: 10
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /livez
+            port: https
+            scheme: HTTPS
+          periodSeconds: 10
         name: metrics-server
         ports:
         - containerPort: 4443
           name: https
           protocol: TCP
-        #readinessProbe:
-        #  failureThreshold: 3
-        #  httpGet:
-        #    path: /readyz
-        #    port: https
-        #    scheme: HTTPS
-        #  periodSeconds: 10
-        #startupProbe:
-        #  httpGet:
-        #    path: /livez
-        #    port: https
-        #    scheme: HTTPS
-        #  periodSeconds: 10
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /readyz
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
         securityContext:
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 1000
