@@ -39,6 +39,8 @@ kind: Deployment
 metadata:
   name: kad
   namespace: kad
+  finalizers:
+  #- 6shore.net/kad-manual
 spec:
   replicas: 1
   strategy:
