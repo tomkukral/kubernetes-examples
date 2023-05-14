@@ -1,0 +1,28 @@
+operator:
+  replicas: 1
+  affinity: {}
+#cluster:
+#  name: a2
+#  id: 2
+ipam:
+  operator:
+    clusterPoolIPv4MaskSize: 24
+    clusterPoolIPv4PodCIDRList:
+    - 192.168.0.0/16
+#hubble:
+#  enabled: true
+#  relay:
+#    enabled: true
+#  ui:
+#    enabled: true
+#  peerService:
+#    clusterDomain: cluster.local
+#  tls:
+#    auto:
+#      enabled: true
+#      method: certmanager
+#      certValidityDuration: 32
+#      certManagerIssuerRef:
+#        group: cert-manager.io
+#        kind: Issuer
+#        name: ca-issuer
