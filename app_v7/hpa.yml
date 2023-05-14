@@ -1,7 +1,6 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  creationTimestamp: 2018-11-01T10:40:58Z
   name: kad
   namespace: kad
 spec:
@@ -20,13 +19,13 @@ spec:
         averageUtilization: 50
   behavior:
     scaleDown:
-      stabilizationWindowSeconds: 60
+      stabilizationWindowSeconds: 5
       policies:
       - type: Percent
         value: 50
         periodSeconds: 15
     scaleUp:
-      stabilizationWindowSeconds: 0
+      stabilizationWindowSeconds: 5
       policies:
       - type: Percent
         value: 100
