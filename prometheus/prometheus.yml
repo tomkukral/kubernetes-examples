@@ -38,8 +38,8 @@ spec:
       - name: copy-rules
         image: docker.io/tomkukral/kubernetes-mixin
         command:
-        - bash 
-        - -c 
+        - bash
+        - -c
         - "cp -v /data/prometheus/* /etc/prometheus/rules-init/"
         volumeMounts:
         - name: rules-init

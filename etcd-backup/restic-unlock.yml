@@ -46,4 +46,3 @@ spec:
           mountPath: /data
         - name: certs
           mountPath: /etc/kubernetes/pki/
-

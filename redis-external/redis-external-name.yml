@@ -4,6 +4,6 @@ kind: Service
 metadata:
   name: redis
   namespace: kad
-spec:                                                                                        
+spec:
   type: ExternalName
   externalName: c0.k8s.6shore.net

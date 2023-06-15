@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: redis
   namespace: kad
-spec:                                                                                        
+spec:
   type: ClusterIP
   ports:
   - protocol: TCP

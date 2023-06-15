@@ -17,7 +17,6 @@ spec:
         - c2
         - c3
         - c4
-        - c5
         kadApps: []
   destination:
     server: https://kubernetes.default.svc

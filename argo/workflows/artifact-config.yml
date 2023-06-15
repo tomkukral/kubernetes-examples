@@ -27,5 +27,3 @@ data:
       secretKeySecret:
         name: my-minio-cred
         key: secretkey
-
-

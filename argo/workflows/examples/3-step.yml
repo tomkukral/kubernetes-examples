@@ -35,5 +35,3 @@ spec:
           parameters:
           - name: message
             value: "hello2b"
-
-

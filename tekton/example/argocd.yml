@@ -1,7 +1,7 @@
 ---
 apiVersion: v1
 kind: Namespace
-metadata: 
+metadata:
   name: argo
 ---
 apiVersion: v1
@@ -55,7 +55,7 @@ spec:
     image: lachlanevenson/k8s-kubectl
     command: ["kubectl"]
     args:
-    - apply 
+    - apply
     - -k
     - /workspace/kubernetes-examples/argo/cd
 
@@ -63,11 +63,11 @@ spec:
     image: lachlanevenson/k8s-kubectl
     command: ["kubectl"]
     args:
-    - wait 
-    - --for=condition=available 
-    - --timeout=180s 
+    - wait
+    - --for=condition=available
+    - --timeout=180s
     - deployment/argocd-server
-    - -n 
+    - -n
     - argo
 ---
 #apiVersion: tekton.dev/v1beta1

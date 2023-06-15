@@ -4113,7 +4113,7 @@ rules:
     resources:
       - endpointslices
     verbs:
-      - watch 
+      - watch
       - list
   - apiGroups: [""]
     resources:
@@ -4680,5 +4680,3 @@ spec:
 
 ---
 # Source: calico/templates/configure-canal.yaml
-
-

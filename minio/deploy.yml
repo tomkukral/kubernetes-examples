@@ -24,7 +24,7 @@ data:
     set -e ; # Have script exit in the event of a failed command.
     MC_CONFIG_DIR="/etc/minio/mc/"
     MC="/usr/bin/mc --insecure --config-dir ${MC_CONFIG_DIR}"
-    
+
     # connectToMinio
     # Use a check-sleep-check loop to wait for Minio service to be available
     connectToMinio() {
@@ -51,7 +51,7 @@ data:
       set -e ; # reset `e` as active
       return 0
     }
-    
+
     # checkBucketExists ($bucket)
     # Check if the bucket exists, by using the exit code of `mc ls`
     checkBucketExists() {
@@ -59,7 +59,7 @@ data:
       CMD=$(${MC} ls myminio/$BUCKET > /dev/null 2>&1)
       return $?
     }
-    
+
     # createBucket ($bucket, $policy, $purge)
     # Ensure bucket exists, purging if asked to
     createBucket() {
@@ -67,7 +67,7 @@ data:
       POLICY=$2
       PURGE=$3
       VERSIONING=$4
-    
+
       # Purge the bucket, if set & exists
       # Since PURGE is user input, check explicitly for `true`
       if [ $PURGE = true ]; then
@@ -80,7 +80,7 @@ data:
           echo "Bucket '$BUCKET' does not exist, skipping purge."
         fi
       fi
-    
+
       # Create the bucket if it does not exist
       if ! checkBucketExists $BUCKET ; then
         echo "Creating bucket '$BUCKET'"
@@ -88,8 +88,8 @@ data:
       else
         echo "Bucket '$BUCKET' already exists."
       fi
-    
-    
+
+
       # set versioning for bucket
       if [ ! -z $VERSIONING ] ; then
         if [ $VERSIONING = true ] ; then
@@ -102,13 +102,13 @@ data:
       else
           echo "Bucket '$BUCKET' versioning unchanged."
       fi
-    
+
       # At this point, the bucket should exist, skip checking for existence
       # Set policy on the bucket
       echo "Setting policy of bucket '$BUCKET' to '$POLICY'."
       ${MC} policy set $POLICY myminio/$BUCKET
     }
-    
+
     # Try connecting to Minio instance
     scheme=http
     connectToMinio $scheme
@@ -212,7 +212,7 @@ spec:
             - "/usr/bin/docker-entrypoint.sh minio -S /etc/minio/certs/ server /export"
           volumeMounts:
             - name: export
-              mountPath: /export            
+              mountPath: /export
           ports:
             - name: http
               containerPort: 9000
@@ -229,7 +229,7 @@ spec:
                   key: secretkey
           resources:
             requests:
-              memory: 4Gi      
+              memory: 4Gi
       volumes:
         - name: export
           persistentVolumeClaim:

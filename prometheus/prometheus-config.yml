@@ -316,4 +316,3 @@ scrape_configs:
 #  - target_label: __address__
 #    replacement: blackbox-exporter
 #    action: replace
-

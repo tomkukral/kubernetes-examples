@@ -290,10 +290,10 @@ scrape_configs:
 #    target_label: 'unit'
 
 #- job_name: kubernetes-audit
-#  static_configs: 
-#    - targets: 
-#        - localhost 
-#      labels: 
+#  static_configs:
+#    - targets:
+#        - localhost
+#      labels:
 #        job: kubernetes-audit
 #        __path__: /var/log/kubernetes-audit/audit.log
 #        __host__: ${HOSTNAME}

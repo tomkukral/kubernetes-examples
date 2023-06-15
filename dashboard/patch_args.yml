@@ -13,4 +13,3 @@ spec:
         - --auto-generate-certificates
         - --namespace=kubernetes-dashboard
         - --enable-skip-login
-

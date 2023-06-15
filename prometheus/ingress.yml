@@ -30,8 +30,8 @@ metadata:
   name: prometheus
 spec:
   entryPoints:
-    - http
-    - https
+  - http
+  - https
   routes:
   - match: HostRegexp(`prometheus.{domain:.+}`)
     kind: Rule

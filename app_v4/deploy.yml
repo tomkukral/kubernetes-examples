@@ -53,4 +53,3 @@ spec:
         # file will be /etc/kad/config.yml
         - name: config
           mountPath: /etc/kad/
-

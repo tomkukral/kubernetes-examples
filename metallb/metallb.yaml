@@ -159,7 +159,7 @@ spec:
           limits:
             cpu: 100m
             memory: 100Mi
-          
+
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -212,7 +212,7 @@ spec:
           limits:
             cpu: 100m
             memory: 100Mi
-          
+
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -221,5 +221,3 @@ spec:
           readOnlyRootFilesystem: true
 
 ---
-
-

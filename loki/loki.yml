@@ -167,7 +167,7 @@ spec:
       terminationGracePeriodSeconds: 4800
       volumes:
         - name: config
-          configMap: 
+          configMap:
             name: loki
   volumeClaimTemplates:
   - metadata:

@@ -13,4 +13,3 @@ spec:
       creationTimestamp: null
       name: telegram-bot
       namespace: prometheus
-

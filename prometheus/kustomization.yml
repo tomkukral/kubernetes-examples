@@ -11,7 +11,7 @@ resources:
 - prometheus.yml
 - alertmanager.yml
 - grafana.yml
-- karma.ymla
+- karma.yml
 - node-exporter-ds.yml
 #- telegram-bot-sealed.yml
 #- telegram-bot.yml
@@ -66,5 +66,5 @@ generatorOptions:
   labels:
     generator: kustomize
 #images:
-#- name: karma
-#  newTag: v0.78
+#- name: docker.io/prom/prometheus
+#  newTag: stable

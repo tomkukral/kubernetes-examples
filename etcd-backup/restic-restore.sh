@@ -10,5 +10,4 @@ restic snapshots
 
 restic ls latest
 
-restic restore latest --target /tmp/etcd-backup --path /data 
-
+restic restore latest --target /tmp/etcd-backup --path /data

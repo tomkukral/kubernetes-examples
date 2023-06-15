@@ -103,7 +103,7 @@ spec:
       maxSurge: 1
       maxUnavailable: 1
   minReadySeconds: 0
-  template: 
+  template:
     metadata:
       annotations:
         prometheus.io/scrape: "true"
