@@ -59,8 +59,8 @@ metadata:
   namespace: kad
 spec:
   entryPoints:
-    - http
-    - https
+  - http
+  - https
   #tls: {}
   routes:
   - match: HostRegexp(`kad.{domain:.+}`)
