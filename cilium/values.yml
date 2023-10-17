@@ -9,6 +9,10 @@ ipam:
     clusterPoolIPv4MaskSize: 24
     clusterPoolIPv4PodCIDRList:
     - 192.168.0.0/16
+
+encryption:
+  enabled: true
+  type: wireguard
 #hubble:
 #  enabled: true
 #  relay:
