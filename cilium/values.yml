@@ -13,10 +13,10 @@ ipam:
 encryption:
   enabled: true
   type: wireguard
-#hubble:
-#  enabled: true
-#  relay:
-#    enabled: true
+hubble:
+  enabled: true
+  relay:
+    enabled: true
 #  ui:
 #    enabled: true
 #  peerService:
