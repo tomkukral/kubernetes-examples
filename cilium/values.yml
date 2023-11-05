@@ -8,8 +8,7 @@ ipam:
   operator:
     clusterPoolIPv4MaskSize: 24
     clusterPoolIPv4PodCIDRList:
-    - 192.168.0.0/16
-
+    - "RENDER_PODCIDR"
 encryption:
   enabled: true
   type: wireguard
