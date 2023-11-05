@@ -10191,7 +10191,7 @@ spec:
         - ""
         - --appendonly
         - "no"
-        image: redis:7.0.4-alpine
+        image: docker.io/redis:7.0.4-alpine
         imagePullPolicy: IfNotPresent
         name: redis
         ports:

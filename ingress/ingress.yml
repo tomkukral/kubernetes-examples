@@ -36,8 +36,8 @@ metadata:
 spec:
   ipWhiteList:
     sourceRange:
-   # - 193.71.191.150/32
     - 46.19.17.126/32
+    # TODO: add your own public ip
     - ::1/128
     ipStrategy:
       excludedIPs:

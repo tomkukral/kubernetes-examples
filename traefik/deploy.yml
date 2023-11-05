@@ -169,9 +169,9 @@ spec:
           - "--api.dashboard=true"
           - "--api.insecure=true"
           - "--entryPoints.http.address=:8000"
-          - "--entryPoints.http.forwardedHeaders.insecure"
+          - "--entryPoints.http.forwardedHeaders.trustedIPs=192.168.0.0/16"
           - "--entryPoints.https.address=:8443"
-          - "--entryPoints.https.forwardedHeaders.insecure"
+          - "--entryPoints.https.forwardedHeaders.trustedIPs=192.168.0.0/16"
           - "--entryPoints.traefik.address=:9000"
 
           - "--global.checknewversion=false"
