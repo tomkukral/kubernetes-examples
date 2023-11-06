@@ -6,5 +6,5 @@ for i in {0..2}; do
 	--set cluster.name="c${i}" \
 	--set cluster.id="${i}" \
 	--set ipam.operator.clusterPoolIPv4PodCIDRList=10.${i}.0.0/17 \
-	--namespace kube-system --version 1.14.2 cilium/cilium > rendered-c${i}.yaml
+	--namespace kube-system --version 1.14.2 cilium/cilium > rendered-c${i}.yml
 done
