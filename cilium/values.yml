@@ -1,14 +1,14 @@
 operator:
   replicas: 1
   affinity: {}
-#cluster:
-#  name: a2
-#  id: 2
+cluster:
+  name: c0
+  id: 0
 ipam:
   operator:
     clusterPoolIPv4MaskSize: 24
     clusterPoolIPv4PodCIDRList:
-    - "RENDER_PODCIDR"
+    - 10.0.0.0/17
 encryption:
   enabled: true
   type: wireguard
