@@ -27,7 +27,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: hubble-ui
+  name: hubble
 spec:
   entryPoints:
   - http
@@ -43,7 +43,8 @@ spec:
   - match: HostRegexp(`hubble-relay.{domain:.+}`)
     kind: Rule
     middlewares:
-    - name: basicauth
+    # TODO: enable basic auth after demo
+    #- name: basicauth
     services:
     - name: hubble-relay
       port: 80
