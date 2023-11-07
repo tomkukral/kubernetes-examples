@@ -43,8 +43,7 @@ spec:
   - match: HostRegexp(`hubble-relay.{domain:.+}`)
     kind: Rule
     middlewares:
-    # TODO: enable basic auth after demo
-    #- name: basicauth
+    - name: basicauth
     services:
     - name: hubble-relay
       port: 80
