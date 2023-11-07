@@ -51,7 +51,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cilium-content
+  name: cilium-content-{{ $cluster }}
   namespace: argo
   labels:
     initial: "yes"
