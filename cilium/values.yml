@@ -12,14 +12,16 @@ ipam:
 encryption:
   enabled: true
   type: wireguard
+clustermesh:
+  useAPIServer: true
 hubble:
   enabled: true
   relay:
     enabled: true
-#  ui:
-#    enabled: true
-#  peerService:
-#    clusterDomain: cluster.local
+  ui:
+    enabled: true
+  peerService:
+    clusterDomain: cluster.local
 #  tls:
 #    auto:
 #      enabled: true

@@ -51,6 +51,29 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: cilium-content
+  namespace: argo
+  labels:
+    initial: "yes"
+    cluster: {{ $cluster }}
+    app: cilium-content
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: cilium/content
+  destination:
+    name: {{ $cluster }}
+    namespace: kube-system
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
   name: nginx-{{ $cluster }}
   namespace: argo
   labels:
@@ -93,6 +116,30 @@ spec:
     syncOptions:
     - Validate=true
     - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: etcd-backup
+  namespace: argo
+  labels:
+    initial: "yes"
+    cluster: {{ $cluster }}
+    app: etcd-backop
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $.Values.repoURL }}
+    targetRevision: HEAD
+    path: etcd-backup
+  destination:
+    name: {{ $cluster }}
+    namespace: 6shore-system
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
