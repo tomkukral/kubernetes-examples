@@ -27,11 +27,10 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: hubble
+  name: hubble-ui
 spec:
   entryPoints:
   - http
-  - https
   routes:
   - match: HostRegexp(`hubble.{domain:.+}`)
     kind: Rule
@@ -40,6 +39,16 @@ spec:
     services:
     - name: hubble-ui
       port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hubble-relay
+spec:
+  entryPoints:
+  - https
+  tls: {}
+  routes:
   - match: HostRegexp(`hubble-relay.{domain:.+}`)
     kind: Rule
     middlewares:
