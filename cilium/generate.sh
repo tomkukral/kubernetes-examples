@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in {0..2}; do 
+for i in {0..20}; do 
     helm template \
     --dry-run --values values.yml \
     --set cluster.name="c${i}" \

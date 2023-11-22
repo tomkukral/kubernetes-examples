@@ -14,6 +14,8 @@ encryption:
   type: wireguard
 clustermesh:
   useAPIServer: true
+bgpControlPlane:
+  enabled: true
 hubble:
   enabled: true
   relay:

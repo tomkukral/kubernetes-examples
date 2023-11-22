@@ -38,10 +38,9 @@ spec:
     sourceRange:
     - 46.19.17.126/32
     # TODO: add your own public ip
-    - ::1/128
     ipStrategy:
       excludedIPs:
-      - 192.168.0.0/16
+      - 10.0.0.0/8
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
