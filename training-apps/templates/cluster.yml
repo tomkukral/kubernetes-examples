@@ -1,29 +1,29 @@
 {{- range $h, $cluster := .Values.clusters }}
 #
 # Cluster {{ $cluster }}
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: traefik-{{ $cluster }}
-  namespace: argo
-  labels:
-    initial: "yes"
-    cluster: {{ $cluster }}
-    app: traefik
-spec:
-  project: {{ $.Values.project }}
-  source:
-    repoURL: {{ $.Values.repoURL }}
-    targetRevision: HEAD
-    path: traefik
-  destination:
-    name: {{ $cluster }}
-    namespace: traefik
-  syncPolicy:
-    syncOptions:
-    - Validate=true
-    - CreateNamespace=true
+#---
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: traefik-{{ $cluster }}
+#  namespace: argo
+#  labels:
+#    initial: "yes"
+#    cluster: {{ $cluster }}
+#    app: traefik
+#spec:
+#  project: {{ $.Values.project }}
+#  source:
+#    repoURL: {{ $.Values.repoURL }}
+#    targetRevision: HEAD
+#    path: traefik
+#  destination:
+#    name: {{ $cluster }}
+#    namespace: traefik
+#  syncPolicy:
+#    syncOptions:
+#    - Validate=true
+#    - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
