@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: etcd-backup
-  namespace: kube-system
 spec:
   concurrencyPolicy: Forbid
   schedule: "*/10 * * * *"

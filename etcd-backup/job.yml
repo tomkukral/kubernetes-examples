@@ -4,7 +4,6 @@ metadata:
   annotations:
     scheduler.alpha.kubernetes.io/critical-pod: ""
   name: etcd-backup
-  namespace: kube-system
 spec:
   activeDeadlineSeconds: 300
   ttlSecondsAfterFinished: 120

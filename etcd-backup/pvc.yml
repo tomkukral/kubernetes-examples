@@ -2,7 +2,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: etcd-backup
-  namespace: kube-system
 spec:
   accessModes:
     - ReadWriteOnce
