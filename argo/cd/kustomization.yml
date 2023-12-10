@@ -32,4 +32,19 @@ secretGenerator:
 images:
 - name: redis
   newName: docker.io/redis
-  #newTag: v2.4.11
+
+patches:
+- target:
+    kind: ClusterRoleBinding
+    name: argocd-application-controller
+  patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: argo
+- target:
+    kind: ClusterRoleBinding
+    name: argocd-server
+  patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: argo
