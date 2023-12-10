@@ -24,6 +24,7 @@ spec:
     services:
     - name: argo-server
       port: 2746
+      scheme: https
   #- kind: Rule
   #  #middlewares:
   #  #- name: basicauth
