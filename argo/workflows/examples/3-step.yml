@@ -11,7 +11,7 @@ spec:
       parameters:
       - name: message
     container:
-      image: docker/whalesay
+      image: docker.io/docker/whalesay
       command: [cowsay]
       args: ["{{inputs.parameters.message}}"]
 

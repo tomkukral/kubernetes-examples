@@ -7,7 +7,7 @@ spec:
   templates:
   - name: whalesay
     container:
-      image: docker/whalesay
+      image: docker.io/docker/whalesay
       command: [cowsay]
       args: ["hello world"]
       resources:

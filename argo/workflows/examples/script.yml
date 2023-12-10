@@ -33,14 +33,14 @@ spec:
 
   - name: gen-random-int-bash
     script:
-      image: debian:9.4
+      image: docker.io/debian:9.4
       command: [bash]
       source: |
         cat /dev/urandom | od -N2 -An -i | awk -v f=1 -v r=100 '{printf "%i\n", f + r * $1 / 65536}'
 
   - name: gen-random-int-python
     script:
-      image: python:alpine3.6
+      image: docker.io/python:alpine3.6
       command: [python]
       source: |
         import random
@@ -49,7 +49,7 @@ spec:
 
   - name: gen-random-int-javascript
     script:
-      image: node:9.1-alpine
+      image: docker.io/node:9.1-alpine
       command: [node]
       source: |
         var rand = Math.floor(Math.random() * 100);
@@ -60,7 +60,7 @@ spec:
       parameters:
       - name: message
     container:
-      image: alpine:latest
+      image: docker.io/alpine:latest
       command: [sh, -c]
       args: ["echo result was: \"{{inputs.parameters.message}}\""]
 
