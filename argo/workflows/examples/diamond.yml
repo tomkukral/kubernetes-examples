@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   generateName: dag-diamond-
 spec:
+  serviceAccountName: argo
   entrypoint: diamond
   templates:
   - name: echo

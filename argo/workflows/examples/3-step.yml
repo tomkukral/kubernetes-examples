@@ -4,7 +4,7 @@ metadata:
   generateName: steps-
 spec:
   entrypoint: 3step
-
+  serviceAccountName: argo
   templates:
   - name: whalesay
     inputs:

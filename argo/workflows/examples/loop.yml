@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   generateName: loops-
 spec:
+  serviceAccountName: argo
   entrypoint: loop-example
   templates:
   - name: loop-example

@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   generateName: scripts-bash-
 spec:
+  serviceAccountName: argo
   entrypoint: bash-script-example
   templates:
   - name: bash-script-example
