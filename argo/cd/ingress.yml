@@ -5,7 +5,6 @@ metadata:
 spec:
   entryPoints:
   - http
-  - https
   routes:
   - kind: Rule
     match: HostRegexp(`argocd.{domain:.+}`)
@@ -23,5 +22,3 @@ spec:
     - name: argocd-server
       port: 80
       scheme: h2c
-  tls:
-    certResolver: default
