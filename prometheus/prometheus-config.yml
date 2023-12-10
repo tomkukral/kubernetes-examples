@@ -80,7 +80,7 @@ scrape_configs:
 
   relabel_configs:
   - action: labeldrop
-    regex: "__meta_kubernetes_node_label_6shore.net(.*)"
+    regex: "__meta_kubernetes_node_label_6shore_net(.*)"
   - action: labelmap
     regex: __meta_kubernetes_node_label_(.+)
   - target_label: __address__
