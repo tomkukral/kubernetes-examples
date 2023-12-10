@@ -33,4 +33,3 @@ images:
 - name: redis
   newName: docker.io/redis
   #newTag: v2.4.11
-

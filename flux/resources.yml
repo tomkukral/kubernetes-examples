@@ -19,3 +19,4 @@ spec:
     kind: GitRepository
     name: kubernetes-examples
   path: ./argo/cd
+  targetNamespace: argo
