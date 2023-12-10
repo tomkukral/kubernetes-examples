@@ -30,6 +30,7 @@ secretGenerator:
   - repositories
 
 images:
-- name: quay.io/argoproj/argocd
-  newName: quay.io/argoproj/argocd
-  newTag: v2.4.11
+- name: redis
+  newName: docker.io/redis
+  #newTag: v2.4.11
+
