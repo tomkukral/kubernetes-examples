@@ -16,7 +16,7 @@ target_config:
 scrape_configs:
 - job_name: kubernetes-pods-name
   pipeline_stages:
-    - docker: {}
+  - cri: {}
   kubernetes_sd_configs:
   - role: pod
   relabel_configs:
@@ -62,7 +62,7 @@ scrape_configs:
     target_label: __path__
 - job_name: kubernetes-pods-app
   pipeline_stages:
-    - docker: {}
+  - cri: {}
   kubernetes_sd_configs:
   - role: pod
   relabel_configs:
@@ -112,7 +112,7 @@ scrape_configs:
     target_label: __path__
 - job_name: kubernetes-pods-direct-controllers
   pipeline_stages:
-    - docker: {}
+  - cri: {}
   kubernetes_sd_configs:
   - role: pod
   relabel_configs:
@@ -168,7 +168,7 @@ scrape_configs:
     target_label: __path__
 - job_name: kubernetes-pods-indirect-controller
   pipeline_stages:
-    - docker: {}
+  - cri: {}
   kubernetes_sd_configs:
   - role: pod
   relabel_configs:
@@ -226,7 +226,7 @@ scrape_configs:
     target_label: __path__
 - job_name: kubernetes-pods-static
   pipeline_stages:
-    - docker: {}
+  - cri: {}
   kubernetes_sd_configs:
   - role: pod
   relabel_configs:
@@ -284,7 +284,7 @@ scrape_configs:
 #      node: ${HOSTNAME}
 #  relabel_configs:
 #  - action: drop
-#    regex: docker.service
+#    regex: crio.service
 #    source_labels: ['__journal__systemd_unit']
 #  - source_labels: ['__journal__systemd_unit']
 #    target_label: 'unit'
