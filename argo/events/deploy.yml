@@ -257,7 +257,6 @@ rules:
   - pods
   - pods/exec
   - configmaps
-  - secrets
   - services
   - persistentvolumeclaims
   verbs:
@@ -265,6 +264,17 @@ rules:
   - get
   - list
   - watch
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - get
+  - list
   - update
   - patch
   - delete
@@ -302,8 +312,8 @@ data:
       nats:
         versions:
         - version: 0.22.1
-          natsStreamingImage: nats-streaming:0.22.1
-          metricsExporterImage: natsio/prometheus-nats-exporter:0.8.0
+          natsStreamingImage: docker.io/nats-streaming:0.22.1
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.8.0
       jetstream:
         # Default JetStream settings, could be overridden by EventBus JetStream specs
         settings: |
@@ -322,30 +332,45 @@ data:
           duplicates: 300s
         versions:
         - version: latest
-          natsImage: nats:2.8.1
-          metricsExporterImage: natsio/prometheus-nats-exporter:0.9.1
-          configReloaderImage: natsio/nats-server-config-reloader:0.7.0
+          natsImage: docker.io/nats:2.9.16
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
           startCommand: /nats-server
         - version: 2.8.1
-          natsImage: nats:2.8.1
-          metricsExporterImage: natsio/prometheus-nats-exporter:0.9.1
-          configReloaderImage: natsio/nats-server-config-reloader:0.7.0
+          natsImage: docker.io/nats:2.8.1
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
           startCommand: /nats-server
         - version: 2.8.1-alpine
-          natsImage: nats:2.8.1-alpine
-          metricsExporterImage: natsio/prometheus-nats-exporter:0.9.1
-          configReloaderImage: natsio/nats-server-config-reloader:0.7.0
+          natsImage: docker.io/nats:2.8.1-alpine
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
           startCommand: nats-server
         - version: 2.8.2
-          natsImage: nats:2.8.2
-          metricsExporterImage: natsio/prometheus-nats-exporter:0.9.1
-          configReloaderImage: natsio/nats-server-config-reloader:0.7.0
+          natsImage: docker.io/nats:2.8.2
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
           startCommand: /nats-server
         - version: 2.8.2-alpine
-          natsImage: nats:2.8.2-alpine
-          metricsExporterImage: natsio/prometheus-nats-exporter:0.9.1
-          configReloaderImage: natsio/nats-server-config-reloader:0.7.0
+          natsImage: docker.io/nats:2.8.2-alpine
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
           startCommand: nats-server
+        - version: 2.9.1
+          natsImage: docker.io/nats:2.9.1
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
+          startCommand: /nats-server
+        - version: 2.9.12
+          natsImage: docker.io/nats:2.9.12
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
+          startCommand: /nats-server
+        - version: 2.9.16
+          natsImage: docker.io/nats:2.9.16
+          metricsExporterImage: docker.io/natsio/prometheus-nats-exporter:0.9.1
+          configReloaderImage: docker.io/natsio/nats-server-config-reloader:0.7.0
+          startCommand: /nats-server
 kind: ConfigMap
 metadata:
   name: argo-events-controller-config
@@ -371,13 +396,13 @@ spec:
         - controller
         env:
         - name: ARGO_EVENTS_IMAGE
-          value: quay.io/argoproj/argo-events:v1.7.1
+          value: quay.io/argoproj/argo-events:v1.8.1
         - name: NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: quay.io/argoproj/argo-events:v1.7.1
-        imagePullPolicy: IfNotPresent
+        image: quay.io/argoproj/argo-events:v1.8.1
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /healthz

@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argo-webhook-example
+spec:
+  entryPoints:
+  - http
+  routes:
+  - kind: Rule
+    match: HostRegexp(`argo-webhook.{domain:.+}`)
+    priority: 10
+    services:
+    - name: webhook-eventsource-svc
+      port: 12000

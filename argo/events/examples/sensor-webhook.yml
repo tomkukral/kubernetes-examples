@@ -4,7 +4,7 @@ metadata:
   name: webhook
 spec:
   template:
-    serviceAccountName: argo-events-sa
+    serviceAccountName: argo
   dependencies:
     - name: test-dep
       eventSourceName: webhook
@@ -32,7 +32,7 @@ spec:
                     value: hello world
                 templates:
                 - name: print-message
-                  serviceAccountName: argo-events-sa
+                  serviceAccountName: argo
                   inputs:
                     parameters:
                     - name: message
