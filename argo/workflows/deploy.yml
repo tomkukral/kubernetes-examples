@@ -80,6 +80,48 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  name: workflowartifactgctasks.argoproj.io
+spec:
+  group: argoproj.io
+  names:
+    kind: WorkflowArtifactGCTask
+    listKind: WorkflowArtifactGCTaskList
+    plural: workflowartifactgctasks
+    shortNames:
+    - wfat
+    singular: workflowartifactgctask
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-map-type: atomic
+            x-kubernetes-preserve-unknown-fields: true
+          status:
+            type: object
+            x-kubernetes-map-type: atomic
+            x-kubernetes-preserve-unknown-fields: true
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
   name: workfloweventbindings.argoproj.io
 spec:
   group: argoproj.io
@@ -138,6 +180,11 @@ spec:
       jsonPath: .status.startedAt
       name: Age
       type: date
+    - description: Human readable message indicating details about why the workflow
+        is in this condition.
+      jsonPath: .status.message
+      name: Message
+      type: string
     name: v1alpha1
     schema:
       openAPIV3Schema:
@@ -209,6 +256,29 @@ spec:
                       type: object
                     archiveLogs:
                       type: boolean
+                    artifactGC:
+                      properties:
+                        podMetadata:
+                          properties:
+                            annotations:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            labels:
+                              additionalProperties:
+                                type: string
+                              type: object
+                          type: object
+                        serviceAccountName:
+                          type: string
+                        strategy:
+                          enum:
+                          - ""
+                          - OnWorkflowCompletion
+                          - OnWorkflowDeletion
+                          - Never
+                          type: string
+                      type: object
                     artifactory:
                       properties:
                         passwordSecret:
@@ -238,6 +308,34 @@ spec:
                       required:
                       - url
                       type: object
+                    azure:
+                      properties:
+                        accountKeySecret:
+                          properties:
+                            key:
+                              type: string
+                            name:
+                              type: string
+                            optional:
+                              type: boolean
+                          required:
+                          - key
+                          type: object
+                        blob:
+                          type: string
+                        container:
+                          type: string
+                        endpoint:
+                          type: string
+                        useSDKCreds:
+                          type: boolean
+                      required:
+                      - blob
+                      - container
+                      - endpoint
+                      type: object
+                    deleted:
+                      type: boolean
                     from:
                       type: string
                     fromExpression:
@@ -264,6 +362,8 @@ spec:
                       type: object
                     git:
                       properties:
+                        branch:
+                          type: string
                         depth:
                           format: int64
                           type: integer
@@ -290,6 +390,8 @@ spec:
                           type: string
                         revision:
                           type: string
+                        singleBranch:
+                          type: boolean
                         sshPrivateKeySecret:
                           properties:
                             key:
@@ -373,6 +475,110 @@ spec:
                       type: object
                     http:
                       properties:
+                        auth:
+                          properties:
+                            basicAuth:
+                              properties:
+                                passwordSecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                usernameSecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                            clientCert:
+                              properties:
+                                clientCertSecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                clientKeySecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                            oauth2:
+                              properties:
+                                clientIDSecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                clientSecretSecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                endpointParams:
+                                  items:
+                                    properties:
+                                      key:
+                                        type: string
+                                      value:
+                                        type: string
+                                    required:
+                                    - key
+                                    type: object
+                                  type: array
+                                scopes:
+                                  items:
+                                    type: string
+                                  type: array
+                                tokenURLSecret:
+                                  properties:
+                                    key:
+                                      type: string
+                                    name:
+                                      type: string
+                                    optional:
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                              type: object
+                          type: object
                         headers:
                           items:
                             properties:
@@ -440,6 +646,8 @@ spec:
                           type: object
                         securityToken:
                           type: string
+                        useSDKCreds:
+                          type: boolean
                       required:
                       - key
                       type: object
@@ -469,6 +677,17 @@ spec:
                           type: object
                         bucket:
                           type: string
+                        caSecret:
+                          properties:
+                            key:
+                              type: string
+                            name:
+                              type: string
+                            optional:
+                              type: boolean
+                          required:
+                          - key
+                          type: object
                         createBucketIfNotPresent:
                           properties:
                             objectLocking:
@@ -672,16 +891,19 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: argo
+  namespace: argo
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: argo-server
+  namespace: argo
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: argo-role
+  namespace: argo
 rules:
 - apiGroups:
   - coordination.k8s.io
@@ -720,6 +942,8 @@ rules:
   - clusterworkflowtemplates/finalizers
   - workflowtasksets
   - workflowtasksets/finalizers
+  - workflowtaskresults
+  - workflowtaskresults/finalizers
   verbs:
   - create
   - delete
@@ -750,6 +974,8 @@ rules:
   - cronworkflows/finalizers
   - clusterworkflowtemplates
   - clusterworkflowtemplates/finalizers
+  - workflowtaskresults
+  - workflowtaskresults/finalizers
   verbs:
   - create
   - delete
@@ -780,6 +1006,8 @@ rules:
   - cronworkflows/finalizers
   - clusterworkflowtemplates
   - clusterworkflowtemplates/finalizers
+  - workflowtaskresults
+  - workflowtaskresults/finalizers
   verbs:
   - get
   - list
@@ -828,6 +1056,7 @@ rules:
   - workflows/finalizers
   - workflowtasksets
   - workflowtasksets/finalizers
+  - workflowartifactgctasks
   verbs:
   - get
   - list
@@ -910,8 +1139,6 @@ rules:
   verbs:
   - get
   - create
-  - list
-  - watch
 - apiGroups:
   - ""
   resources:
@@ -962,6 +1189,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: argo-binding
+  namespace: argo
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -969,6 +1197,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argo
+  namespace: argo
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -981,6 +1210,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argo
+  namespace: argo
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -993,16 +1223,19 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argo-server
+  namespace: argo
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: workflow-controller-configmap
+  namespace: argo
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: argo-server
+  namespace: argo
 spec:
   ports:
   - name: web
@@ -1010,26 +1243,6 @@ spec:
     targetPort: 2746
   selector:
     app: argo-server
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    workflows.argoproj.io/description: |
-      This service is deprecated. It will be removed in v3.4.
-
-      https://github.com/argoproj/argo-workflows/issues/8441
-  labels:
-    app: workflow-controller
-  name: workflow-controller-metrics
-spec:
-  ports:
-  - name: metrics
-    port: 9090
-    protocol: TCP
-    targetPort: 9090
-  selector:
-    app: workflow-controller
 ---
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
@@ -1041,6 +1254,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: argo-server
+  namespace: argo
 spec:
   selector:
     matchLabels:
@@ -1053,12 +1267,8 @@ spec:
       containers:
       - args:
         - server
-        - --namespaced
-        - --auth-mode
-        - server
-        - --secure=false
         env: []
-        image: quay.io/argoproj/argocli:v3.3.9
+        image: quay.io/argoproj/argocli:v3.5.2
         name: argo-server
         ports:
         - containerPort: 2746
@@ -1067,9 +1277,9 @@ spec:
           httpGet:
             path: /
             port: 2746
-            scheme: HTTP
-          initialDelaySeconds: 5
-          periodSeconds: 10
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 20
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -1093,6 +1303,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: workflow-controller
+  namespace: argo
 spec:
   selector:
     matchLabels:
@@ -1103,12 +1314,7 @@ spec:
         app: workflow-controller
     spec:
       containers:
-      - args:
-        - --configmap
-        - workflow-controller-configmap
-        - --executor-image
-        - quay.io/argoproj/argoexec:v3.3.9
-        - --namespaced
+      - args: []
         command:
         - workflow-controller
         env:
@@ -1117,7 +1323,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: quay.io/argoproj/workflow-controller:v3.3.9
+        image: quay.io/argoproj/workflow-controller:v3.5.2
         livenessProbe:
           failureThreshold: 3
           httpGet:
