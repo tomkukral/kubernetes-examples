@@ -25,6 +25,16 @@ data:
   color: white
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kad-env
+  namespace: kad
+data:
+  ENVA: A
+  ENVB: B
+  ENVC: C
+---
+apiVersion: v1
 kind: Secret
 metadata:
   name: credentials
@@ -67,6 +77,9 @@ spec:
         ports:
         - containerPort: 5000
         #command: ["/bin/kad", "--color", "$(COLOR)"]
+        envFrom:
+        - configMapRef:
+            name: kad-env
         env:
         # static configuration from yaml
         - name: REDIS_SERVER
