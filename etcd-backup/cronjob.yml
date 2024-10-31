@@ -30,7 +30,7 @@ spec:
             - name: ETCDCTL_API
               value: "3"
             - name: ETCDCTL_ENDPOINTS
-              value: https://ip-10-0-0-10.eu-central-1.compute.internal:2379
+              value: https://ip-10-255-N-10.eu-central-1.compute.internal:2379
             - name: ETCDCTL_CACERT
               value: /etc/kubernetes/pki/etcd/ca.crt
             - name: ETCDCTL_KEY
