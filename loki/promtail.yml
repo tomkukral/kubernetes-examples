@@ -1,34 +1,3 @@
-#---
-#apiVersion: policy/v1beta1
-#kind: PodSecurityPolicy
-#metadata:
-#  name: promtail
-#  labels:
-#    app: promtail
-#spec:
-#  allowPrivilegeEscalation: false
-#  fsGroup:
-#    rule: RunAsAny
-#  hostIPC: false
-#  hostNetwork: false
-#  hostPID: false
-#  privileged: false
-#  readOnlyRootFilesystem: true
-#  requiredDropCapabilities:
-#  - ALL
-#  runAsUser:
-#    rule: RunAsAny
-#  seLinux:
-#    rule: RunAsAny
-#  supplementalGroups:
-#    rule: RunAsAny
-#  volumes:
-#  - secret
-#  - configMap
-#  - hostPath
-#  - projected
-#  - downwardAPI
-#  - emptyDir
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -67,32 +36,6 @@ roleRef:
   name: promtail-clusterrole
   apiGroup: rbac.authorization.k8s.io
 ---
-#apiVersion: rbac.authorization.k8s.io/v1
-#kind: Role
-#metadata:
-#  name: promtail
-#  labels:
-#    app: promtail
-#rules:
-#- apiGroups:      ['extensions']
-#  resources:      ['podsecuritypolicies']
-#  verbs:          ['use']
-#  resourceNames:  [promtail]
-#---
-#apiVersion: rbac.authorization.k8s.io/v1
-#kind: RoleBinding
-#metadata:
-#  name: promtail
-#  labels:
-#    app: promtail
-#roleRef:
-#  apiGroup: rbac.authorization.k8s.io
-#  kind: Role
-#  name: promtail
-#subjects:
-#- kind: ServiceAccount
-#  name: promtail
----
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -119,7 +62,7 @@ spec:
       serviceAccountName: promtail
       containers:
         - name: promtail
-          image: docker.io/grafana/promtail:2.1.0
+          image: docker.io/grafana/promtail:3.3.0
           imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/promtail/config.yml

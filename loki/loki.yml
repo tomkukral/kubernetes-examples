@@ -1,39 +1,3 @@
-#apiVersion: policy/v1beta1
-#kind: PodSecurityPolicy
-#metadata:
-#  name: loki
-#  labels:
-#    app: loki
-#spec:
-#  privileged: false
-#  allowPrivilegeEscalation: false
-#  volumes:
-#    - 'configMap'
-#    - 'emptyDir'
-#    - 'persistentVolumeClaim'
-#    - 'secret'
-#    - 'projected'
-#    - 'downwardAPI'
-#  hostNetwork: false
-#  hostIPC: false
-#  hostPID: false
-#  runAsUser:
-#    rule: 'MustRunAsNonRoot'
-#  seLinux:
-#    rule: 'RunAsAny'
-#  supplementalGroups:
-#    rule: 'MustRunAs'
-#    ranges:
-#    - min: 1
-#      max: 65535
-#  fsGroup:
-#    rule: 'MustRunAs'
-#    ranges:
-#    - min: 1
-#      max: 65535
-#  readOnlyRootFilesystem: true
-#  requiredDropCapabilities:
-#    - ALL
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -42,18 +6,6 @@ metadata:
     app: loki
   annotations: {}
   name: loki
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: loki
-  labels:
-    app: loki
-rules:
-- apiGroups:      ['extensions']
-  resources:      ['podsecuritypolicies']
-  verbs:          ['use']
-  resourceNames:  [loki]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -135,7 +87,7 @@ spec:
       initContainers: []
       containers:
         - name: loki
-          image: docker.io/grafana/loki:2.1.0
+          image: docker.io/grafana/loki:3.3.0
           imagePullPolicy: IfNotPresent
           args:
             - "-config.file=/etc/loki/config.yml"
@@ -148,16 +100,21 @@ spec:
             - name: http-metrics
               containerPort: 3100
               protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /ready
+              port: http-metrics
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /ready
               port: http-metrics
-            initialDelaySeconds: 45
           readinessProbe:
             httpGet:
               path: /ready
               port: http-metrics
-            initialDelaySeconds: 45
           resources: {}
           securityContext:
             readOnlyRootFilesystem: true
