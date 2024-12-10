@@ -122,6 +122,11 @@ scrape_configs:
     source_labels:
     - __meta_kubernetes_pod_label_name
     - __meta_kubernetes_pod_label_app
+  # skip static manifest pods
+  - action: drop
+    regex: "file"
+    source_labels:
+    - __meta_kubernetes_pod_annotation_kubernetes_io_config_source
   - action: drop
     regex: '[0-9a-z-.]+-[0-9a-f]{8,10}'
     source_labels:
@@ -178,6 +183,11 @@ scrape_configs:
     source_labels:
     - __meta_kubernetes_pod_label_name
     - __meta_kubernetes_pod_label_app
+  # skip static manifest pods
+  - action: drop
+    regex: "file"
+    source_labels:
+    - __meta_kubernetes_pod_annotation_kubernetes_io_config_source
   - action: keep
     regex: '[0-9a-z-.]+-[0-9a-f]{8,10}'
     source_labels:
@@ -291,9 +301,9 @@ scrape_configs:
 #
 #- job_name: kubernetes-audit
 #  static_configs:
-#    - targets:
-#        - localhost
-#      labels:
-#        job: kubernetes-audit
-#        __path__: /var/log/kubernetes-audit/audit.log
-#        __host__: ${HOSTNAME}
+#  - targets:
+#    - localhost
+#    labels:
+#      job: kubernetes-audit
+#      __path__: /var/log/kubernetes-audit/audit.log
+#      __host__: ${HOSTNAME}
