@@ -1,0 +1,4 @@
+namespace: opa-exporter
+resources:
+- deploy.yml
+#- networkpolicy.yml
