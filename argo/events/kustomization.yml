@@ -1,5 +1,0 @@
-namespace: argo
-bases:
-- ../base
-resources:
-- deploy.yml

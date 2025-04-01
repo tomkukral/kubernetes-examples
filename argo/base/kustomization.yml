@@ -1,4 +1,0 @@
-namespace: argo
-resources:
-- namespace.yml
-- secret-htaccess.yml

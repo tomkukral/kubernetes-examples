@@ -1,9 +1,0 @@
-namespace: kubernetes-dashboard
-resources:
-- recommended.yaml
-#- networkpolicy.yml
-- secret-htaccess.yml
-- ingress.yml
-- crb_full_access.yml
-patchesStrategicMerge:
-- patch_args.yml

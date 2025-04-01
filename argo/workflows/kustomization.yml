@@ -1,7 +1,0 @@
-namespace: argo
-bases:
-- ../base
-resources:
-- artifact-config.yml
-- ingress.yml
-- deploy.yml
